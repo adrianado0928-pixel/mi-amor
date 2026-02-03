@@ -1,1 +1,44 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+    font-family: Arial, sans-serif;
+}
 
+.titulo {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+    color: #ffb3e6;
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px #ff66cc;
+    z-index: 10;
+}
+
+#container {
+    width: 100vw;
+    height: 100vh;
+}
+
+#visor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+#visor img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.hidden {
+    display: none;
+}
