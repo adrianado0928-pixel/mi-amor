@@ -1,24 +1,37 @@
-name: Actualizar fotos automáticamente
+name: Actualizar y Desplegar
 
-# Este workflow se ejecuta cuando:
-# 1. Se hace push a la rama main
-# 2. Y hay cambios en la carpeta fotos/
 on:
   push:
     branches:
       - main
     paths:
       - 'fotos/**'
+      - 'data.json'
+      - 'index.html'
+      - 'script.js'
+      - 'style.css'
+      - 'texturas/**'
+      - '.github/workflows/**'
+  # Permite ejecutar el workflow manualmente
+  workflow_dispatch:
+
+# Permisos necesarios para subir cambios y desplegar en GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Evita despliegues simultáneos
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  update-data:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    # Permisos necesarios para que GitHub Actions pueda hacer push al repositorio
-    permissions:
-      contents: write
     
     steps:
-      # 1. Descargar el código del repositorio
+      # 1. Descargar el código
       - name: Checkout código
         uses: actions/checkout@v4
         with:
@@ -30,21 +43,34 @@ jobs:
         with:
           node-version: '20'
       
-      # 3. Ejecutar el script generador
+      # 3. Generar data.json actualizado
       - name: Generar data.json
         run: node generar-data.js
       
-      # 4. Hacer commit y push de los cambios (solo si hay cambios)
-      - name: Commit y push
+      # 4. Commit y push si hay cambios en data.json
+      - name: Guardar cambios en data.json
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions Bot"
           git add data.json
-
-          # Verificar si hay cambios antes de hacer commit
           if ! git diff --cached --quiet; then
             git commit -m "🤖 Actualizar data.json automáticamente"
             git push
           else
-            echo "No hay cambios en data.json que necesiten actualización."
+            echo "No hay cambios en data.json"
           fi
+
+      # 5. Configurar GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # 6. Subir archivos como artefacto para despliegue
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      # 7. Desplegar en GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
