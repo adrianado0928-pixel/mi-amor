@@ -2,46 +2,193 @@
   "planeta": {
     "nombre": "Nuestros Recuerdos",
     "descripcion": "Cada foto es un momento que compartimos juntos",
-    "totalFotos": 6
+    "totalFotos": 27
   },
   "fotos": [
     {
       "id": 1,
+      "ruta": "fotos/78a206ca3498cc2e23c6bd6bf4017ab3.png",
+      "titulo": "78a206ca3498cc2e23c6bd6bf4017ab3",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 2,
+      "ruta": "fotos/ChatGPT Image Jan 2, 2026, 05_52_09 PM.png",
+      "titulo": "ChatGPT Image Jan 2, 2026, 05 52 09 PM",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 3,
+      "ruta": "fotos/IMG-20251115-WA0019.jpg",
+      "titulo": "IMG 20251115 WA0019",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 4,
+      "ruta": "fotos/IMG-20251223-WA0014.jpg",
+      "titulo": "IMG 20251223 WA0014",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 5,
+      "ruta": "fotos/IMG-20251223-WA0026.jpg",
+      "titulo": "IMG 20251223 WA0026",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 6,
+      "ruta": "fotos/IMG-20251223-WA0031.jpg",
+      "titulo": "IMG 20251223 WA0031",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 7,
+      "ruta": "fotos/IMG-20251223-WA0042.jpg",
+      "titulo": "IMG 20251223 WA0042",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 8,
+      "ruta": "fotos/IMG-20251223-WA0046.jpg",
+      "titulo": "IMG 20251223 WA0046",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 9,
+      "ruta": "fotos/IMG-20251223-WA0051.jpg",
+      "titulo": "IMG 20251223 WA0051",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 10,
+      "ruta": "fotos/IMG-20251223-WA0053.jpg",
+      "titulo": "IMG 20251223 WA0053",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 11,
+      "ruta": "fotos/IMG-20251223-WA0056.jpg",
+      "titulo": "IMG 20251223 WA0056",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 12,
+      "ruta": "fotos/IMG-20251223-WA0069.jpg",
+      "titulo": "IMG 20251223 WA0069",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 13,
+      "ruta": "fotos/IMG-20260113-WA0027.jpg",
+      "titulo": "IMG 20260113 WA0027",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 14,
+      "ruta": "fotos/IMG-20260114-WA0003.jpg",
+      "titulo": "IMG 20260114 WA0003",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 15,
+      "ruta": "fotos/IMG-20260119-WA0000.jpg",
+      "titulo": "IMG 20260119 WA0000",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 16,
+      "ruta": "fotos/IMG-20260123-WA0004.jpeg",
+      "titulo": "IMG 20260123 WA0004",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 17,
+      "ruta": "fotos/IMG-20260126-WA0046.jpg",
+      "titulo": "IMG 20260126 WA0046",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 18,
+      "ruta": "fotos/IMG-20260203-WA0017.jpg",
+      "titulo": "IMG 20260203 WA0017",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 19,
+      "ruta": "fotos/IMG_20251223_153858485_HDR.jpg",
+      "titulo": "IMG 20251223 153858485 HDR",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 20,
+      "ruta": "fotos/IMG_20260117_172927128_HDR.jpg",
+      "titulo": "IMG 20260117 172927128 HDR",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 21,
+      "ruta": "fotos/Screenshot_20260130-180020_WhatsApp.png",
+      "titulo": "Screenshot 20260130 180020 WhatsApp",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 22,
       "ruta": "fotos/abrazados.jpg",
       "titulo": "Abrazados",
       "descripcion": "Nuestro primer abrazo juntos en cámaraaa",
       "fecha": "15 de noviembre, 2025"
     },
     {
-      "id": 2,
+      "id": 23,
       "ruta": "fotos/ascensor.jpg",
       "titulo": "Ascensor",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 3,
+      "id": 24,
       "ruta": "fotos/casual.jpg",
       "titulo": "Casual",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 4,
+      "id": 25,
       "ruta": "fotos/despaldas.jpg",
       "titulo": "Despaldas",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 5,
+      "id": 26,
       "ruta": "fotos/duroduro.jpg",
       "titulo": "Duroduro",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 6,
+      "id": 27,
       "ruta": "fotos/infraganti.jpg",
       "titulo": "Infraganti",
       "descripcion": "",
