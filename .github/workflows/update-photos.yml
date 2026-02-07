@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'fotos/**'
+      - 'data.json'
+      - 'index.html'
+      - 'script.js'
+      - 'style.css'
+      - 'texturas/**'
+      - '.github/workflows/**'
   # Permite ejecutar el workflow manualmente
   workflow_dispatch:
 
