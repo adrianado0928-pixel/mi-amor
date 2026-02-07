@@ -1,21 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- importmap: es un diccionario que le dice al navegador desde dónde descargar cada librería.
+         Cuando el código JavaScript pida 'three' o 'three/addons/...', el navegador sabe
+         exactamente a qué URL ir a buscarlo. Sin esto, tendríamos que poner URLs largas en cada archivo. -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.152.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.152.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <!-- Meta charset: le dice al navegador que usemos caracteres en español (acentos, ñ, etc.) -->
     <meta charset="UTF-8">
+
+    <!-- Viewport: esto hace que la página se vea bien en móviles y tablets, no solo en ordenador -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título: esto es lo que aparece en la pestaña del navegador -->
     <title>Eres mi mundo michica</title>
+
+    <!-- Google Fonts: cargamos la fuente Courgette desde Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+
+    <!-- Esto conecta nuestro archivo style.css con esta página. Sin esta línea, el CSS no funcionaría -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1 class="titulo">Eres mi mundo michica</h1>
-
+    <!-- Este es el contenedor donde más adelante (Fase 2) va a vivir el planeta 3D.
+         Ahora mismo está vacío, pero ya tiene su lugar reservado -->
     <div id="container"></div>
 
-    <div id="visor" class="hidden">
-        <img id="visor-img" src="">
+    <!-- VISOR DE FOTOS -->
+    <!-- Este overlay aparece cuando haces clic en una foto del planeta -->
+    <div id="visor-fotos" class="visor-oculto">
+        <!-- Fondo oscuro semi-transparente -->
+        <div id="visor-fondo"></div>
+        
+        <!-- Contenedor del contenido del visor -->
+        <div id="visor-contenido">
+            <!-- Botón para cerrar (X) -->
+            <button id="visor-cerrar">&times;</button>
+            
+            <!-- Título de la foto -->
+            <h2 id="visor-titulo"></h2>
+            
+            <!-- Contenedor de la foto con efecto flip (voltear) -->
+            <div id="foto-flip-container">
+                <div id="foto-flip-inner">
+                    <!-- Cara frontal: la imagen -->
+                    <div id="foto-frente">
+                        <img id="visor-imagen" src="" alt="Foto">
+                    </div>
+                    
+                    <!-- Cara trasera: la descripción -->
+                    <div id="foto-reverso">
+                        <div id="reverso-contenido">
+                            <p id="visor-fecha"></p>
+                            <p id="visor-descripcion"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contador de fotos -->
+            <p id="visor-contador"></p>
+        </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="script.js"></script>
+    <!-- Este es donde conectamos nuestro script.js.
+         type="module" le dice al navegador que este script usa el sistema de módulos moderno,
+         lo cual necesitamos para poder importar Three.js y OrbitControls correctamente -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>

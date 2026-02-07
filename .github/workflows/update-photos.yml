@@ -1,0 +1,48 @@
+name: Actualizar fotos automáticamente
+
+# Este workflow se ejecuta cuando:
+# 1. Se hace push a la rama main
+# 2. Y hay cambios en la carpeta fotos/
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'fotos/**'
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Descargar el código del repositorio
+      - name: Checkout código
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      # 2. Instalar Node.js
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      
+      # 3. Ejecutar el script generador
+      - name: Generar data.json
+        run: node generar-data.js
+      
+      # 4. Verificar si hay cambios en data.json
+      - name: Verificar cambios
+        id: verify-changes
+        run: |
+          git diff --exit-code data.json || echo "changed=true" >> $GITHUB_OUTPUT
+      
+      # 5. Hacer commit y push de los cambios (solo si hay cambios)
+      - name: Commit y push
+        if: steps.verify-changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+          git add data.json
+          git commit -m "🤖 Actualizar data.json automáticamente"
+          git push

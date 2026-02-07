@@ -1,44 +1,329 @@
-body {
+/* Esto es un comentario en CSS. Los comentarios son texto que el navegador ignora completamente,
+   los usamos solo para explicarnos a nosotros mismos qué hace cada parte */
+
+/* =====================
+   RESET BÁSICO
+   =====================
+   Por defecto, cada navegador tiene sus propios estilos (márgenes, paddings, fuentes...).
+   Este bloque los elimina para que todas las páginas se vean igual en cualquier navegador.
+   - margin: 0 → elimina márgenes por defecto
+   - padding: 0 → elimina espacios internos por defecto
+   - box-sizing: border-box → hace que el tamaño que definamos sea el tamaño real del elemento */
+* {
     margin: 0;
-    overflow: hidden;
-    background: black;
-    font-family: Arial, sans-serif;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.titulo {
+/* =====================
+   BODY (cuerpo de la página)
+   =====================
+   - background-color: negro, esto hace que toda la página tenga fondo negro
+   - height: 100vh → "vh" significa "viewport height", es decir, la altura de la pantalla del usuario.
+     100vh = toda la altura de la pantalla
+   - overflow: hidden → esto esconde cualquier cosa que se salga de la pantalla,
+     evita que aparezcan barras de desplazamiento */
+body {
+    background-color: #000000;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* =====================
+   TEXTO PRINCIPAL
+   ===================== */
+#texto-principal {
+    /* position: absolute → saca el texto del flujo normal de la página,
+       así podemos ponerlo exactamente donde queramos con top, left, etc. */
     position: absolute;
-    top: 20px;
+
+    /* Estas tres líneas juntas centran el texto horizontalmente en la pantalla.
+       - width: 100% → el elemento ocupa todo el ancho
+       - text-align: center → el texto dentro se centra
+       - left: 0 → parte desde el borde izquierdo */
     width: 100%;
     text-align: center;
-    color: #ffb3e6;
-    font-size: 2.5rem;
-    text-shadow: 0 0 10px #ff66cc;
+    left: 0;
+
+    /* top: 30px → lo pone a 30 píxeles desde el borde superior de la pantalla */
+    top: 30px;
+
+    /* z-index: 10 → esto controla qué elemento está "encima" de otros.
+       Un número más alto = más encima. Cuando añadamos el planeta (Fase 2),
+       este texto quedará por encima del planeta gracias a esto */
     z-index: 10;
+
+    /* ========= ESTILO DEL TEXTO ========= */
+
+    /* color: rosa suave para el texto principal */
+    color: #ffb3e6;
+
+    /* font-size: tamaño del texto. 2.5rem significa 2.5 veces el tamaño base del navegador
+       (normalmente 16px, así que esto son aprox 40px) */
+    font-size: 2.5rem;
+
+    /* font-family: la fuente que usa el texto. Le ponemos varias opciones separadas por comas,
+       así si el usuario no tiene la primera, usa la segunda, y así sucesivo.
+       "Georgia" es una fuente elegante que viene instalada en casi todos los ordenadores */
+    font-family: 'Georgia', serif;
+
+    /* font-style: italic → pone el texto en cursiva, queda más romántico */
+    font-style: italic;
+
+    /* ========= EFECTO DE BRILLO ========= */
+    /* text-shadow: esto es lo que hace que el texto parezca que brilla.
+       Funciona así: text-shadow: horizontal vertical desenfoque color
+       - 0px 0px → no se mueve en ninguna dirección (se queda centrado en el texto)
+       - 10px → el desenfoque, cuanto más grande, más difusa y brillante se ve la luz
+       - #ff66cc → el color de ese brillo (un rosa más intenso que el del texto)
+       Ponemos tres capas de brillo (tres líneas separadas por comas) para que el efecto
+       sea más intenso y vistoso */
+    text-shadow:
+        0px 0px 10px #ff66cc,
+        0px 0px 20px #ff66cc,
+        0px 0px 40px #ff66cc;
+
+    /* ========= TRANSICIÓN DE OPACIDAD ========= */
+    /* opacity: 1 → el texto está completamente visible (1 = 100% visible, 0 = invisible) */
+    opacity: 1;
+
+    /* transition: esto es lo que hace que cuando cambiemos la opacidad (en Fase 6),
+       el texto desaparezca o aparezca suavemente en lugar de de golpe.
+       - opacity → solo aplicamos la transición al cambio de opacidad
+       - 0.6s → tardan 0.6 segundos en hacer el cambio
+       - ease-in-out → la velocidad del cambio: empieza despacio, acelera en el medio, y vuelve a desacelerar al final */
+    transition: opacity 0.6s ease-in-out;
 }
 
+/* =====================
+   CONTENEDOR DEL PLANETA
+   =====================
+   Este es el contenedor donde más adelante va a vivir el planeta 3D.
+   Ahora mismo está vacío pero ya le damos su tamaño y posición */
 #container {
-    width: 100vw;
-    height: 100vh;
+    /* Estas cuatro líneas juntas hacen que el contenedor ocupe TODA la pantalla.
+       - position: absolute → lo saca del flujo normal
+       - top: 0, left: 0 → lo pone en la esquina superior izquierda
+       - width y height: 100% → ocupa todo el ancho y alto disponible */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-#visor {
+/* =====================
+   VISOR DE FOTOS
+   ===================== */
+
+/* Contenedor principal del visor
+   Ocupa toda la pantalla y está encima de todo */
+#visor-fotos {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0,0,0,0.9);
+    z-index: 1000;  /* Por encima de todo */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 20;
+    /* Transición suave para aparecer/desaparecer */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-#visor img {
-    max-width: 90%;
-    max-height: 90%;
+/* Clase para ocultar el visor */
+#visor-fotos.visor-oculto {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;  /* No captura clics cuando está oculto */
 }
 
-.hidden {
-    display: none;
+/* Fondo oscuro semi-transparente */
+#visor-fondo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);  /* Negro con 85% opacidad */
+    backdrop-filter: blur(5px);  /* Efecto de desenfoque del fondo */
+}
+
+/* Contenedor del contenido (foto, título, etc.) */
+#visor-contenido {
+    position: relative;
+    z-index: 1001;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;  /* Espacio entre elementos */
+}
+
+/* Botón de cerrar (X) */
+#visor-cerrar {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #ffb3e6;  /* Rosa como el texto principal */
+    font-size: 3rem;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    font-weight: 300;
+    line-height: 1;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+}
+
+#visor-cerrar:hover {
+    color: #ff66cc;  /* Rosa más intenso al pasar el ratón */
+    transform: scale(1.1);  /* Crece ligeramente */
+}
+
+/* Título de la foto */
+#visor-titulo {
+    color: #ffb3e6;
+    font-family: 'Courgette', cursive;
+    font-size: 2rem;
+    margin: 0;
+    text-align: center;
+    text-shadow:
+        0px 0px 10px #ff66cc,
+        0px 0px 20px #ff66cc;
+}
+
+/* =====================
+   EFECTO FLIP (VOLTEAR FOTO)
+   ===================== */
+
+/* Contenedor del efecto flip */
+#foto-flip-container {
+    position: relative;
+    /* NO fijamos width ni height aquí, se ajustará al contenido */
+    perspective: 1500px;  /* Perspectiva 3D aumentada para mejor efecto */
+    cursor: pointer;
+    transition: transform 0.3s ease;  /* Transición suave para el hover */
+}
+
+/* Efecto hover: agrandar ligeramente cuando pasas el cursor */
+#foto-flip-container:hover {
+    transform: scale(1.05);  /* Crece un 5% */
+}
+
+/* Contenedor interno que realmente rota */
+#foto-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);  /* Animación suave y profesional */
+    transform-style: preserve-3d;
+}
+
+/* Cuando está volteado, rota en Y */
+#foto-flip-container.volteado #foto-flip-inner {
+    transform: rotateY(180deg);
+}
+
+/* Cara frontal (imagen) */
+#foto-frente {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;  /* Safari */
+    transform-style: preserve-3d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Cara trasera (descripción) */
+#foto-reverso {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: rotateY(180deg);  /* Empieza volteada */
+    transform-style: preserve-3d;
+    
+    /* Estilos del reverso como una tarjeta */
+    background: linear-gradient(135deg, #2a0a1f 0%, #1a0510 100%);
+    border-radius: 10px;
+    box-shadow: 
+        0 0 30px rgba(255, 102, 204, 0.5),
+        0 0 60px rgba(255, 102, 204, 0.3);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+/* Imagen principal */
+#visor-imagen {
+    max-width: 80vw;
+    max-height: 70vh;
+    border-radius: 10px;
+    box-shadow: 
+        0 0 30px rgba(255, 102, 204, 0.5),
+        0 0 60px rgba(255, 102, 204, 0.3);
+    object-fit: contain;
+    display: block;
+}
+
+/* Contenedor del contenido del reverso */
+#reverso-contenido {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+}
+
+/* Fecha en el reverso */
+#visor-fecha {
+    color: #ff66cc;
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 0;
+    font-style: italic;
+    opacity: 0.9;
+    text-shadow:
+        0px 0px 5px #ff66cc;
+}
+
+/* Descripción en el reverso */
+#visor-descripcion {
+    color: #ffb3e6;
+    font-family: 'Courgette', cursive;
+    font-size: 1.8rem;
+    text-align: center;
+    margin: 0;
+    line-height: 1.6;
+    text-shadow:
+        0px 0px 5px #ff66cc,
+        0px 0px 10px #ff66cc;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+/* Contador de fotos */
+#visor-contador {
+    color: #ff66cc;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    margin: 0;
+    opacity: 0.7;
 }
