@@ -874,9 +874,10 @@ function animate() {
     if (distanciaActual < distanciaControlPreciso && !modoPreciso) {
         // Cambiar a modo preciso (cerca)
         modoPreciso = true;
-        controls.enableDamping = false;      // Desactivar inercia
-        controls.rotateSpeed = 0.8;          // Rotación más rápida para ajustes precisos
-        controls.zoomSpeed = 1.2;            // Zoom más responsivo
+        controls.enableDamping = true;       // Mantener inercia para suavidad
+        controls.dampingFactor = 0.04;       // Más amortiguación para pasos muy pequeños
+        controls.rotateSpeed = 0.15;         // Mucho más lento para precisión extrema
+        controls.zoomSpeed = 0.5;            // Zoom más controlado de cerca
     } else if (distanciaActual >= distanciaControlPreciso && modoPreciso) {
         // Cambiar a modo suave (lejos)
         modoPreciso = false;
