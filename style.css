@@ -141,6 +141,12 @@ body {
     pointer-events: none;  /* No captura clics cuando está oculto */
 }
 
+/* Cuando el visor está oculto, el contenido vuelve a su posición inicial */
+#visor-fotos.visor-oculto #visor-contenido {
+    transform: scale(0.3) translate(0, 0);
+    opacity: 0;
+}
+
 /* Fondo oscuro semi-transparente */
 #visor-fondo {
     position: absolute;
@@ -161,7 +167,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;  /* Espacio entre elementos */
+    gap: 20px;
+    
+    /* Animación de entrada - se establece dinámicamente desde JavaScript */
+    transform: scale(1) translate(0, 0);
+    opacity: 1;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.6s ease;
 }
 
 /* Botón de cerrar (X) */
