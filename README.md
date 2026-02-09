@@ -43,5 +43,15 @@ Si quieres cambiar el nombre de una foto o añadirle un mensaje especial:
 
 Para que el despliegue automático funcione, asegúrate de que en la configuración de tu repositorio (**Settings > Pages**), la opción **Source** esté establecida en **"GitHub Actions"**.
 
+## 📄 Licencia
+
+Este proyecto utiliza la **AD Non-Commercial Attribution License v1.0**.
+
+- **Permitido:** Uso personal, educativo y no comercial.
+- **Obligatorio:** Atribución al autor (**Adrián Lavado Munuera**) y enlace al repositorio original.
+- **Prohibido:** Uso comercial, sublicenciamiento y entrenamiento de modelos de IA sin permiso explícito.
+
+Para más detalles, consulta el archivo [LICENSE](LICENSE).
+
 ---
 Con amor, para mi chica. ❤️
