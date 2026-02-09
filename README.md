@@ -47,9 +47,10 @@ Para que el despliegue automático funcione, asegúrate de que en la configuraci
 
 Este proyecto utiliza la **AD Non-Commercial Attribution License v1.0**.
 
-- **Permitido:** Uso personal, educativo y no comercial.
+- **Permitido:** Uso personal, educativo y no comercial (incluye uso en portafolios personales y CVs).
 - **Obligatorio:** Atribución al autor (**Adrián Lavado Munuera**) y enlace al repositorio original.
 - **Prohibido:** Uso comercial, sublicenciamiento y entrenamiento de modelos de IA sin permiso explícito.
+- **Flexibilidad:** Si olvidas la atribución por error, tienes 30 días para corregirlo tras ser notificado.
 
 Para más detalles, consulta el archivo [LICENSE](LICENSE).
 
