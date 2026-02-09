@@ -709,14 +709,14 @@ function onMouseWheel(event) {
 function proyectar3DA2D(posicion3D) {
     // Crear un vector temporal en la posición del objeto
     const vector = posicion3D.clone();
-    
+
     // Proyectar la posición 3D a coordenadas de pantalla normalizadas (-1 a 1)
     vector.project(camera);
-    
+
     // Convertir de coordenadas normalizadas a píxeles de pantalla
     const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
     const y = (-(vector.y * 0.5) + 0.5) * window.innerHeight;
-    
+
     return { x, y };
 }
 
@@ -727,24 +727,24 @@ function calcularTamanoAparente(mesh) {
     // Obtener la posición del objeto en el mundo
     const posicion = new Vector3();
     mesh.getWorldPosition(posicion);
-    
+
     // Calcular la distancia de la cámara al objeto
     const distancia = camera.position.distanceTo(posicion);
-    
+
     // Obtener el tamaño real del objeto (ancho del plano)
     const geometry = mesh.geometry;
     const ancho = geometry.parameters.width || 0.75;
     const alto = geometry.parameters.height || 0.75;
-    
+
     // Calcular el tamaño aparente en pantalla usando perspectiva
     // FOV (field of view) de la cámara en radianes
     const fov = camera.fov * (Math.PI / 180);
     const alturaVisible = 2 * Math.tan(fov / 2) * distancia;
     const factorEscala = window.innerHeight / alturaVisible;
-    
+
     const anchoPantalla = ancho * factorEscala;
     const altoPantalla = alto * factorEscala;
-    
+
     return {
         ancho: anchoPantalla,
         alto: altoPantalla,
@@ -770,19 +770,19 @@ function onCanvasClick(event) {
         // Obtener la posición 3D de la foto en el mundo
         const posicion3D = new Vector3();
         fotoCliqueada.getWorldPosition(posicion3D);
-        
+
         // Proyectar esa posición 3D a coordenadas 2D de pantalla
         const posicion2D = proyectar3DA2D(posicion3D);
-        
+
         // Calcular el tamaño aparente de la foto en pantalla
         const tamanoAparente = calcularTamanoAparente(fotoCliqueada);
-        
+
         // Buscar el índice de esta foto en el array
         const index = fotosMeshes.indexOf(fotoCliqueada);
         
         // OCULTAR LA FOTO DEL PLANETA (se "despega")
         fotoCliqueada.visible = false;
-        
+
         // Abrir el visor con la animación desde la posición y tamaño de la foto
         abrirVisor(index, posicion2D, tamanoAparente);
     }
@@ -797,7 +797,7 @@ function abrirVisor(index, posicionClic = null, tamanoInicial = null) {
     fotoActualIndex = index;
     const foto = fotosMeshes[index];
     const datos = foto.userData;
-    
+
     // Elementos del DOM del visor
     const visor = document.getElementById('visor-fotos');
     const imagen = document.getElementById('visor-imagen');
@@ -821,11 +821,11 @@ function abrirVisor(index, posicionClic = null, tamanoInicial = null) {
     imagenPrecarga.onload = function() {
         // Ocultar indicador de carga
         cargando.style.display = 'none';
-        
+
         // Rellenar el contenido
         imagen.src = datos.ruta;
         titulo.textContent = datos.titulo;
-        
+
         // Fecha
         if (datos.fecha && datos.fecha.trim() !== '') {
             fecha.textContent = datos.fecha;
@@ -833,7 +833,7 @@ function abrirVisor(index, posicionClic = null, tamanoInicial = null) {
         } else {
             fecha.style.display = 'none';
         }
-        
+
         // Descripción
         if (datos.descripcion && datos.descripcion.trim() !== '') {
             descripcion.textContent = datos.descripcion;
@@ -842,58 +842,58 @@ function abrirVisor(index, posicionClic = null, tamanoInicial = null) {
             descripcion.textContent = 'Sin descripción';
             reverso.style.display = 'flex';
         }
-        
+
         // Contador
         contador.textContent = `Foto ${index + 1} de ${fotosMeshes.length}`;
-        
+
         // Ajustar tamaño del reverso
         const anchoImagen = imagen.offsetWidth;
         const altoImagen = imagen.offsetHeight;
         reverso.style.width = anchoImagen + 'px';
         reverso.style.height = altoImagen + 'px';
-        
+
         // Asegurarse de que empieza en la cara frontal
         flipContainer.classList.remove('volteado');
-        
+
         // ---- ANIMACIÓN DESDE LA POSICIÓN DE LA FOTO ----
         const visorContenido = document.getElementById('visor-contenido');
-        
+
         if (posicionClic && tamanoInicial) {
             // Calcular desplazamiento
             const centroX = window.innerWidth / 2;
             const centroY = window.innerHeight / 2;
             const deltaX = posicionClic.x - centroX;
             const deltaY = posicionClic.y - centroY;
-            
+
             // Calcular escala inicial
             const escalaInicial = Math.min(tamanoInicial.ancho / window.innerWidth * 2, 0.3);
-            
+
             // Posición inicial
             visorContenido.style.transition = 'none';
             visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${escalaInicial})`;
             visorContenido.style.opacity = '1';
-            
+
             // Forzar reflow
             visorContenido.offsetHeight;
-            
+
             // Reactivar transición
             visorContenido.style.transition = 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease';
         }
-        
+
         // Mostrar el visor
         visor.classList.remove('visor-oculto');
-        
+
         // Animar hacia el centro
         setTimeout(() => {
             visorContenido.style.transform = 'translate(0, 0) scale(1)';
             visorContenido.style.opacity = '1';
-            
+
             // Mostrar título y botones después de que termine la animación
             setTimeout(() => {
                 visor.classList.remove('visor-animando');
             }, 800);
         }, 50);
-        
+
         // Pausar controles
         controls.enabled = false;
     };
@@ -909,7 +909,7 @@ function cerrarVisor() {
     const visor = document.getElementById('visor-fotos');
     const flipContainer = document.getElementById('foto-flip-container');
     const visorContenido = document.getElementById('visor-contenido');
-    
+
     // Ocultar título y botones durante el cierre
     visor.classList.add('visor-animando');
     
@@ -917,39 +917,39 @@ function cerrarVisor() {
     const animarVuelta = () => {
         if (fotoActualIndex >= 0 && fotoActualIndex < fotosMeshes.length) {
             const foto = fotosMeshes[fotoActualIndex];
-            
+
             // Posición 2D
             const posicion3D = new Vector3();
             foto.getWorldPosition(posicion3D);
             const posicion2D = proyectar3DA2D(posicion3D);
-            
+
             // Tamaño aparente
             const tamanoAparente = calcularTamanoAparente(foto);
-            
+
             // Calcular desplazamiento
             const centroX = window.innerWidth / 2;
             const centroY = window.innerHeight / 2;
             const deltaX = posicion2D.x - centroX;
             const deltaY = posicion2D.y - centroY;
-            
+
             // Calcular escala final
             const escalaFinal = Math.min(tamanoAparente.ancho / window.innerWidth * 2, 0.3);
-            
+
             // Animar de vuelta
             visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${escalaFinal})`;
             visorContenido.style.opacity = '1';
-            
+
             // Después de la animación, ocultar visor y mostrar foto en planeta
             setTimeout(() => {
                 visor.classList.add('visor-oculto');
                 visor.classList.remove('visor-animando');
-                
+
                 // MOSTRAR LA FOTO DE NUEVO EN EL PLANETA
                 foto.visible = true;
-                
+
                 // Reactivar controles
                 controls.enabled = true;
-                
+
                 // Resetear transform
                 visorContenido.style.transform = 'translate(0, 0) scale(1)';
                 flipContainer.classList.remove('volteado');

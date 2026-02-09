@@ -168,11 +168,11 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    
+
     /* Animación de entrada - se establece dinámicamente desde JavaScript */
     transform: scale(1) translate(0, 0);
     opacity: 1;
-    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
                 opacity 0.6s ease;
 }
 
@@ -342,6 +342,22 @@ body {
     font-size: 1rem;
     margin: 0;
     opacity: 0.7;
+}
+
+/* Indicador de carga */
+#visor-cargando {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffb3e6;
+    font-family: 'Courgette', cursive;
+    font-size: 1.5rem;
+    text-shadow:
+        0px 0px 10px #ff66cc,
+        0px 0px 20px #ff66cc;
+    z-index: 1002;
+    display: none;
 }
 
 /* Ocultar elementos durante la animación */
