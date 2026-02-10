@@ -909,64 +909,100 @@ function cerrarVisor() {
     const visor = document.getElementById('visor-fotos');
     const flipContainer = document.getElementById('foto-flip-container');
     const visorContenido = document.getElementById('visor-contenido');
-
+    const visorFondo = document.getElementById('visor-fondo');
+    
     // Ocultar título y botones durante el cierre
     visor.classList.add('visor-animando');
     
+    // Guardar el índice actual antes de resetearlo
+    const indiceActual = fotoActualIndex;
+    
     // Función para hacer la animación de vuelta
     const animarVuelta = () => {
-        if (fotoActualIndex >= 0 && fotoActualIndex < fotosMeshes.length) {
-            const foto = fotosMeshes[fotoActualIndex];
-
+        if (indiceActual >= 0 && indiceActual < fotosMeshes.length) {
+            const foto = fotosMeshes[indiceActual];
+            
             // Posición 2D
             const posicion3D = new Vector3();
             foto.getWorldPosition(posicion3D);
             const posicion2D = proyectar3DA2D(posicion3D);
-
+            
             // Tamaño aparente
             const tamanoAparente = calcularTamanoAparente(foto);
-
+            
             // Calcular desplazamiento
             const centroX = window.innerWidth / 2;
             const centroY = window.innerHeight / 2;
             const deltaX = posicion2D.x - centroX;
             const deltaY = posicion2D.y - centroY;
-
-            // Calcular escala final
+            
+            // Calcular escala final (mismo tamaño que al abrir)
             const escalaFinal = Math.min(tamanoAparente.ancho / window.innerWidth * 2, 0.3);
-
-            // Animar de vuelta
+            
+            // Desvanecer el fondo oscuro inmediatamente
+            visorFondo.style.opacity = '0';
+            
+            // Configurar la transición del contenido
+            visorContenido.style.transition = 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease';
+            
+            // Animar de vuelta a la posición de la foto
             visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${escalaFinal})`;
             visorContenido.style.opacity = '1';
-
-            // Después de la animación, ocultar visor y mostrar foto en planeta
+            
+            // A mitad de la animación (400ms), mostrar la foto en el planeta
             setTimeout(() => {
+                foto.visible = true;
+            }, 400);
+            
+            // Justo antes de terminar (700ms), ocultar el contenido del visor para evitar flash
+            setTimeout(() => {
+                visorContenido.style.opacity = '0';
+            }, 700);
+            
+            // Después de que termine la animación completa (850ms)
+            setTimeout(() => {
+                // Ocultar completamente el visor
                 visor.classList.add('visor-oculto');
                 visor.classList.remove('visor-animando');
-
-                // MOSTRAR LA FOTO DE NUEVO EN EL PLANETA
-                foto.visible = true;
-
+                
                 // Reactivar controles
                 controls.enabled = true;
-
-                // Resetear transform
+                
+                // Resetear todo para la próxima vez
+                visorContenido.style.transition = 'none';
                 visorContenido.style.transform = 'translate(0, 0) scale(1)';
+                visorContenido.style.opacity = '1';
+                visorFondo.style.opacity = '';  // Restaurar opacidad del fondo
                 flipContainer.classList.remove('volteado');
-            }, 800);
+                
+                // Forzar reflow
+                visorContenido.offsetHeight;
+                
+                // Restaurar transición
+                visorContenido.style.transition = '';
+            }, 850);
+        } else {
+            // Si no hay foto válida, simplemente cerrar
+            visor.classList.add('visor-oculto');
+            visor.classList.remove('visor-animando');
+            controls.enabled = true;
+            visorContenido.style.transform = 'translate(0, 0) scale(1)';
+            visorFondo.style.opacity = '';
+            flipContainer.classList.remove('volteado');
         }
     };
     
     // Si la foto está volteada, primero voltearla de vuelta
     if (flipContainer.classList.contains('volteado')) {
         flipContainer.classList.remove('volteado');
-        // Esperar a que termine la animación de volteo
-        setTimeout(animarVuelta, 600);
+        // Esperar a que termine la animación de volteo (800ms según el CSS)
+        setTimeout(animarVuelta, 800);
     } else {
         // Si no está volteada, animar directamente
         animarVuelta();
     }
     
+    // Resetear el índice DESPUÉS de guardar su valor
     fotoActualIndex = -1;
 }
 

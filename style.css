@@ -156,6 +156,12 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.85);  /* Negro con 85% opacidad */
     backdrop-filter: blur(5px);  /* Efecto de desenfoque del fondo */
+    transition: opacity 0.8s ease;  /* Transición suave del fondo */
+}
+
+/* Cuando el visor está oculto, el fondo también desaparece */
+#visor-fotos.visor-oculto #visor-fondo {
+    opacity: 0;
 }
 
 /* Contenedor del contenido (foto, título, etc.) */
