@@ -5,12 +5,14 @@
 // que definimos en el importmap del HTML.
 // En lugar de usar "THREE.Scene", "THREE.Camera", etc.,
 // ahora importamos cada cosa individual por su nombre.
-import { Scene, PerspectiveCamera, WebGLRenderer, SphereGeometry,
-         MeshPhongMaterial, Mesh, PointLight, Points, BufferGeometry,
-         BufferAttribute, ShaderMaterial, CanvasTexture, PlaneGeometry,
-         MeshBasicMaterial, DoubleSide, Shape, ExtrudeGeometry, Group,
-         Color, AdditiveBlending, TextureLoader, Vector3, Raycaster, Vector2,
-         AmbientLight } from 'three';
+import {
+    Scene, PerspectiveCamera, WebGLRenderer, SphereGeometry,
+    MeshPhongMaterial, Mesh, PointLight, Points, BufferGeometry,
+    BufferAttribute, ShaderMaterial, CanvasTexture, PlaneGeometry,
+    MeshBasicMaterial, DoubleSide, Shape, ExtrudeGeometry, Group,
+    Color, AdditiveBlending, TextureLoader, Vector3, Raycaster, Vector2,
+    AmbientLight
+} from 'three';
 
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
@@ -98,27 +100,27 @@ scene.add(grupoPlaneta);
 function crearCorazon() {
     const forma = new Shape();
     const escala = 1.5;
-    
+
     forma.moveTo(0, 0);
     forma.bezierCurveTo(0, -escala * 0.3, -escala * 0.6, -escala * 0.3, -escala * 0.6, 0);
     forma.bezierCurveTo(-escala * 0.6, escala * 0.3, -escala * 0.3, escala * 0.5, 0, escala * 0.8);
     forma.bezierCurveTo(escala * 0.3, escala * 0.5, escala * 0.6, escala * 0.3, escala * 0.6, 0);
     forma.bezierCurveTo(escala * 0.6, -escala * 0.3, 0, -escala * 0.3, 0, 0);
-    
+
     const geometria = new ExtrudeGeometry(forma, {
         depth: 0.75,  // 0.15 * 5
         bevelEnabled: false
     });
-    
+
     const material = new MeshBasicMaterial({
         color: 0xff0000,
         transparent: true,
         opacity: 1
     });
-    
+
     const corazon = new Mesh(geometria, material);
     corazon.rotation.x = Math.PI;
-    
+
     return corazon;
 }
 
@@ -196,7 +198,7 @@ scene.add(luz);
 const luzAmbiental = new AmbientLight(
     0xffb3e6,  // Color rosa suave, igual que el texto
     0.3        // Intensidad baja (0.3 = 30% de brillo)
-                // Si es demasiado alta, las sombras desaparecen
+    // Si es demasiado alta, las sombras desaparecen
 );
 scene.add(luzAmbiental);
 
@@ -215,58 +217,58 @@ function crearTexto3D() {
     // Un canvas es básicamente un lienzo donde podemos dibujar cosas con código.
     // Este canvas no lo ve el usuario directamente, solo lo usamos para generar la textura.
     const canvas = document.createElement('canvas');
-    
+
     // Definimos el tamaño del canvas (escalado para el mundo x5)
     canvas.width = 8192;  // 4096 * 2 (no necesita ser exactamente x5)
     canvas.height = 2048; // 1024 * 2
-    
+
     // El contexto es la herramienta con la que dibujamos en el canvas.
     // '2d' significa que vamos a dibujar en 2D (texto, formas, etc.).
     const ctx = canvas.getContext('2d');
-    
+
     // ---- DIBUJAR FONDO TRANSPARENTE ----
     // Limpiamos el canvas para que sea transparente.
     // Sin esto, el fondo sería blanco por defecto.
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     // ---- CONFIGURAR ESTILO DEL TEXTO ----
     // Fuente y tamaño. 240px porque ahora el canvas es el doble de grande.
     // Courgette es una fuente romántica y suave de Google Fonts.
     // El fallback "cursive" se usa si Courgette no se carga (aunque debería cargarse siempre).
     ctx.font = '480px "Courgette", cursive';
-    
+
     // Color del texto: rosa suave, igual que antes.
     ctx.fillStyle = '#ffb3e6';
-    
+
     // textAlign: 'center' centra el texto horizontalmente en la posición que le demos.
     ctx.textAlign = 'center';
-    
+
     // textBaseline: 'middle' centra el texto verticalmente.
     ctx.textBaseline = 'middle';
-    
+
     // ---- EFECTO DE BRILLO ----
     // shadowBlur controla cuán difuso es el brillo. 40 es bastante.
     ctx.shadowBlur = 40;
-    
+
     // shadowColor es el color del brillo. Un rosa más intenso que el texto.
     ctx.shadowColor = '#ff66cc';
-    
+
     // ---- DIBUJAR EL TEXTO ----
     // fillText dibuja el texto en el canvas.
     // - 'Eres mi mundo michica' es el contenido
     // - canvas.width / 2 lo centra horizontalmente (mitad del ancho)
     // - canvas.height / 2 lo centra verticalmente (mitad de la altura)
     ctx.fillText('Eres mi mundo michica', canvas.width / 2, canvas.height / 2);
-    
+
     // ---- CONVERTIR CANVAS EN TEXTURA ----
     // CanvasTexture toma nuestro canvas y lo convierte en una textura
     // que Three.js puede usar en objetos 3D.
     const textura = new CanvasTexture(canvas);
-    
+
     // ---- CREAR GEOMETRÍA (PLANO) ----
     // Escalado x5
     const geometria = new PlaneGeometry(50, 12.5);  // 10*5 y 2.5*5
-    
+
     // ---- CREAR MATERIAL ----
     // MeshBasicMaterial es un material simple que no reacciona a la luz.
     // Es perfecto para el texto porque queremos que siempre se vea brillante.
@@ -276,15 +278,15 @@ function crearTexto3D() {
         side: DoubleSide,       // Se ve desde ambos lados del plano
         depthWrite: false       // Esto evita problemas de ordenamiento con objetos transparentes
     });
-    
+
     // ---- CREAR MESH (OBJETO FINAL) ----
     const mesh = new Mesh(geometria, material);
-    
+
     // Posicionamos el texto arriba del planeta.
     // - y: 4 significa 4 unidades arriba del centro (el planeta tiene radio 2,
     //   así que esto lo pone claramente por encima)
     mesh.position.set(0, 15, 0);
-    
+
     // Devolvemos el mesh para poder añadirlo a la escena.
     return mesh;
 }
@@ -298,7 +300,7 @@ let textoMesh = null;
 document.fonts.ready.then(() => {
     // Ahora que la fuente está cargada, creamos el texto.
     textoMesh = crearTexto3D();
-    
+
     // Lo añadimos a la escena.
     scene.add(textoMesh);
 });
@@ -328,12 +330,12 @@ function coordenadasAVector3(lat, lon, radio) {
     // Convertir grados a radianes
     const phi = (90 - lat) * (Math.PI / 180);
     const theta = (lon + 180) * (Math.PI / 180);
-    
+
     // Fórmulas de conversión de coordenadas esféricas a cartesianas
     const x = -(radio * Math.sin(phi) * Math.cos(theta));
     const y = radio * Math.cos(phi);
     const z = radio * Math.sin(phi) * Math.sin(theta);
-    
+
     return new Vector3(x, y, z);
 }
 
@@ -343,16 +345,16 @@ function coordenadasAVector3(lat, lon, radio) {
 // Usa la fórmula de Haversine para calcular la distancia angular entre dos coordenadas
 function distanciaEntreCoords(lat1, lon1, lat2, lon2) {
     const toRad = (deg) => deg * (Math.PI / 180);
-    
+
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
-    
+
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    
+
     // Devolvemos la distancia angular en grados
     return c * (180 / Math.PI);
 }
@@ -369,42 +371,42 @@ function generarCoordenadasAleatorias() {
     // Si quieres que estén más separadas, aumenta este número
     // Si quieres más densidad, disminúyelo (mínimo recomendado: 5)
     const distanciaMinima = 8;
-    
+
     // Número máximo de intentos antes de rendirse
     // (para evitar bucles infinitos si el planeta ya está muy lleno)
     const maxIntentos = 100;
-    
+
     let intentos = 0;
     let coordsValidas = false;
     let lat, lon;
-    
+
     while (!coordsValidas && intentos < maxIntentos) {
         // Generar coordenadas aleatorias
         lat = (Math.acos(2 * Math.random() - 1) * 180 / Math.PI) - 90;
         lon = (Math.random() * 360) - 180;
-        
+
         // Verificar si están suficientemente lejos de las fotos ya colocadas
         coordsValidas = true;
-        
+
         for (const coords of coordenadasUsadas) {
             const distancia = distanciaEntreCoords(lat, lon, coords.lat, coords.lon);
-            
+
             if (distancia < distanciaMinima) {
                 coordsValidas = false;
                 break;
             }
         }
-        
+
         intentos++;
     }
-    
+
     // Si encontramos coordenadas válidas, las guardamos
     if (coordsValidas) {
         coordenadasUsadas.push({ lat, lon });
     } else {
         console.warn('⚠️ No se pudo encontrar espacio libre después de', maxIntentos, 'intentos. La foto se colocará en posición aleatoria.');
     }
-    
+
     return { lat, lon };
 }
 
@@ -414,14 +416,14 @@ function generarCoordenadasAleatorias() {
 function crearFoto3D(datosFoto) {
     // Generar coordenadas aleatorias para esta foto
     const coords = generarCoordenadasAleatorias();
-    
+
     // Radio del planeta + un offset muy pequeño para que las fotos estén
     // casi pegadas a la superficie
     const radioSuperficie = 10.01;  // El planeta tiene radio 10 (2 * 5)
-    
+
     // Convertir las coordenadas a una posición 3D
     const posicion = coordenadasAVector3(coords.lat, coords.lon, radioSuperficie);
-    
+
     // Cargar la textura (imagen) de la foto
     const textura = textureLoader.load(
         datosFoto.ruta,
@@ -430,16 +432,16 @@ function crearFoto3D(datosFoto) {
             // Obtener el ancho y alto real de la imagen
             const anchoReal = texturaCargada.image.width;
             const altoReal = texturaCargada.image.height;
-            
+
             // Calcular la proporción (aspect ratio)
             const aspectRatio = anchoReal / altoReal;
-            
+
             // Tamaño base (altura de referencia)
             const alturaBase = 0.75;
-            
+
             // Calcular el ancho manteniendo la proporción
             let ancho, alto;
-            
+
             if (aspectRatio > 1) {
                 // Foto horizontal (más ancha que alta)
                 ancho = alturaBase * aspectRatio;
@@ -449,19 +451,19 @@ function crearFoto3D(datosFoto) {
                 ancho = alturaBase;
                 alto = alturaBase / aspectRatio;
             }
-            
+
             // Crear nueva geometría con las proporciones correctas
             const geometriaCorrecta = new PlaneGeometry(ancho, alto);
-            
+
             // Actualizar la geometría del mesh
             mesh.geometry.dispose(); // Liberar memoria de la geometría anterior
             mesh.geometry = geometriaCorrecta;
         }
     );
-    
+
     // Crear un plano temporal (será reemplazado cuando la textura se cargue)
     const geometria = new PlaneGeometry(0.15, 0.15);
-    
+
     // Material con la textura de la foto
     // MeshPhongMaterial reacciona a la luz, creando sombras realistas
     const material = new MeshPhongMaterial({
@@ -473,17 +475,17 @@ function crearFoto3D(datosFoto) {
         emissive: 0x000000,     // No emite luz propia
         emissiveIntensity: 0    // Intensidad de emisión en 0
     });
-    
+
     // Crear el mesh
     const mesh = new Mesh(geometria, material);
-    
+
     // Posicionar la foto en la superficie del planeta
     mesh.position.copy(posicion);
-    
+
     // Hacer que la foto mire hacia afuera del planeta (perpendicular a la superficie)
     const direccionHaciaAfuera = posicion.clone().multiplyScalar(2);
     mesh.lookAt(direccionHaciaAfuera);
-    
+
     // Guardar información adicional en el mesh para usarla después (en clics)
     mesh.userData = {
         id: datosFoto.id,
@@ -492,7 +494,7 @@ function crearFoto3D(datosFoto) {
         fecha: datosFoto.fecha,
         ruta: datosFoto.ruta
     };
-    
+
     return mesh;
 }
 
@@ -503,14 +505,14 @@ fetch('data.json')
     .then(response => response.json())
     .then(data => {
         console.log(`📸 Cargando ${data.fotos.length} fotos en el planeta...`);
-        
+
         // Por cada foto en el JSON, crear un mesh 3D y añadirlo al grupo del planeta
         data.fotos.forEach(datosFoto => {
             const fotoMesh = crearFoto3D(datosFoto);
             grupoPlaneta.add(fotoMesh);  // Añadimos al grupo, no a la escena
             fotosMeshes.push(fotoMesh);
         });
-        
+
         console.log(`✅ ${fotosMeshes.length} fotos cargadas correctamente`);
     })
     .catch(error => {
@@ -536,13 +538,13 @@ for (let i = 0; i < cantidadEstrellas; i++) {
     const theta = Math.acos(2 * Math.random() - 1);
     const phi = 2 * Math.PI * Math.random();
 
-    posiciones[i * 3]     = radio * Math.sin(theta) * Math.cos(phi);
+    posiciones[i * 3] = radio * Math.sin(theta) * Math.cos(phi);
     posiciones[i * 3 + 1] = radio * Math.sin(theta) * Math.sin(phi);
     posiciones[i * 3 + 2] = radio * Math.cos(theta);
 
     tamanos[i] = 5 + Math.random() * 15;
 
-    colores[i * 3]     = 0.8 + Math.random() * 0.2;
+    colores[i * 3] = 0.8 + Math.random() * 0.2;
     colores[i * 3 + 1] = 0.2 + Math.random() * 0.3;
     colores[i * 3 + 2] = 0.5 + Math.random() * 0.4;
 }
@@ -618,20 +620,20 @@ controls.maxDistance = 100;   // Alejamiento máximo
 // Cuando dejas de arrastrar, la cámara no para de golpe, sino que se va frenando suavemente.
 controls.enableDamping = true;
 controls.dampingFactor = 0.08;  // Entre 0.05 (muy suave) y 0.25 (menos suave)
-                                 // 0.08 es un buen equilibrio
+// 0.08 es un buen equilibrio
 
 // ---- VELOCIDADES ----
 // Controlan qué tan rápido se mueve la cámara con cada acción
 
 // Velocidad de rotación (arrastrar con el ratón)
 controls.rotateSpeed = 0.5;  // Valor por defecto es 1.0
-                              // Más bajo = más lento y controlado
-                              // Más alto = más rápido
+// Más bajo = más lento y controlado
+// Más alto = más rápido
 
 // Velocidad de zoom (rueda del ratón)
 controls.zoomSpeed = 0.8;    // Valor por defecto es 1.0
-                              // Más bajo = zoom más suave y controlado
-                              // Más alto = zoom más agresivo
+// Más bajo = zoom más suave y controlado
+// Más alto = zoom más agresivo
 
 // Desactivar el zoom por defecto de OrbitControls
 // Vamos a manejarlo manualmente para que sea más suave
@@ -678,29 +680,112 @@ let zoomActual = zoomObjetivo;                 // Distancia actual (se interpola
 const suavidadZoom = 0.1;                      // Velocidad de interpolación (0.05 = muy suave, 0.2 = más rápido)
 
 // =====================
-// SISTEMA DE DETECCIÓN DE CLICS
+// SISTEMA DE DETECCIÓN DE CLICS Y TOQUES MÓVILES
 // =====================
 
-// Event listener para detectar clics en el canvas
+// Variables para detectar toques móviles
+let touchStartTime = 0;
+let touchStartX = 0;
+let touchStartY = 0;
+const TAP_THRESHOLD = 200; // milisegundos
+const MOVE_THRESHOLD = 10; // píxeles
+
+// Event listener para detectar clics en el canvas (escritorio)
 renderer.domElement.addEventListener('click', onCanvasClick);
+
+// Event listeners para toques móviles
+renderer.domElement.addEventListener('touchstart', onTouchStart, { passive: true });
+renderer.domElement.addEventListener('touchend', onTouchEnd, { passive: false });
 
 // Event listener para zoom suave con la rueda del ratón
 renderer.domElement.addEventListener('wheel', onMouseWheel, { passive: false });
 
 function onMouseWheel(event) {
     event.preventDefault();  // Evitar scroll de página
-    
+
     // Calcular cuánto zoom queremos aplicar
     // event.deltaY es positivo cuando giras hacia abajo (alejar)
     // y negativo cuando giras hacia arriba (acercar)
     const zoomDelta = event.deltaY * 0.002;  // Factor de escala (ajustable)
-    
+
     // Actualizar el zoom objetivo
     // Multiplicamos por (1 + zoomDelta) para hacer zoom proporcional a la distancia actual
     zoomObjetivo *= (1 + zoomDelta);
-    
+
     // Limitar el zoom objetivo a los límites de los controles
     zoomObjetivo = Math.max(controls.minDistance, Math.min(controls.maxDistance, zoomObjetivo));
+}
+
+// =====================
+// FUNCIONES PARA TOQUES MÓVILES
+// =====================
+
+function onTouchStart(event) {
+    if (event.touches.length === 1) {
+        // Un solo dedo - posible tap en una foto
+        touchStartTime = Date.now();
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+    } else if (event.touches.length === 2) {
+        // Dos dedos - gesto de pellizco para zoom
+        const dx = event.touches[0].clientX - event.touches[1].clientX;
+        const dy = event.touches[0].clientY - event.touches[1].clientY;
+        touchStartDistance = Math.sqrt(dx * dx + dy * dy);
+    }
+}
+
+function onTouchEnd(event) {
+    if (event.changedTouches.length === 1 && event.touches.length === 0) {
+        // Un solo dedo levantado - verificar si fue un tap
+        const touchEndTime = Date.now();
+        const touchEndX = event.changedTouches[0].clientX;
+        const touchEndY = event.changedTouches[0].clientY;
+
+        const timeDiff = touchEndTime - touchStartTime;
+        const moveDiff = Math.sqrt(
+            Math.pow(touchEndX - touchStartX, 2) +
+            Math.pow(touchEndY - touchStartY, 2)
+        );
+
+        // Si fue un tap rápido y sin mucho movimiento
+        if (timeDiff < TAP_THRESHOLD && moveDiff < MOVE_THRESHOLD) {
+            // Simular un clic en esa posición
+            const fakeEvent = {
+                clientX: touchEndX,
+                clientY: touchEndY
+            };
+            onCanvasClick(fakeEvent);
+        }
+    }
+}
+
+// Variables para el gesto de pellizco (pinch-to-zoom)
+let touchStartDistance = 0;
+
+// Event listener para el gesto de pellizco
+renderer.domElement.addEventListener('touchmove', onTouchMove, { passive: false });
+
+function onTouchMove(event) {
+    if (event.touches.length === 2) {
+        event.preventDefault(); // Evitar zoom del navegador
+
+        // Calcular la distancia actual entre los dos dedos
+        const dx = event.touches[0].clientX - event.touches[1].clientX;
+        const dy = event.touches[0].clientY - event.touches[1].clientY;
+        const currentDistance = Math.sqrt(dx * dx + dy * dy);
+
+        if (touchStartDistance > 0) {
+            // Calcular el factor de zoom basado en el cambio de distancia
+            const zoomFactor = touchStartDistance / currentDistance;
+
+            // Aplicar zoom suave
+            zoomObjetivo *= zoomFactor;
+            zoomObjetivo = Math.max(controls.minDistance, Math.min(controls.maxDistance, zoomObjetivo));
+        }
+
+        // Actualizar la distancia de inicio para el próximo frame
+        touchStartDistance = currentDistance;
+    }
 }
 
 // =====================
@@ -720,53 +805,21 @@ function proyectar3DA2D(posicion3D) {
     return { x, y };
 }
 
-// =====================
-// FUNCIÓN AUXILIAR: Calcular tamaño aparente de un objeto en pantalla
-// =====================
-function calcularTamanoAparente(mesh) {
-    // Obtener la posición del objeto en el mundo
-    const posicion = new Vector3();
-    mesh.getWorldPosition(posicion);
-
-    // Calcular la distancia de la cámara al objeto
-    const distancia = camera.position.distanceTo(posicion);
-
-    // Obtener el tamaño real del objeto (ancho del plano)
-    const geometry = mesh.geometry;
-    const ancho = geometry.parameters.width || 0.75;
-    const alto = geometry.parameters.height || 0.75;
-
-    // Calcular el tamaño aparente en pantalla usando perspectiva
-    // FOV (field of view) de la cámara en radianes
-    const fov = camera.fov * (Math.PI / 180);
-    const alturaVisible = 2 * Math.tan(fov / 2) * distancia;
-    const factorEscala = window.innerHeight / alturaVisible;
-
-    const anchoPantalla = ancho * factorEscala;
-    const altoPantalla = alto * factorEscala;
-
-    return {
-        ancho: anchoPantalla,
-        alto: altoPantalla,
-        escala: anchoPantalla / window.innerWidth // Escala relativa al ancho de pantalla
-    };
-}
-
 function onCanvasClick(event) {
     // Calcular las coordenadas del ratón normalizadas (-1 a 1)
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    
+
     // Configurar el raycaster
     raycaster.setFromCamera(mouse, camera);
-    
+
     // Intersecciones con las fotos
     const intersecciones = raycaster.intersectObjects(fotosMeshes);
-    
+
     // Si hiciste clic en alguna foto
     if (intersecciones.length > 0) {
         const fotoCliqueada = intersecciones[0].object;
-        
+
         // Obtener la posición 3D de la foto en el mundo
         const posicion3D = new Vector3();
         fotoCliqueada.getWorldPosition(posicion3D);
@@ -774,26 +827,20 @@ function onCanvasClick(event) {
         // Proyectar esa posición 3D a coordenadas 2D de pantalla
         const posicion2D = proyectar3DA2D(posicion3D);
 
-        // Calcular el tamaño aparente de la foto en pantalla
-        const tamanoAparente = calcularTamanoAparente(fotoCliqueada);
-
         // Buscar el índice de esta foto en el array
         const index = fotosMeshes.indexOf(fotoCliqueada);
-        
-        // OCULTAR LA FOTO DEL PLANETA (se "despega")
-        fotoCliqueada.visible = false;
 
-        // Abrir el visor con la animación desde la posición y tamaño de la foto
-        abrirVisor(index, posicion2D, tamanoAparente);
+        // Abrir el visor con la animación desde la posición de la foto
+        abrirVisor(index, posicion2D);
     }
 }
 
 // =====================
 // FUNCIÓN: Abrir visor de fotos
 // =====================
-function abrirVisor(index, posicionClic = null, tamanoInicial = null) {
+function abrirVisor(index, posicionClic = null) {
     if (index < 0 || index >= fotosMeshes.length) return;
-    
+
     fotoActualIndex = index;
     const foto = fotosMeshes[index];
     const datos = foto.userData;
@@ -807,26 +854,19 @@ function abrirVisor(index, posicionClic = null, tamanoInicial = null) {
     const contador = document.getElementById('visor-contador');
     const flipContainer = document.getElementById('foto-flip-container');
     const reverso = document.getElementById('foto-reverso');
-    const cargando = document.getElementById('visor-cargando');
-    
-    // Añadir clase de animación para ocultar título y botones
-    visor.classList.add('visor-animando');
-    
-    // Mostrar indicador de carga
-    cargando.style.display = 'block';
-    
-    // ---- PRECARGAR LA IMAGEN ----
+
+    // ---- PRECARGAR LA IMAGEN ANTES DE MOSTRAR EL VISOR ----
+    // Creamos una imagen temporal para precargarla
     const imagenPrecarga = new Image();
-    
-    imagenPrecarga.onload = function() {
-        // Ocultar indicador de carga
-        cargando.style.display = 'none';
+
+    imagenPrecarga.onload = function () {
+        // La imagen ya está cargada, ahora podemos mostrarla
 
         // Rellenar el contenido
         imagen.src = datos.ruta;
         titulo.textContent = datos.titulo;
 
-        // Fecha
+        // Mostrar/ocultar fecha
         if (datos.fecha && datos.fecha.trim() !== '') {
             fecha.textContent = datos.fecha;
             fecha.style.display = 'block';
@@ -834,7 +874,7 @@ function abrirVisor(index, posicionClic = null, tamanoInicial = null) {
             fecha.style.display = 'none';
         }
 
-        // Descripción
+        // Mostrar/ocultar descripción
         if (datos.descripcion && datos.descripcion.trim() !== '') {
             descripcion.textContent = datos.descripcion;
             reverso.style.display = 'flex';
@@ -846,38 +886,34 @@ function abrirVisor(index, posicionClic = null, tamanoInicial = null) {
         // Contador
         contador.textContent = `Foto ${index + 1} de ${fotosMeshes.length}`;
 
-        // Ajustar tamaño del reverso
+        // Ajustar el tamaño del reverso al de la imagen
         const anchoImagen = imagen.offsetWidth;
         const altoImagen = imagen.offsetHeight;
         reverso.style.width = anchoImagen + 'px';
         reverso.style.height = altoImagen + 'px';
 
-        // Asegurarse de que empieza en la cara frontal
+        // Asegurarse de que empieza en la cara frontal (no volteada)
         flipContainer.classList.remove('volteado');
 
-        // ---- ANIMACIÓN DESDE LA POSICIÓN DE LA FOTO ----
-        const visorContenido = document.getElementById('visor-contenido');
-
-        if (posicionClic && tamanoInicial) {
-            // Calcular desplazamiento
+        // ---- ANIMACIÓN DESDE LA POSICIÓN DE LA FOTO EN EL PLANETA ----
+        if (posicionClic) {
+            // Calcular el desplazamiento desde el centro de la pantalla a la posición de la foto
             const centroX = window.innerWidth / 2;
             const centroY = window.innerHeight / 2;
             const deltaX = posicionClic.x - centroX;
             const deltaY = posicionClic.y - centroY;
 
-            // Calcular escala inicial
-            const escalaInicial = Math.min(tamanoInicial.ancho / window.innerWidth * 2, 0.3);
-
-            // Posición inicial
+            // Establecer posición inicial (muy pequeño en la posición de la foto)
+            const visorContenido = document.getElementById('visor-contenido');
             visorContenido.style.transition = 'none';
-            visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${escalaInicial})`;
-            visorContenido.style.opacity = '1';
+            visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.05)`;
+            visorContenido.style.opacity = '0.3';
 
             // Forzar reflow
             visorContenido.offsetHeight;
 
             // Reactivar transición
-            visorContenido.style.transition = 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease';
+            visorContenido.style.transition = 'transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.7s ease';
         }
 
         // Mostrar el visor
@@ -885,20 +921,16 @@ function abrirVisor(index, posicionClic = null, tamanoInicial = null) {
 
         // Animar hacia el centro
         setTimeout(() => {
+            const visorContenido = document.getElementById('visor-contenido');
             visorContenido.style.transform = 'translate(0, 0) scale(1)';
             visorContenido.style.opacity = '1';
-
-            // Mostrar título y botones después de que termine la animación
-            setTimeout(() => {
-                visor.classList.remove('visor-animando');
-            }, 800);
         }, 50);
 
-        // Pausar controles
+        // Pausar los controles de la cámara mientras el visor está abierto
         controls.enabled = false;
     };
-    
-    // Iniciar precarga
+
+    // Iniciar la precarga de la imagen
     imagenPrecarga.src = datos.ruta;
 }
 
@@ -909,100 +941,37 @@ function cerrarVisor() {
     const visor = document.getElementById('visor-fotos');
     const flipContainer = document.getElementById('foto-flip-container');
     const visorContenido = document.getElementById('visor-contenido');
-    const visorFondo = document.getElementById('visor-fondo');
-    
-    // Ocultar título y botones durante el cierre
-    visor.classList.add('visor-animando');
-    
-    // Guardar el índice actual antes de resetearlo
-    const indiceActual = fotoActualIndex;
-    
-    // Función para hacer la animación de vuelta
-    const animarVuelta = () => {
-        if (indiceActual >= 0 && indiceActual < fotosMeshes.length) {
-            const foto = fotosMeshes[indiceActual];
-            
-            // Posición 2D
-            const posicion3D = new Vector3();
-            foto.getWorldPosition(posicion3D);
-            const posicion2D = proyectar3DA2D(posicion3D);
-            
-            // Tamaño aparente
-            const tamanoAparente = calcularTamanoAparente(foto);
-            
-            // Calcular desplazamiento
-            const centroX = window.innerWidth / 2;
-            const centroY = window.innerHeight / 2;
-            const deltaX = posicion2D.x - centroX;
-            const deltaY = posicion2D.y - centroY;
-            
-            // Calcular escala final (mismo tamaño que al abrir)
-            const escalaFinal = Math.min(tamanoAparente.ancho / window.innerWidth * 2, 0.3);
-            
-            // Desvanecer el fondo oscuro inmediatamente
-            visorFondo.style.opacity = '0';
-            
-            // Configurar la transición del contenido
-            visorContenido.style.transition = 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease';
-            
-            // Animar de vuelta a la posición de la foto
-            visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${escalaFinal})`;
-            visorContenido.style.opacity = '1';
-            
-            // A mitad de la animación (400ms), mostrar la foto en el planeta
-            setTimeout(() => {
-                foto.visible = true;
-            }, 400);
-            
-            // Justo antes de terminar (700ms), ocultar el contenido del visor para evitar flash
-            setTimeout(() => {
-                visorContenido.style.opacity = '0';
-            }, 700);
-            
-            // Después de que termine la animación completa (850ms)
-            setTimeout(() => {
-                // Ocultar completamente el visor
-                visor.classList.add('visor-oculto');
-                visor.classList.remove('visor-animando');
-                
-                // Reactivar controles
-                controls.enabled = true;
-                
-                // Resetear todo para la próxima vez
-                visorContenido.style.transition = 'none';
-                visorContenido.style.transform = 'translate(0, 0) scale(1)';
-                visorContenido.style.opacity = '1';
-                visorFondo.style.opacity = '';  // Restaurar opacidad del fondo
-                flipContainer.classList.remove('volteado');
-                
-                // Forzar reflow
-                visorContenido.offsetHeight;
-                
-                // Restaurar transición
-                visorContenido.style.transition = '';
-            }, 850);
-        } else {
-            // Si no hay foto válida, simplemente cerrar
-            visor.classList.add('visor-oculto');
-            visor.classList.remove('visor-animando');
-            controls.enabled = true;
-            visorContenido.style.transform = 'translate(0, 0) scale(1)';
-            visorFondo.style.opacity = '';
-            flipContainer.classList.remove('volteado');
-        }
-    };
-    
-    // Si la foto está volteada, primero voltearla de vuelta
-    if (flipContainer.classList.contains('volteado')) {
-        flipContainer.classList.remove('volteado');
-        // Esperar a que termine la animación de volteo (800ms según el CSS)
-        setTimeout(animarVuelta, 800);
-    } else {
-        // Si no está volteada, animar directamente
-        animarVuelta();
+
+    // Obtener la posición 2D actual de la foto en el planeta
+    if (fotoActualIndex >= 0 && fotoActualIndex < fotosMeshes.length) {
+        const foto = fotosMeshes[fotoActualIndex];
+        const posicion3D = new Vector3();
+        foto.getWorldPosition(posicion3D);
+        const posicion2D = proyectar3DA2D(posicion3D);
+
+        // Calcular desplazamiento desde el centro
+        const centroX = window.innerWidth / 2;
+        const centroY = window.innerHeight / 2;
+        const deltaX = posicion2D.x - centroX;
+        const deltaY = posicion2D.y - centroY;
+
+        // Animar de vuelta a la posición de la foto
+        visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.05)`;
+        visorContenido.style.opacity = '0.3';
     }
-    
-    // Resetear el índice DESPUÉS de guardar su valor
+
+    // Ocultar el visor después de la animación
+    setTimeout(() => {
+        visor.classList.add('visor-oculto');
+
+        // Reactivar los controles de la cámara
+        controls.enabled = true;
+
+        // Volver a la cara frontal y resetear transform
+        flipContainer.classList.remove('volteado');
+        visorContenido.style.transform = 'translate(0, 0) scale(1)';
+    }, 700); // 700ms para que termine la animación
+
     fotoActualIndex = -1;
 }
 
@@ -1016,9 +985,9 @@ function cerrarVisor() {
 document.getElementById('foto-flip-container').addEventListener('click', (event) => {
     // Evitar que el clic se propague al fondo (que cerraría el visor)
     event.stopPropagation();
-    
+
     const flipContainer = document.getElementById('foto-flip-container');
-    
+
     // Alternar la clase 'volteado' (si la tiene, la quita; si no la tiene, la añade)
     flipContainer.classList.toggle('volteado');
 });
@@ -1067,7 +1036,7 @@ function animate() {
     // ---- AJUSTAR CONTROLES SEGÚN DISTANCIA ----
     // Cuando estás cerca (explorando fotos), los controles son más precisos
     // Cuando estás lejos (viendo el planeta completo), los controles son más suaves
-    
+
     if (distanciaActual < distanciaControlPreciso && !modoPreciso) {
         // Cambiar a modo preciso (cerca)
         modoPreciso = true;
@@ -1087,11 +1056,11 @@ function animate() {
     // ---- ZOOM SUAVE ----
     // Interpolamos suavemente entre la distancia actual y la distancia objetivo
     zoomActual += (zoomObjetivo - zoomActual) * suavidadZoom;
-    
+
     // Aplicar el zoom a la cámara manteniendo la dirección
     const direccion = camera.position.clone().normalize();
     camera.position.copy(direccion.multiplyScalar(zoomActual));
-    
+
     // Actualizar zoomObjetivo para reflejar cambios si el usuario usa otros controles
     if (!renderer.domElement.matches(':hover')) {
         zoomObjetivo = camera.position.length();
@@ -1100,21 +1069,21 @@ function animate() {
 
     // ---- ANIMAR EL PULSO DEL HALO ----
     tiempoHalo += 0.02;  // Velocidad del pulso (más bajo = más lento)
-    
+
     // Math.sin crea una onda suave que va de -1 a 1
     // La convertimos a un rango de 0.92 a 1.08 para que pulse sutilmente
     const escalaPulso = 1.0 + Math.sin(tiempoHalo) * 0.2;
-    
+
     // Aplicamos el pulso solo al halo, no al corazón
     halo.scale.set(escalaPulso, escalaPulso, 1);
-    
-// ---- HACER QUE EL TEXTO MIRE A LA CÁMARA ----
+
+    // ---- HACER QUE EL TEXTO MIRE A LA CÁMARA ----
     // Solo hacemos esto si el texto ya se ha creado (si textoMesh no es null).
     if (textoMesh) {
         textoMesh.lookAt(camera.position);
     }
 
-// ---- HACER QUE EL SOL-CORAZÓN MIRE A LA CÁMARA ----
+    // ---- HACER QUE EL SOL-CORAZÓN MIRE A LA CÁMARA ----
     // Así el corazón siempre está de frente, como un sol que te mira.
     solCorazon.lookAt(camera.position);
 

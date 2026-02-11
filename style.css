@@ -156,12 +156,6 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.85);  /* Negro con 85% opacidad */
     backdrop-filter: blur(5px);  /* Efecto de desenfoque del fondo */
-    transition: opacity 0.8s ease;  /* Transición suave del fondo */
-}
-
-/* Cuando el visor está oculto, el fondo también desaparece */
-#visor-fotos.visor-oculto #visor-fondo {
-    opacity: 0;
 }
 
 /* Contenedor del contenido (foto, título, etc.) */
@@ -174,11 +168,11 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-
+    
     /* Animación de entrada - se establece dinámicamente desde JavaScript */
     transform: scale(1) translate(0, 0);
     opacity: 1;
-    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
                 opacity 0.6s ease;
 }
 
@@ -198,8 +192,6 @@ body {
     padding: 0;
     width: 50px;
     height: 50px;
-    opacity: 1;
-    transition: opacity 0.3s ease;
 }
 
 #visor-cerrar:hover {
@@ -217,8 +209,6 @@ body {
     text-shadow:
         0px 0px 10px #ff66cc,
         0px 0px 20px #ff66cc;
-    opacity: 1;
-    transition: opacity 0.3s ease;
 }
 
 /* =====================
@@ -350,26 +340,119 @@ body {
     opacity: 0.7;
 }
 
-/* Indicador de carga */
-#visor-cargando {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #ffb3e6;
-    font-family: 'Courgette', cursive;
-    font-size: 1.5rem;
-    text-shadow:
-        0px 0px 10px #ff66cc,
-        0px 0px 20px #ff66cc;
-    z-index: 1002;
-    display: none;
+/* =====================
+   ESTILOS PARA DISPOSITIVOS MÓVILES
+   ===================== */
+
+/* Evitar zoom no deseado en iOS */
+html {
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
 }
 
-/* Ocultar elementos durante la animación */
-.visor-animando #visor-cerrar,
-.visor-animando #visor-titulo,
-.visor-animando #visor-contador {
-    opacity: 0;
-    pointer-events: none;
+/* Hacer el canvas táctil más responsivo */
+#container canvas {
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Media query para pantallas pequeñas (móviles) */
+@media screen and (max-width: 768px) {
+    /* Texto principal más pequeño en móviles */
+    #texto-principal {
+        font-size: 1.5rem;
+        top: 20px;
+        padding: 0 10px;
+    }
+    
+    /* Botón de cerrar más grande y accesible en móviles */
+    #visor-cerrar {
+        top: 10px;
+        right: 10px;
+        font-size: 2.5rem;
+        width: 44px;  /* Tamaño mínimo recomendado para botones táctiles */
+        height: 44px;
+    }
+    
+    /* Título del visor más pequeño */
+    #visor-titulo {
+        font-size: 1.5rem;
+        padding: 0 10px;
+    }
+    
+    /* Imagen del visor optimizada para móviles */
+    #visor-imagen {
+        max-width: 90vw;
+        max-height: 60vh;
+    }
+    
+    /* Contenido del visor con más espacio */
+    #visor-contenido {
+        max-width: 95vw;
+        max-height: 95vh;
+        gap: 15px;
+    }
+    
+    /* Descripción y fecha más pequeñas */
+    #visor-descripcion {
+        font-size: 1.3rem;
+    }
+    
+    #visor-fecha {
+        font-size: 1rem;
+    }
+    
+    /* Reverso con menos padding */
+    #foto-reverso {
+        padding: 20px;
+    }
+    
+    /* Contador más pequeño */
+    #visor-contador {
+        font-size: 0.9rem;
+    }
+}
+
+/* Media query para pantallas muy pequeñas (móviles en vertical) */
+@media screen and (max-width: 480px) {
+    #texto-principal {
+        font-size: 1.2rem;
+        top: 15px;
+    }
+    
+    #visor-titulo {
+        font-size: 1.2rem;
+    }
+    
+    #visor-descripcion {
+        font-size: 1.1rem;
+    }
+    
+    #visor-imagen {
+        max-width: 95vw;
+        max-height: 55vh;
+    }
+}
+
+/* Optimizaciones para dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+    /* En dispositivos táctiles, hacer los elementos interactivos más grandes */
+    #visor-cerrar {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    /* Eliminar efectos hover en dispositivos táctiles */
+    #visor-cerrar:hover {
+        transform: none;
+    }
+    
+    #foto-flip-container:hover {
+        transform: none;
+    }
+    
+    /* Añadir un indicador visual cuando se toca */
+    #foto-flip-container:active {
+        transform: scale(0.98);
+    }
 }
