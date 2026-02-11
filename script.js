@@ -220,9 +220,10 @@ function crearTexto3D() {
     // Este canvas no lo ve el usuario directamente, solo lo usamos para generar la textura.
     const canvas = document.createElement('canvas');
 
-    // Definimos el tamaño del canvas (escalado para el mundo x5)
-    canvas.width = 8192;  // 4096 * 2 (no necesita ser exactamente x5)
-    canvas.height = 2048; // 1024 * 2
+    // Definimos el tamaño del canvas con ALTA RESOLUCIÓN para texto nítido
+    // Aumentado significativamente para que se vea perfectamente nítido
+    canvas.width = 16384;   // Resolución muy alta para nitidez perfecta
+    canvas.height = 4096;   // Proporción 4:1 para el texto horizontal
 
     // El contexto es la herramienta con la que dibujamos en el canvas.
     // '2d' significa que vamos a dibujar en 2D (texto, formas, etc.).
@@ -233,11 +234,10 @@ function crearTexto3D() {
     // Sin esto, el fondo sería blanco por defecto.
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // ---- CONFIGURAR ESTILO DEL TEXTO ----
-    // Fuente y tamaño. 240px porque ahora el canvas es el doble de grande.
+    // Fuente y tamaño ajustado a la nueva resolución del canvas
     // Courgette es una fuente romántica y suave de Google Fonts.
     // El fallback "cursive" se usa si Courgette no se carga (aunque debería cargarse siempre).
-    ctx.font = '480px "Courgette", cursive';
+    ctx.font = '960px "Courgette", cursive';  // Duplicado para la nueva resolución
 
     // Color del texto: rosa suave, igual que antes.
     ctx.fillStyle = '#ffb3e6';
@@ -249,8 +249,8 @@ function crearTexto3D() {
     ctx.textBaseline = 'middle';
 
     // ---- EFECTO DE BRILLO ----
-    // shadowBlur controla cuán difuso es el brillo. 40 es bastante.
-    ctx.shadowBlur = 40;
+    // shadowBlur controla cuán difuso es el brillo. Aumentado para la nueva resolución
+    ctx.shadowBlur = 80;  // Duplicado para mantener proporción
 
     // shadowColor es el color del brillo. Un rosa más intenso que el texto.
     ctx.shadowColor = '#ff66cc';
@@ -732,10 +732,12 @@ function onTouchStart(event) {
         touchStartDistance = 0;
         // Reactivar OrbitControls para rotación con un dedo
         controls.enabled = true;
+        controls.enableRotate = true;
     } else if (event.touches.length === 2) {
         // Dos dedos - gesto de pellizco para zoom
-        // DESACTIVAR OrbitControls para evitar que rote mientras hacemos zoom
+        // BLOQUEAR COMPLETAMENTE OrbitControls para evitar rotación
         controls.enabled = false;
+        controls.enableRotate = false;
 
         const dx = event.touches[0].clientX - event.touches[1].clientX;
         const dy = event.touches[0].clientY - event.touches[1].clientY;
@@ -744,8 +746,9 @@ function onTouchStart(event) {
 }
 
 function onTouchEnd(event) {
-    // Reactivar OrbitControls cuando se levantan los dedos
+    // Reactivar OrbitControls completamente cuando se levantan los dedos
     controls.enabled = true;
+    controls.enableRotate = true;
 
     if (event.changedTouches.length === 1 && event.touches.length === 0) {
         // Un solo dedo levantado - verificar si fue un tap
