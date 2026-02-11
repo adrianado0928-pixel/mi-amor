@@ -26,11 +26,11 @@ const scene = new Scene();
 // =====================
 // CÁMARA
 // =====================
-// La cámara se posiciona más lejos en móviles para ver el planeta completo
+// La cámara se posiciona más lejos en móviles para ver el planeta completo y el texto
 const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 // Detectar si es móvil y ajustar la posición inicial
 const esMobil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-camera.position.z = esMobil ? 35 : 25;  // Más lejos en móviles para ver todo el planeta
+camera.position.z = esMobil ? 40 : 25;  // Más lejos en móviles para ver todo el planeta y el texto
 
 // =====================
 // RENDERER
@@ -730,8 +730,13 @@ function onTouchStart(event) {
         touchStartY = event.touches[0].clientY;
         // Resetear la distancia de pellizco cuando solo hay un dedo
         touchStartDistance = 0;
+        // Reactivar OrbitControls para rotación con un dedo
+        controls.enabled = true;
     } else if (event.touches.length === 2) {
         // Dos dedos - gesto de pellizco para zoom
+        // DESACTIVAR OrbitControls para evitar que rote mientras hacemos zoom
+        controls.enabled = false;
+
         const dx = event.touches[0].clientX - event.touches[1].clientX;
         const dy = event.touches[0].clientY - event.touches[1].clientY;
         touchStartDistance = Math.sqrt(dx * dx + dy * dy);
@@ -739,6 +744,9 @@ function onTouchStart(event) {
 }
 
 function onTouchEnd(event) {
+    // Reactivar OrbitControls cuando se levantan los dedos
+    controls.enabled = true;
+
     if (event.changedTouches.length === 1 && event.touches.length === 0) {
         // Un solo dedo levantado - verificar si fue un tap
         const touchEndTime = Date.now();
