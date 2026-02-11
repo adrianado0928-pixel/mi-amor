@@ -124,7 +124,8 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 1000;  /* Por encima de todo */
+    z-index: 1000;
+    /* Por encima de todo */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -138,7 +139,8 @@ body {
 #visor-fotos.visor-oculto {
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;  /* No captura clics cuando está oculto */
+    pointer-events: none;
+    /* No captura clics cuando está oculto */
 }
 
 /* Cuando el visor está oculto, el contenido vuelve a su posición inicial */
@@ -154,8 +156,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);  /* Negro con 85% opacidad */
-    backdrop-filter: blur(5px);  /* Efecto de desenfoque del fondo */
+    background-color: rgba(0, 0, 0, 0.85);
+    /* Negro con 85% opacidad */
+    backdrop-filter: blur(5px);
+    /* Efecto de desenfoque del fondo */
 }
 
 /* Contenedor del contenido (foto, título, etc.) */
@@ -168,12 +172,12 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    
+
     /* Animación de entrada - se establece dinámicamente desde JavaScript */
     transform: scale(1) translate(0, 0);
     opacity: 1;
-    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                opacity 0.6s ease;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.6s ease;
 }
 
 /* Botón de cerrar (X) */
@@ -183,7 +187,8 @@ body {
     right: 0;
     background: none;
     border: none;
-    color: #ffb3e6;  /* Rosa como el texto principal */
+    color: #ffb3e6;
+    /* Rosa como el texto principal */
     font-size: 3rem;
     cursor: pointer;
     transition: color 0.2s ease, transform 0.2s ease;
@@ -195,8 +200,25 @@ body {
 }
 
 #visor-cerrar:hover {
-    color: #ff66cc;  /* Rosa más intenso al pasar el ratón */
-    transform: scale(1.1);  /* Crece ligeramente */
+    color: #ff66cc;
+    /* Rosa más intenso al pasar el ratón */
+    transform: scale(1.1);
+    /* Crece ligeramente */
+}
+
+/* Animación de aparición/desaparición de textos del visor */
+#visor-cerrar,
+#visor-titulo,
+#visor-contador {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Clase para ocultar textos durante animaciones */
+.visor-textos-ocultos #visor-cerrar,
+.visor-textos-ocultos #visor-titulo,
+.visor-textos-ocultos #visor-contador {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Título de la foto */
@@ -209,6 +231,7 @@ body {
     text-shadow:
         0px 0px 10px #ff66cc,
         0px 0px 20px #ff66cc;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 /* =====================
@@ -219,14 +242,17 @@ body {
 #foto-flip-container {
     position: relative;
     /* NO fijamos width ni height aquí, se ajustará al contenido */
-    perspective: 1500px;  /* Perspectiva 3D aumentada para mejor efecto */
+    perspective: 1500px;
+    /* Perspectiva 3D aumentada para mejor efecto */
     cursor: pointer;
-    transition: transform 0.3s ease;  /* Transición suave para el hover */
+    transition: transform 0.3s ease;
+    /* Transición suave para el hover */
 }
 
 /* Efecto hover: agrandar ligeramente cuando pasas el cursor */
 #foto-flip-container:hover {
-    transform: scale(1.05);  /* Crece un 5% */
+    transform: scale(1.05);
+    /* Crece un 5% */
 }
 
 /* Contenedor interno que realmente rota */
@@ -234,7 +260,8 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);  /* Animación suave y profesional */
+    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+    /* Animación suave y profesional */
     transform-style: preserve-3d;
 }
 
@@ -249,7 +276,8 @@ body {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;  /* Safari */
+    -webkit-backface-visibility: hidden;
+    /* Safari */
     transform-style: preserve-3d;
     display: flex;
     justify-content: center;
@@ -265,16 +293,17 @@ body {
     height: 100%;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    transform: rotateY(180deg);  /* Empieza volteada */
+    transform: rotateY(180deg);
+    /* Empieza volteada */
     transform-style: preserve-3d;
-    
+
     /* Estilos del reverso como una tarjeta */
     background: linear-gradient(135deg, #2a0a1f 0%, #1a0510 100%);
     border-radius: 10px;
-    box-shadow: 
+    box-shadow:
         0 0 30px rgba(255, 102, 204, 0.5),
         0 0 60px rgba(255, 102, 204, 0.3);
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -287,7 +316,7 @@ body {
     max-width: 80vw;
     max-height: 70vh;
     border-radius: 10px;
-    box-shadow: 
+    box-shadow:
         0 0 30px rgba(255, 102, 204, 0.5),
         0 0 60px rgba(255, 102, 204, 0.3);
     object-fit: contain;
@@ -338,6 +367,7 @@ body {
     font-size: 1rem;
     margin: 0;
     opacity: 0.7;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 /* =====================
@@ -358,55 +388,57 @@ html {
 
 /* Media query para pantallas pequeñas (móviles) */
 @media screen and (max-width: 768px) {
+
     /* Texto principal más pequeño en móviles */
     #texto-principal {
         font-size: 1.5rem;
         top: 20px;
         padding: 0 10px;
     }
-    
+
     /* Botón de cerrar más grande y accesible en móviles */
     #visor-cerrar {
         top: 10px;
         right: 10px;
         font-size: 2.5rem;
-        width: 44px;  /* Tamaño mínimo recomendado para botones táctiles */
+        width: 44px;
+        /* Tamaño mínimo recomendado para botones táctiles */
         height: 44px;
     }
-    
+
     /* Título del visor más pequeño */
     #visor-titulo {
         font-size: 1.5rem;
         padding: 0 10px;
     }
-    
+
     /* Imagen del visor optimizada para móviles */
     #visor-imagen {
         max-width: 90vw;
         max-height: 60vh;
     }
-    
+
     /* Contenido del visor con más espacio */
     #visor-contenido {
         max-width: 95vw;
         max-height: 95vh;
         gap: 15px;
     }
-    
+
     /* Descripción y fecha más pequeñas */
     #visor-descripcion {
         font-size: 1.3rem;
     }
-    
+
     #visor-fecha {
         font-size: 1rem;
     }
-    
+
     /* Reverso con menos padding */
     #foto-reverso {
         padding: 20px;
     }
-    
+
     /* Contador más pequeño */
     #visor-contador {
         font-size: 0.9rem;
@@ -419,15 +451,15 @@ html {
         font-size: 1.2rem;
         top: 15px;
     }
-    
+
     #visor-titulo {
         font-size: 1.2rem;
     }
-    
+
     #visor-descripcion {
         font-size: 1.1rem;
     }
-    
+
     #visor-imagen {
         max-width: 95vw;
         max-height: 55vh;
@@ -436,21 +468,22 @@ html {
 
 /* Optimizaciones para dispositivos táctiles */
 @media (hover: none) and (pointer: coarse) {
+
     /* En dispositivos táctiles, hacer los elementos interactivos más grandes */
     #visor-cerrar {
         min-width: 44px;
         min-height: 44px;
     }
-    
+
     /* Eliminar efectos hover en dispositivos táctiles */
     #visor-cerrar:hover {
         transform: none;
     }
-    
+
     #foto-flip-container:hover {
         transform: none;
     }
-    
+
     /* Añadir un indicador visual cuando se toca */
     #foto-flip-container:active {
         transform: scale(0.98);

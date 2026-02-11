@@ -914,6 +914,9 @@ function abrirVisor(index, posicionClic = null) {
         // Asegurarse de que empieza en la cara frontal (no volteada)
         flipContainer.classList.remove('volteado');
 
+        // OCULTAR TEXTOS INICIALMENTE para que aparezcan después de la animación
+        visor.classList.add('visor-textos-ocultos');
+
         // ---- ANIMACIÓN DESDE LA POSICIÓN DE LA FOTO EN EL PLANETA ----
         if (posicionClic) {
             // Calcular el desplazamiento desde el centro de la pantalla a la posición de la foto
@@ -943,6 +946,11 @@ function abrirVisor(index, posicionClic = null) {
             const visorContenido = document.getElementById('visor-contenido');
             visorContenido.style.transform = 'translate(0, 0) scale(1)';
             visorContenido.style.opacity = '1';
+
+            // MOSTRAR TEXTOS después de que la foto llegue al centro (700ms)
+            setTimeout(() => {
+                visor.classList.remove('visor-textos-ocultos');
+            }, 700); // Esperar a que termine la animación de entrada
         }, 50);
 
         // Pausar los controles de la cámara mientras el visor está abierto
@@ -961,37 +969,63 @@ function cerrarVisor() {
     const flipContainer = document.getElementById('foto-flip-container');
     const visorContenido = document.getElementById('visor-contenido');
 
-    // Obtener la posición 2D actual de la foto en el planeta
-    if (fotoActualIndex >= 0 && fotoActualIndex < fotosMeshes.length) {
-        const foto = fotosMeshes[fotoActualIndex];
-        const posicion3D = new Vector3();
-        foto.getWorldPosition(posicion3D);
-        const posicion2D = proyectar3DA2D(posicion3D);
+    // OCULTAR TEXTOS PRIMERO antes de cualquier animación
+    visor.classList.add('visor-textos-ocultos');
 
-        // Calcular desplazamiento desde el centro
-        const centroX = window.innerWidth / 2;
-        const centroY = window.innerHeight / 2;
-        const deltaX = posicion2D.x - centroX;
-        const deltaY = posicion2D.y - centroY;
-
-        // Animar de vuelta a la posición de la foto
-        visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.05)`;
-        visorContenido.style.opacity = '0.3';
-    }
-
-    // Ocultar el visor después de la animación
+    // Esperar a que los textos desaparezcan (400ms según el CSS)
     setTimeout(() => {
-        visor.classList.add('visor-oculto');
+        // Verificar si la foto está volteada (mostrando el reverso)
+        const estaVolteada = flipContainer.classList.contains('volteado');
 
-        // Reactivar los controles de la cámara
-        controls.enabled = true;
+        // Si está volteada, primero voltearla de vuelta
+        if (estaVolteada) {
+            // Quitar la clase 'volteado' para que se voltee a la cara frontal
+            flipContainer.classList.remove('volteado');
 
-        // Volver a la cara frontal y resetear transform
-        flipContainer.classList.remove('volteado');
-        visorContenido.style.transform = 'translate(0, 0) scale(1)';
-    }, 700); // 700ms para que termine la animación
+            // Esperar a que termine la animación de volteo (800ms según el CSS)
+            // Luego ejecutar el resto de la animación de cierre
+            setTimeout(() => {
+                ejecutarAnimacionCierre();
+            }, 800); // Tiempo de la animación de flip del CSS
+        } else {
+            // Si no está volteada, cerrar directamente
+            ejecutarAnimacionCierre();
+        }
+    }, 400); // Esperar a que los textos desaparezcan
 
-    fotoActualIndex = -1;
+    // Función auxiliar que ejecuta la animación de cierre
+    function ejecutarAnimacionCierre() {
+        // Obtener la posición 2D actual de la foto en el planeta
+        if (fotoActualIndex >= 0 && fotoActualIndex < fotosMeshes.length) {
+            const foto = fotosMeshes[fotoActualIndex];
+            const posicion3D = new Vector3();
+            foto.getWorldPosition(posicion3D);
+            const posicion2D = proyectar3DA2D(posicion3D);
+
+            // Calcular desplazamiento desde el centro
+            const centroX = window.innerWidth / 2;
+            const centroY = window.innerHeight / 2;
+            const deltaX = posicion2D.x - centroX;
+            const deltaY = posicion2D.y - centroY;
+
+            // Animar de vuelta a la posición de la foto
+            visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.05)`;
+            visorContenido.style.opacity = '0.3';
+        }
+
+        // Ocultar el visor después de la animación
+        setTimeout(() => {
+            visor.classList.add('visor-oculto');
+
+            // Reactivar los controles de la cámara
+            controls.enabled = true;
+
+            // Resetear transform
+            visorContenido.style.transform = 'translate(0, 0) scale(1)';
+        }, 700); // 700ms para que termine la animación de cierre
+
+        fotoActualIndex = -1;
+    }
 }
 
 // =====================
