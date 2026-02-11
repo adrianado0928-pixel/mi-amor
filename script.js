@@ -26,9 +26,11 @@ const scene = new Scene();
 // =====================
 // CÁMARA
 // =====================
-// Igual que antes. La cámara se pone a 5 unidades de distancia en el eje Z.
+// La cámara se posiciona más lejos en móviles para ver el planeta completo
 const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 25;
+// Detectar si es móvil y ajustar la posición inicial
+const esMobil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+camera.position.z = esMobil ? 35 : 25;  // Más lejos en móviles para ver todo el planeta
 
 // =====================
 // RENDERER
@@ -726,6 +728,8 @@ function onTouchStart(event) {
         touchStartTime = Date.now();
         touchStartX = event.touches[0].clientX;
         touchStartY = event.touches[0].clientY;
+        // Resetear la distancia de pellizco cuando solo hay un dedo
+        touchStartDistance = 0;
     } else if (event.touches.length === 2) {
         // Dos dedos - gesto de pellizco para zoom
         const dx = event.touches[0].clientX - event.touches[1].clientX;
@@ -775,11 +779,15 @@ function onTouchMove(event) {
         const currentDistance = Math.sqrt(dx * dx + dy * dy);
 
         if (touchStartDistance > 0) {
-            // Calcular el factor de zoom basado en el cambio de distancia
-            const zoomFactor = touchStartDistance / currentDistance;
+            // Calcular el cambio de distancia
+            const distanceChange = currentDistance - touchStartDistance;
+
+            // Aplicar zoom más sensible (factor de 0.01 = 1% por píxel de cambio)
+            // Aumentado 5x para que sea más responsivo
+            const zoomDelta = -distanceChange * 0.01;
 
             // Aplicar zoom suave
-            zoomObjetivo *= zoomFactor;
+            zoomObjetivo *= (1 + zoomDelta);
             zoomObjetivo = Math.max(controls.minDistance, Math.min(controls.maxDistance, zoomObjetivo));
         }
 
