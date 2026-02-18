@@ -2,7 +2,7 @@
   "planeta": {
     "nombre": "Nuestros Recuerdos",
     "descripcion": "Cada foto es un momento que compartimos juntos",
-    "totalFotos": 30
+    "totalFotos": 51
   },
   "fotos": [
     {
@@ -147,69 +147,216 @@
     },
     {
       "id": 21,
+      "ruta": "fotos/IMG-20260213-WA0074.jpg",
+      "titulo": "IMG 20260213 WA0074",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 22,
+      "ruta": "fotos/IMG-20260213-WA0099~2.jpg",
+      "titulo": "IMG 20260213 WA0099~2",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 23,
+      "ruta": "fotos/IMG-20260213-WA0100.jpg",
+      "titulo": "IMG 20260213 WA0100",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 24,
+      "ruta": "fotos/IMG-20260213-WA0101.jpg",
+      "titulo": "IMG 20260213 WA0101",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 25,
+      "ruta": "fotos/IMG-20260213-WA0103.jpg",
+      "titulo": "IMG 20260213 WA0103",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 26,
+      "ruta": "fotos/IMG-20260214-WA0082.jpeg",
+      "titulo": "IMG 20260214 WA0082",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 27,
+      "ruta": "fotos/IMG-20260215-WA0084.jpg",
+      "titulo": "IMG 20260215 WA0084",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 28,
+      "ruta": "fotos/IMG-20260215-WA0088.jpg",
+      "titulo": "IMG 20260215 WA0088",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 29,
+      "ruta": "fotos/IMG-20260215-WA0090.jpg",
+      "titulo": "IMG 20260215 WA0090",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 30,
+      "ruta": "fotos/IMG-20260215-WA0178.jpg",
+      "titulo": "IMG 20260215 WA0178",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 31,
+      "ruta": "fotos/IMG-20260215-WA0179.jpg",
+      "titulo": "IMG 20260215 WA0179",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 32,
+      "ruta": "fotos/IMG-20260215-WA0180.jpg",
+      "titulo": "IMG 20260215 WA0180",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 33,
+      "ruta": "fotos/IMG-20260215-WA0182.jpg",
+      "titulo": "IMG 20260215 WA0182",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 34,
+      "ruta": "fotos/IMG-20260216-WA0000.jpg",
+      "titulo": "IMG 20260216 WA0000",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 35,
+      "ruta": "fotos/IMG-20260216-WA0002.jpg",
+      "titulo": "IMG 20260216 WA0002",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 36,
+      "ruta": "fotos/IMG-20260216-WA0040.jpg",
+      "titulo": "IMG 20260216 WA0040",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 37,
       "ruta": "fotos/IMG_20251223_153858485_HDR.jpg",
       "titulo": "IMG 20251223 153858485 HDR",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 22,
+      "id": 38,
       "ruta": "fotos/IMG_20260117_172927128_HDR.jpg",
       "titulo": "IMG 20260117 172927128 HDR",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 23,
+      "id": 39,
+      "ruta": "fotos/IMG_20260213_005253921_HDR.jpg",
+      "titulo": "IMG 20260213 005253921 HDR",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 40,
+      "ruta": "fotos/IMG_20260213_005341308_HDR.jpg",
+      "titulo": "IMG 20260213 005341308 HDR",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 41,
+      "ruta": "fotos/IMG_20260215_173507740_HDR.jpg",
+      "titulo": "IMG 20260215 173507740 HDR",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 42,
+      "ruta": "fotos/IMG_20260215_173519379_HDR.jpg",
+      "titulo": "IMG 20260215 173519379 HDR",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 43,
+      "ruta": "fotos/IMG_20260215_173639575_HDR.jpg",
+      "titulo": "IMG 20260215 173639575 HDR",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 44,
       "ruta": "fotos/Screenshot_20260130-180020_WhatsApp.png",
       "titulo": "Screenshot 20260130 180020 WhatsApp",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 24,
+      "id": 45,
       "ruta": "fotos/Screenshot_20260207-234942_Yope.png",
       "titulo": "Screenshot 20260207 234942 Yope",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 25,
+      "id": 46,
       "ruta": "fotos/abrazados.jpg",
       "titulo": "Abrazados",
       "descripcion": "Nuestro primer abrazo juntos en cámaraaa",
       "fecha": "15 de noviembre, 2025"
     },
     {
-      "id": 26,
+      "id": 47,
       "ruta": "fotos/ascensor.jpg",
       "titulo": "Ascensor",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 27,
+      "id": 48,
       "ruta": "fotos/casual.jpg",
       "titulo": "Casual",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 28,
+      "id": 49,
       "ruta": "fotos/despaldas.jpg",
       "titulo": "Despaldas",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 29,
+      "id": 50,
       "ruta": "fotos/duroduro.jpg",
       "titulo": "Duroduro",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 30,
+      "id": 51,
       "ruta": "fotos/infraganti.jpg",
       "titulo": "Infraganti",
       "descripcion": "",
