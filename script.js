@@ -36,10 +36,12 @@ camera.position.z = esMobil ? 40 : 25;  // Más lejos en móviles para ver todo 
 // RENDERER
 // =====================
 // Igual que antes, pero sin el prefijo THREE.
-const renderer = new WebGLRenderer({ antialias: true });
+// powerPreference: 'high-performance' pide al navegador usar la GPU dedicada
+const renderer = new WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
 renderer.setSize(window.innerWidth, window.innerHeight);
-// Limitar pixel ratio para no sobrecargar GPUs de pantallas de alta densidad
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+// En móvil: pixelRatio 1.0 para no sobrecargar la GPU.
+// En escritorio: hasta 1.5 para mayor nitidez.
+renderer.setPixelRatio(esMobil ? 1.0 : Math.min(window.devicePixelRatio, 1.5));
 document.getElementById('container').appendChild(renderer.domElement);
 
 // =====================
@@ -533,7 +535,8 @@ fetch('data.json')
 // =====================
 // ESTRELLAS ROSAS
 // =====================
-const cantidadEstrellas = 2000;
+// En móvil menos estrellas: el shader custom es pesado en GPUs móviles
+const cantidadEstrellas = esMobil ? 800 : 2000;
 
 // Arrays para guardar las posiciones, tamaños y colores de cada estrella.
 // Te los expliqué en la Fase 4, funcionan exactamente igual.
