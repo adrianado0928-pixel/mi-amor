@@ -657,7 +657,7 @@ scene.add(estrellas);
 // VARIABLES PARA CONTROLES ADAPTATIVOS
 // =====================
 // Distancia a partir de la cual los controles cambian de comportamiento
-const distanciaControlPreciso = 25;  // Cuando estás más cerca que esto, controles precisos
+const distanciaControlPreciso = 12;  // Cuando estás más cerca que esto, controles precisos
 
 // =====================
 // ORBIT CONTROLS (MEJORADOS)
@@ -1091,8 +1091,6 @@ document.getElementById('foto-flip-container').addEventListener('click', (event)
     flipContainer.classList.toggle('volteado');
 });
 
-// Botón de cerrar (X)
-document.getElementById('visor-cerrar').addEventListener('click', cerrarVisor);
 
 // Cerrar al hacer clic en el fondo oscuro
 document.getElementById('visor-fondo').addEventListener('click', cerrarVisor);

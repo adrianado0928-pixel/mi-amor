@@ -180,41 +180,14 @@ body {
         opacity 0.6s ease;
 }
 
-/* Botón de cerrar (X) */
-#visor-cerrar {
-    position: absolute;
-    top: -50px;
-    right: 0;
-    background: none;
-    border: none;
-    color: #ffb3e6;
-    /* Rosa como el texto principal */
-    font-size: 3rem;
-    cursor: pointer;
-    transition: color 0.2s ease, transform 0.2s ease;
-    font-weight: 300;
-    line-height: 1;
-    padding: 0;
-    width: 50px;
-    height: 50px;
-}
-
-#visor-cerrar:hover {
-    color: #ff66cc;
-    /* Rosa más intenso al pasar el ratón */
-    transform: scale(1.1);
-    /* Crece ligeramente */
-}
 
 /* Animación de aparición/desaparición de textos del visor */
-#visor-cerrar,
 #visor-titulo,
 #visor-contador {
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 /* Clase para ocultar textos durante animaciones */
-.visor-textos-ocultos #visor-cerrar,
 .visor-textos-ocultos #visor-titulo,
 .visor-textos-ocultos #visor-contador {
     opacity: 0;
@@ -408,15 +381,6 @@ html {
         padding: 0 10px;
     }
 
-    /* Botón de cerrar más grande y accesible en móviles */
-    #visor-cerrar {
-        top: 10px;
-        right: 10px;
-        font-size: 2.5rem;
-        width: 44px;
-        /* Tamaño mínimo recomendado para botones táctiles */
-        height: 44px;
-    }
 
     /* Título del visor más pequeño */
     #visor-titulo {
@@ -482,15 +446,7 @@ html {
 @media (hover: none) and (pointer: coarse) {
 
     /* En dispositivos táctiles, hacer los elementos interactivos más grandes */
-    #visor-cerrar {
-        min-width: 44px;
-        min-height: 44px;
-    }
 
-    /* Eliminar efectos hover en dispositivos táctiles */
-    #visor-cerrar:hover {
-        transform: none;
-    }
 
     #foto-flip-container:hover {
         transform: none;
