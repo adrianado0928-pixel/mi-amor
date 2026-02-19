@@ -666,7 +666,7 @@ controls.maxDistance = 100;   // Alejamiento máximo
 // Esto hace que los movimientos tengan inercia, como si la cámara tuviera peso.
 // Cuando dejas de arrastrar, la cámara no para de golpe, sino que se va frenando suavemente.
 controls.enableDamping = true;
-controls.dampingFactor = 0.08;  // Entre 0.05 (muy suave) y 0.25 (menos suave)
+controls.dampingFactor = 0.05;  // Entre 0.05 (muy suave) y 0.25 (menos suave)
 // 0.08 es un buen equilibrio
 
 // ---- VELOCIDADES ----
