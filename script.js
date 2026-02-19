@@ -672,10 +672,8 @@ controls.dampingFactor = 0.05;  // Entre 0.05 (muy suave) y 0.25 (menos suave)
 // ---- VELOCIDADES ----
 // Controlan qué tan rápido se mueve la cámara con cada acción
 
-// Velocidad de rotación (arrastrar con el ratón)
-controls.rotateSpeed = 0.5;  // Valor por defecto es 1.0
-// Más bajo = más lento y controlado
-// Más alto = más rápido
+// Velocidad de rotación (arrastrar con el ratón/dedo)
+controls.rotateSpeed = 0.8;  // Valor alto para permitir "impulsos" fuertes desde el inicio
 
 // Velocidad de zoom (rueda del ratón)
 controls.zoomSpeed = 0.8;    // Valor por defecto es 1.0
@@ -717,7 +715,7 @@ const distanciaParada = esMobil ? 25 : 18.2;
 // =====================
 // Distancia a partir de la cual los controles cambian de comportamiento
 const distanciaControlPreciso = 12;  // Cuando estás más cerca que esto, controles precisos
-let modoPreciso = false;              // Estado actual de los controles
+let modoPreciso = true;               // Empezamos en true para que el loop lo cambie a false y aplique la inercia alta
 
 // =====================
 // VARIABLES PARA ZOOM SUAVE
