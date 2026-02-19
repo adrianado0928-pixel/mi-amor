@@ -657,7 +657,7 @@ scene.add(estrellas);
 // VARIABLES PARA CONTROLES ADAPTATIVOS
 // =====================
 // Distancia a partir de la cual los controles cambian de comportamiento
-const distanciaControlPreciso = 20;  // Cuando estás más cerca que esto, controles precisos
+const distanciaControlPreciso = 25;  // Cuando estás más cerca que esto, controles precisos
 
 // =====================
 // ORBIT CONTROLS (MEJORADOS)
