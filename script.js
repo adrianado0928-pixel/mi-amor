@@ -38,8 +38,8 @@ camera.position.z = esMobil ? 40 : 25;  // Más lejos en móviles para ver todo 
 // Igual que antes, pero sin el prefijo THREE.
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-// Usar el pixel ratio real de la pantalla (crucial para nitidez en Retina y pantallas AMOLED)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+// Limitar pixel ratio para no sobrecargar GPUs de pantallas de alta densidad
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 document.getElementById('container').appendChild(renderer.domElement);
 
 // =====================
@@ -714,20 +714,21 @@ renderer.domElement.addEventListener('touchend', onTouchEnd, { passive: false })
 // Event listener para zoom suave con la rueda del ratón
 renderer.domElement.addEventListener('wheel', onMouseWheel, { passive: false });
 
+// Flag para saber si hay zoom activo (evita trabajo innecesario cada frame)
+let isZooming = false;
+let zoomTimeout = null;
+
 function onMouseWheel(event) {
-    event.preventDefault();  // Evitar scroll de página
+    event.preventDefault();
 
-    // Calcular cuánto zoom queremos aplicar
-    // event.deltaY es positivo cuando giras hacia abajo (alejar)
-    // y negativo cuando giras hacia arriba (acercar)
-    const zoomDelta = event.deltaY * 0.002;  // Factor de escala (ajustable)
-
-    // Actualizar el zoom objetivo
-    // Multiplicamos por (1 + zoomDelta) para hacer zoom proporcional a la distancia actual
+    const zoomDelta = event.deltaY * 0.002;
     zoomObjetivo *= (1 + zoomDelta);
-
-    // Limitar el zoom objetivo a los límites de los controles
     zoomObjetivo = Math.max(controls.minDistance, Math.min(controls.maxDistance, zoomObjetivo));
+
+    // Marcar que hay zoom activo
+    isZooming = true;
+    clearTimeout(zoomTimeout);
+    zoomTimeout = setTimeout(() => { isZooming = false; }, 500);
 }
 
 // =====================
@@ -1112,14 +1113,22 @@ function animate() {
         controls.zoomSpeed = 0.8;
     }
 
-    // ---- ZOOM SUAVE ----
-    zoomActual += (zoomObjetivo - zoomActual) * suavidadZoom;
-    // Reutilizar el mismo vector para evitar crear objetos en el heap cada frame
-    _direccionZoom.copy(camera.position).normalize();
-    camera.position.copy(_direccionZoom.multiplyScalar(zoomActual));
-    // Sincronizar zoomObjetivo con cambios externos (sin DOM query)
-    zoomObjetivo = camera.position.length();
-    zoomActual = zoomObjetivo;
+    // ---- ZOOM SUAVE (solo actúa cuando el usuario ha hecho scroll) ----
+    if (isZooming) {
+        zoomActual += (zoomObjetivo - zoomActual) * suavidadZoom;
+        if (Math.abs(zoomActual - zoomObjetivo) > 0.01) {
+            // Solo re-posicionar si la diferencia es significativa
+            _direccionZoom.copy(camera.position).normalize();
+            camera.position.copy(_direccionZoom.multiplyScalar(zoomActual));
+        } else {
+            // Ha llegado al destino: sincronizar y parar
+            zoomActual = zoomObjetivo;
+        }
+    } else {
+        // Sin zoom activo: sincronizar silenciosamente con OrbitControls
+        zoomObjetivo = camera.position.length();
+        zoomActual = zoomObjetivo;
+    }
 
     // ---- ANIMAR EL PULSO DEL HALO (con delta time) ----
     tiempoHalo += 1.2 * deltaTime; // 1.2 rad/s ≈ 0.02 × 60fps
