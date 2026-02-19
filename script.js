@@ -222,10 +222,10 @@ function crearTexto3D() {
     // Este canvas no lo ve el usuario directamente, solo lo usamos para generar la textura.
     const canvas = document.createElement('canvas');
 
-    // Definimos el tamaño del canvas con ALTA RESOLUCIÓN para texto nítido
-    // Aumentado significativamente para que se vea perfectamente nítido
-    canvas.width = 16384;   // Resolución muy alta para nitidez perfecta
-    canvas.height = 4096;   // Proporción 4:1 para el texto horizontal
+    // Definimos el tamaño del canvas: resolución suficiente para nitidez con mipmaps
+    // No necesitamos 16384px porque LinearMipmapLinearFilter ya optimiza por distancia
+    canvas.width = 4096;
+    canvas.height = 1024;
 
     // El contexto es la herramienta con la que dibujamos en el canvas.
     // '2d' significa que vamos a dibujar en 2D (texto, formas, etc.).
@@ -239,7 +239,7 @@ function crearTexto3D() {
     // Fuente y tamaño ajustado a la nueva resolución del canvas
     // Courgette es una fuente romántica y suave de Google Fonts.
     // El fallback "cursive" se usa si Courgette no se carga (aunque debería cargarse siempre).
-    ctx.font = '960px "Courgette", cursive';  // Duplicado para la nueva resolución
+    ctx.font = '240px "Courgette", cursive';
 
     // Color del texto: rosa suave, igual que antes.
     ctx.fillStyle = '#ffb3e6';
@@ -252,7 +252,7 @@ function crearTexto3D() {
 
     // ---- EFECTO DE BRILLO ----
     // shadowBlur controla cuán difuso es el brillo. Aumentado para la nueva resolución
-    ctx.shadowBlur = 80;  // Duplicado para mantener proporción
+    ctx.shadowBlur = 20;
 
     // shadowColor es el color del brillo. Un rosa más intenso que el texto.
     ctx.shadowColor = '#ff66cc';
