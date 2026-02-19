@@ -53,8 +53,8 @@ const textureLoader = new TextureLoader();
 // PLANETA CON TEXTURA DE ALTA CALIDAD
 // =====================
 
-// Crear la geometría del planeta con muchos segmentos para que se vea muy suave
-const planetaGeometria = new SphereGeometry(10, 128, 128);  // 128 segmentos = muy suave
+// Crear la geometría del planeta con segmentos equilibrados (calidad/rendimiento)
+const planetaGeometria = new SphereGeometry(10, 64, 64);  // 64 segmentos: suave y eficiente
 
 // Cargar la textura desde una URL
 // Usamos una textura gratuita de planeta de fantasía en alta resolución
@@ -690,6 +690,9 @@ let zoomObjetivo = camera.position.length();  // Distancia objetivo a la que que
 let zoomActual = zoomObjetivo;                 // Distancia actual (se interpola hacia el objetivo)
 const suavidadZoom = 0.1;                      // Velocidad de interpolación (0.05 = muy suave, 0.2 = más rápido)
 
+// Vector reutilizable para el zoom (preallocado para evitar GC cada frame)
+const _direccionZoom = new Vector3();
+
 // =====================
 // SISTEMA DE DETECCIÓN DE CLICS Y TOQUES MÓVILES
 // =====================
@@ -1111,13 +1114,12 @@ function animate() {
 
     // ---- ZOOM SUAVE ----
     zoomActual += (zoomObjetivo - zoomActual) * suavidadZoom;
-    const direccion = camera.position.clone().normalize();
-    camera.position.copy(direccion.multiplyScalar(zoomActual));
-
-    if (!renderer.domElement.matches(':hover')) {
-        zoomObjetivo = camera.position.length();
-        zoomActual = zoomObjetivo;
-    }
+    // Reutilizar el mismo vector para evitar crear objetos en el heap cada frame
+    _direccionZoom.copy(camera.position).normalize();
+    camera.position.copy(_direccionZoom.multiplyScalar(zoomActual));
+    // Sincronizar zoomObjetivo con cambios externos (sin DOM query)
+    zoomObjetivo = camera.position.length();
+    zoomActual = zoomObjetivo;
 
     // ---- ANIMAR EL PULSO DEL HALO (con delta time) ----
     tiempoHalo += 1.2 * deltaTime; // 1.2 rad/s ≈ 0.02 × 60fps
