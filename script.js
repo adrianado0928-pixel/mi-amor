@@ -1144,14 +1144,17 @@ function animate() {
     if (distanciaActual < distanciaControlPreciso && !modoPreciso) {
         modoPreciso = true;
         controls.enableDamping = true;
-        controls.dampingFactor = 0.04;
-        controls.rotateSpeed = 0.15;
+        controls.dampingFactor = 0.08;   // Rozamiento normal para control total de cerca
+        controls.rotateSpeed = 0.15;    // Movimiento lento y preciso
         controls.zoomSpeed = 0.5;
     } else if (distanciaActual >= distanciaControlPreciso && modoPreciso) {
         modoPreciso = false;
         controls.enableDamping = true;
-        controls.dampingFactor = 0.08;
-        controls.rotateSpeed = 0.5;
+        // ---- INERCIA CINÉTICA ----
+        // Al estar lejos, bajamos mucho el rozamiento (dampingFactor) 
+        // y subimos la velocidad para que un "flick" lo haga girar varias vueltas
+        controls.dampingFactor = 0.012;  // Muy bajo = mucha inercia (deslizamiento largo)
+        controls.rotateSpeed = 0.8;     // Más velocidad inicial para el impulso
         controls.zoomSpeed = 0.8;
     }
 
