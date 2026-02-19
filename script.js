@@ -657,7 +657,7 @@ scene.add(estrellas);
 // VARIABLES PARA CONTROLES ADAPTATIVOS
 // =====================
 // Distancia a partir de la cual los controles cambian de comportamiento
-const distanciaControlPreciso = 12;  // Cuando estás más cerca que esto, controles precisos
+const distanciaControlPreciso = 20;  // Cuando estás más cerca que esto, controles precisos
 
 // =====================
 // ORBIT CONTROLS (MEJORADOS)
@@ -1135,7 +1135,7 @@ function animate() {
     if (distanciaActual < distanciaControlPreciso && !modoPreciso) {
         modoPreciso = true;
         controls.enableDamping = true;
-        controls.dampingFactor = 0.08;   // Rozamiento normal para control total de cerca
+        controls.dampingFactor = 0.04;   // Rozamiento normal para control total de cerca
         controls.rotateSpeed = 0.15;    // Movimiento lento y preciso
         controls.zoomSpeed = 0.5;
     } else if (distanciaActual >= distanciaControlPreciso && modoPreciso) {
