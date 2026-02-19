@@ -657,7 +657,7 @@ scene.add(estrellas);
 // VARIABLES PARA CONTROLES ADAPTATIVOS
 // =====================
 // Distancia a partir de la cual los controles cambian de comportamiento
-const distanciaControlPreciso = 20;  // Cuando estás más cerca que esto, controles precisos
+const distanciaControlPreciso = 12;  // Cuando estás más cerca que esto, controles precisos
 
 // =====================
 // ORBIT CONTROLS (MEJORADOS)
@@ -676,7 +676,7 @@ let modoPreciso = inicialEsPreciso;
 controls.rotateSpeed = inicialEsPreciso ? 0.15 : 0.8;
 controls.zoomSpeed = inicialEsPreciso ? 0.5 : 0.8;
 controls.enableDamping = true;
-controls.dampingFactor = inicialEsPreciso ? 0.08 : 0.015; // 0.015 permite giros largos pero controlables
+controls.dampingFactor = inicialEsPreciso ? 0.08 : 0.012; // 0.012 es muy fluido para el "flick"
 // Más bajo = zoom más suave y controlado
 // Más alto = zoom más agresivo
 
@@ -1135,15 +1135,13 @@ function animate() {
     if (distanciaActual < distanciaControlPreciso && !modoPreciso) {
         modoPreciso = true;
         controls.enableDamping = true;
-        controls.dampingFactor = 0.04;   // Rozamiento normal para control total de cerca
+        controls.dampingFactor = 0.08;   // Rozamiento normal para control total de cerca
         controls.rotateSpeed = 0.15;    // Movimiento lento y preciso
         controls.zoomSpeed = 0.5;
     } else if (distanciaActual >= distanciaControlPreciso && modoPreciso) {
         modoPreciso = false;
         controls.enableDamping = true;
         // ---- INERCIA CINÉTICA ----
-        // Al estar lejos, bajamos mucho el rozamiento (dampingFactor) 
-        // y subimos la velocidad para que un "flick" lo haga girar varias vueltas
         controls.dampingFactor = 0.012;  // Muy bajo = mucha inercia (deslizamiento largo)
         controls.rotateSpeed = 0.8;     // Más velocidad inicial para el impulso
         controls.zoomSpeed = 0.8;
