@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <!-- importmap: es un diccionario que le dice al navegador desde dónde descargar cada librería.
          Cuando el código JavaScript pida 'three' o 'three/addons/...', el navegador sabe
@@ -29,11 +30,31 @@
 
     <!-- Esto conecta nuestro archivo style.css con esta página. Sin esta línea, el CSS no funcionaría -->
     <link rel="stylesheet" href="style.css">
-</head>
-<body>
 
-    <!-- Este es el contenedor donde más adelante (Fase 2) va a vivir el planeta 3D.
-         Ahora mismo está vacío, pero ya tiene su lugar reservado -->
+    <!-- Elemento invisible para forzar la carga de la fuente "Courgette" inmediatamente -->
+    <div style="font-family: 'Courgette', cursive; opacity: 0; position: absolute; pointer-events: none; z-index: -1;">.
+    </div>
+</head>
+
+<body>
+    <!-- PANTALLA DE CARGA -->
+    <div id="loader-pantalla">
+        <div id="loader-contenido">
+            <div id="corazon-loader">
+                <svg viewBox="0 0 32 32" width="100" height="100">
+                    <path
+                        d="M16,28.261c0,0-14-7.926-14-17.046c0-9.356,13.159-10.399,14,0.454c0.841-10.853,14-9.81,14-0.454 C30,20.335,16,28.261,16,28.261z"
+                        fill="#ff0000" />
+                </svg>
+            </div>
+            <div id="barra-carga-container">
+                <div id="barra-carga-progreso"></div>
+            </div>
+            <p id="texto-carga">Cargando...</p>
+        </div>
+    </div>
+
+    Ahora mismo está vacío, pero ya tiene su lugar reservado -->
     <div id="container"></div>
 
     <!-- VISOR DE FOTOS -->
@@ -41,15 +62,15 @@
     <div id="visor-fotos" class="visor-oculto">
         <!-- Fondo oscuro semi-transparente -->
         <div id="visor-fondo"></div>
-        
+
         <!-- Contenedor del contenido del visor -->
         <div id="visor-contenido">
             <!-- Botón para cerrar (X) -->
             <button id="visor-cerrar">&times;</button>
-            
+
             <!-- Título de la foto -->
             <h2 id="visor-titulo"></h2>
-            
+
             <!-- Contenedor de la foto con efecto flip (voltear) -->
             <div id="foto-flip-container">
                 <div id="foto-flip-inner">
@@ -57,7 +78,7 @@
                     <div id="foto-frente">
                         <img id="visor-imagen" src="" alt="Foto">
                     </div>
-                    
+
                     <!-- Cara trasera: la descripción -->
                     <div id="foto-reverso">
                         <div id="reverso-contenido">
@@ -67,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Contador de fotos -->
             <p id="visor-contador"></p>
         </div>
@@ -78,4 +99,5 @@
          lo cual necesitamos para poder importar Three.js y OrbitControls correctamente -->
     <script type="module" src="script.js"></script>
 </body>
+
 </html>

@@ -64,11 +64,11 @@ body {
 
     /* font-family: la fuente que usa el texto. Le ponemos varias opciones separadas por comas,
        así si el usuario no tiene la primera, usa la segunda, y así sucesivo.
-       "Georgia" es una fuente elegante que viene instalada en casi todos los ordenadores */
-    font-family: 'Georgia', serif;
+       "Courgette" es la fuente principal romántica de Google Fonts */
+    font-family: 'Courgette', cursive;
 
-    /* font-style: italic → pone el texto en cursiva, queda más romántico */
-    font-style: italic;
+    /* font-style: italic → la fuente Courgette ya es cursiva, así que esto es opcional */
+    font-style: pointer;
 
     /* ========= EFECTO DE BRILLO ========= */
     /* text-shadow: esto es lo que hace que el texto parezca que brilla.
@@ -343,7 +343,7 @@ body {
 /* Fecha en el reverso */
 #visor-fecha {
     color: #ff66cc;
-    font-family: 'Georgia', serif;
+    font-family: 'Courgette', cursive;
     font-size: 1.2rem;
     text-align: center;
     margin: 0;
@@ -375,7 +375,7 @@ body {
 /* Contador de fotos */
 #visor-contador {
     color: #ff66cc;
-    font-family: 'Georgia', serif;
+    font-family: 'Courgette', cursive;
     font-size: 1rem;
     margin: 0;
     opacity: 0.7;
@@ -499,5 +499,85 @@ html {
     /* Añadir un indicador visual cuando se toca */
     #foto-flip-container:active {
         transform: scale(0.98);
+    }
+}
+
+/* =====================
+   PANTALLA DE CARGA (LOADER)
+   ===================== */
+#loader-pantalla {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    z-index: 9999;
+    /* Por encima de TODO */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+#loader-pantalla.oculto {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#loader-contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#corazon-loader {
+    animation: pulsoCorazon 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#corazon-loader svg {
+    display: block;
+}
+
+#barra-carga-container {
+    width: 250px;
+    height: 6px;
+    background-color: rgba(255, 179, 230, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(255, 102, 204, 0.2);
+}
+
+#barra-carga-progreso {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff66cc, #ffb3e6);
+    box-shadow: 0 0 15px #ff66cc;
+    transition: width 0.3s ease;
+}
+
+#texto-carga {
+    color: #ffb3e6;
+    font-family: 'Courgette', cursive;
+    font-size: 1.5rem;
+    text-shadow: 0 0 10px #ff66cc;
+}
+
+@keyframes pulsoCorazon {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
     }
 }

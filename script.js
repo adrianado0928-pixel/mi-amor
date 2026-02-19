@@ -11,7 +11,7 @@ import {
     BufferAttribute, ShaderMaterial, CanvasTexture, PlaneGeometry,
     MeshBasicMaterial, DoubleSide, Shape, ExtrudeGeometry, Group,
     Color, AdditiveBlending, TextureLoader, Vector3, Raycaster, Vector2,
-    AmbientLight, LinearFilter, LinearMipmapLinearFilter
+    AmbientLight, LinearFilter, LinearMipmapLinearFilter, LoadingManager
 } from 'three';
 
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -43,11 +43,42 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.getElementById('container').appendChild(renderer.domElement);
 
 // =====================
+// LOADING MANAGER
+// =====================
+// El LoadingManager nos permite rastrear el progreso de carga de todos los recursos (texturas, json, etc.)
+const loadingManager = new LoadingManager();
+const barraProgreso = document.getElementById('barra-carga-progreso');
+const loaderPantalla = document.getElementById('loader-pantalla');
+
+loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
+    const porcentaje = (itemsLoaded / itemsTotal) * 100;
+    if (barraProgreso) {
+        barraProgreso.style.width = porcentaje + '%';
+    }
+    console.log(`⏳ Cargando: ${Math.round(porcentaje)}% (${url})`);
+};
+
+loadingManager.onLoad = function () {
+    console.log('✅ ¡Todos los recursos cargados!');
+    // Pequeño retraso para que la barra se vea llena un momento
+    setTimeout(() => {
+        if (loaderPantalla) {
+            loaderPantalla.classList.add('oculto');
+        }
+    }, 500);
+};
+
+loadingManager.onError = function (url) {
+    console.error('❌ Error cargando:', url);
+};
+
+// =====================
 // TEXTURE LOADER
 // =====================
 // Loader para cargar texturas (imágenes). Lo creamos aquí arriba
 // para poder usarlo tanto en el planeta como en las fotos.
-const textureLoader = new TextureLoader();
+// Le pasamos el loadingManager para que rastree las texturas.
+const textureLoader = new TextureLoader(loadingManager);
 
 // =====================
 // PLANETA CON TEXTURA DE ALTA CALIDAD
@@ -306,13 +337,18 @@ function crearTexto3D() {
 // Empieza como null porque todavía no existe.
 let textoMesh = null;
 
-// document.fonts.ready es una promesa que se resuelve cuando todas las fuentes
-// se han cargado completamente. Esperamos a que esté lista antes de crear el texto.
-document.fonts.ready.then(() => {
+// document.fonts.load() asegura que la fuente específica esté cargada.
+// Esperamos a que 'Courgette' esté lista antes de crear el texto 3D.
+document.fonts.load('1em Courgette').then(() => {
+    console.log('✨ Fuente Courgette lista para el texto 3D');
     // Ahora que la fuente está cargada, creamos el texto.
     textoMesh = crearTexto3D();
-
     // Lo añadimos a la escena.
+    scene.add(textoMesh);
+}).catch(err => {
+    console.error('❌ Error cargando la fuente Courgette:', err);
+    // Intentar crear el texto de todos modos como fallback
+    textoMesh = crearTexto3D();
     scene.add(textoMesh);
 });
 
