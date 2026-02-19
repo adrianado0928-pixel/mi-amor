@@ -674,7 +674,7 @@ const velocidadMaxima = 0.003;
 // Distancia a la que el planeta deja de girar (proporcional a la posición inicial de la cámara)
 // Escritorio: cámara a 25, para a 18.2 (~73% del recorrido)
 // Móvil: cámara a 40, para a 30 (~73% del recorrido) — para antes igual que en escritorio
-const distanciaParada = esMobil ? 33 : 18.2;
+const distanciaParada = esMobil ? 30 : 18.2;
 
 // =====================
 // VARIABLES PARA CONTROLES ADAPTATIVOS
