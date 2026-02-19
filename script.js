@@ -11,7 +11,7 @@ import {
     BufferAttribute, ShaderMaterial, CanvasTexture, PlaneGeometry,
     MeshBasicMaterial, DoubleSide, Shape, ExtrudeGeometry, Group,
     Color, AdditiveBlending, TextureLoader, Vector3, Raycaster, Vector2,
-    AmbientLight
+    AmbientLight, LinearFilter, LinearMipmapLinearFilter
 } from 'three';
 
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -38,6 +38,8 @@ camera.position.z = esMobil ? 40 : 25;  // Más lejos en móviles para ver todo 
 // Igual que antes, pero sin el prefijo THREE.
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+// Usar el pixel ratio real de la pantalla (crucial para nitidez en Retina y pantallas AMOLED)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.getElementById('container').appendChild(renderer.domElement);
 
 // =====================
@@ -263,9 +265,16 @@ function crearTexto3D() {
     ctx.fillText('Eres mi mundo michica', canvas.width / 2, canvas.height / 2);
 
     // ---- CONVERTIR CANVAS EN TEXTURA ----
-    // CanvasTexture toma nuestro canvas y lo convierte en una textura
-    // que Three.js puede usar en objetos 3D.
     const textura = new CanvasTexture(canvas);
+
+    // Filtrado de alta calidad para que el texto se vea nítido sin suavizarse
+    textura.minFilter = LinearMipmapLinearFilter;  // Mipmap para diferentes distancias
+    textura.magFilter = LinearFilter;              // Lineal al acercarse
+    textura.generateMipmaps = true;               // Generar mipmaps automáticamente
+
+    // Anisotropía máxima: mejora nitidez cuando el plano está en ángulo
+    textura.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    textura.needsUpdate = true;
 
     // ---- CREAR GEOMETRÍA (PLANO) ----
     // Escalado x5

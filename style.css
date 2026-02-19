@@ -307,8 +307,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px;
+    padding: 20px;
     box-sizing: border-box;
+    /* Evitar que el contenido se desborde */
+    overflow: hidden;
 }
 
 /* Imagen principal */
@@ -330,6 +332,12 @@ body {
     gap: 20px;
     align-items: center;
     width: 100%;
+    /* Limitar altura para no salirse del reverso */
+    max-height: 100%;
+    overflow-y: auto;
+    /* Scroll suave si hay demasiado contenido */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 102, 204, 0.5) transparent;
 }
 
 /* Fecha en el reverso */
@@ -357,7 +365,11 @@ body {
         0px 0px 5px #ff66cc,
         0px 0px 10px #ff66cc;
     word-wrap: break-word;
+    overflow-wrap: break-word;
     max-width: 100%;
+    /* Fuente adaptable: más pequeña en fotos estrechas (verticales) */
+    font-size: clamp(0.85rem, 2.5vw, 1.5rem);
+    line-height: 1.5;
 }
 
 /* Contador de fotos */
@@ -434,9 +446,9 @@ html {
         font-size: 1rem;
     }
 
-    /* Reverso con menos padding */
+    /* Reverso con menos padding en móvil */
     #foto-reverso {
-        padding: 20px;
+        padding: 15px;
     }
 
     /* Contador más pequeño */
