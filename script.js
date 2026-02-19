@@ -671,10 +671,10 @@ let velocidadRotacion = 0.003;
 // Esta es la velocidad máxima (cuando el planeta gira solo, sin interacción).
 const velocidadMaxima = 0.003;
 
-// Esta es la distancia a partir de la cual el planeta deja de girar.
-// Como la cámara empieza a 5 unidades y el máximo es 20,
-// poner 7 significa que en casi cualquier posición cercana deja de girar.
-const distanciaParada = 18.2;
+// Distancia a la que el planeta deja de girar (proporcional a la posición inicial de la cámara)
+// Escritorio: cámara a 25, para a 18.2 (~73% del recorrido)
+// Móvil: cámara a 40, para a 30 (~73% del recorrido) — para antes igual que en escritorio
+const distanciaParada = esMobil ? 30 : 18.2;
 
 // =====================
 // VARIABLES PARA CONTROLES ADAPTATIVOS
