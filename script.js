@@ -1070,89 +1070,68 @@ document.addEventListener('keydown', (event) => {
 // =====================
 // BUCLE DE ANIMACIÓN
 // =====================
+// Delta time: tiempo real entre frames para movimiento siempre fluido
+let ultimoTiempo = performance.now();
+
 function animate() {
     requestAnimationFrame(animate);
 
-    // ---- LÓGICA DE ROTACIÓN ----
-    // Cada frame calculamos la distancia actual de la cámara al planeta.
-    // camera.position.length() nos da la distancia desde el origen (donde está el planeta)
-    // hasta donde está la cámara.
+    // Tiempo transcurrido desde el último frame (en segundos, máx 100ms para evitar saltos)
+    const ahora = performance.now();
+    const deltaTime = Math.min((ahora - ultimoTiempo) / 1000, 0.1);
+    ultimoTiempo = ahora;
+
+    // ---- LÓGICA DE ROTACIÓN (con delta time) ----
     const distanciaActual = camera.position.length();
 
-    // Si la cámara está más lejos que distanciaParada, queremos que gire (velocidad máxima).
-    // Si está más cerca, queremos que pare (velocidad 0).
-    // En lugar de cambiar de golpe, usamos una interpolación suave:
-    // lerp significa "linear interpolation" (interpolación lineal).
-    // Básicamente dice: "ve poco a poco desde donde estás hacia donde quieres ir".
-    // El 0.05 controla la rapidez de ese cambio: más grande = más rápido el cambio.
-    // Si estás lejos, gira. Si estás cerca, para.
-    if (distanciaActual > distanciaParada) {
-        velocidadRotacion += (velocidadMaxima - velocidadRotacion) * 0.02;
-    } else {
-        velocidadRotacion += (0 - velocidadRotacion) * 0.02;
-    }
+    // Convertir velocidadMaxima (rad/frame a 60fps) a rad/s
+    const velocidadMaximaPS = velocidadMaxima * 60;
+    const velocidadObjetivo = distanciaActual > distanciaParada ? velocidadMaximaPS : 0;
 
-    // Rotar el grupo completo (planeta + fotos giran juntos)
-    grupoPlaneta.rotation.y += velocidadRotacion;
+    // Interpolar suavemente la velocidad
+    velocidadRotacion += (velocidadObjetivo - velocidadRotacion) * Math.min(1.2 * deltaTime, 1);
+
+    // Rotar escalando por el tiempo real: misma velocidad a cualquier FPS
+    grupoPlaneta.rotation.y += velocidadRotacion * deltaTime;
 
     // ---- AJUSTAR CONTROLES SEGÚN DISTANCIA ----
-    // Cuando estás cerca (explorando fotos), los controles son más precisos
-    // Cuando estás lejos (viendo el planeta completo), los controles son más suaves
-
     if (distanciaActual < distanciaControlPreciso && !modoPreciso) {
-        // Cambiar a modo preciso (cerca)
         modoPreciso = true;
-        controls.enableDamping = true;       // Mantener inercia para suavidad
-        controls.dampingFactor = 0.04;       // Más amortiguación para pasos muy pequeños
-        controls.rotateSpeed = 0.15;         // Mucho más lento para precisión extrema
-        controls.zoomSpeed = 0.5;            // Zoom más controlado de cerca
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.04;
+        controls.rotateSpeed = 0.15;
+        controls.zoomSpeed = 0.5;
     } else if (distanciaActual >= distanciaControlPreciso && modoPreciso) {
-        // Cambiar a modo suave (lejos)
         modoPreciso = false;
-        controls.enableDamping = true;       // Activar inercia
-        controls.dampingFactor = 0.08;       // Suavidad
-        controls.rotateSpeed = 0.5;          // Rotación más lenta y controlada
-        controls.zoomSpeed = 0.8;            // Zoom más suave
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.rotateSpeed = 0.5;
+        controls.zoomSpeed = 0.8;
     }
 
     // ---- ZOOM SUAVE ----
-    // Interpolamos suavemente entre la distancia actual y la distancia objetivo
     zoomActual += (zoomObjetivo - zoomActual) * suavidadZoom;
-
-    // Aplicar el zoom a la cámara manteniendo la dirección
     const direccion = camera.position.clone().normalize();
     camera.position.copy(direccion.multiplyScalar(zoomActual));
 
-    // Actualizar zoomObjetivo para reflejar cambios si el usuario usa otros controles
     if (!renderer.domElement.matches(':hover')) {
         zoomObjetivo = camera.position.length();
         zoomActual = zoomObjetivo;
     }
 
-    // ---- ANIMAR EL PULSO DEL HALO ----
-    tiempoHalo += 0.02;  // Velocidad del pulso (más bajo = más lento)
+    // ---- ANIMAR EL PULSO DEL HALO (con delta time) ----
+    tiempoHalo += 1.2 * deltaTime; // 1.2 rad/s ≈ 0.02 × 60fps
 
-    // Math.sin crea una onda suave que va de -1 a 1
-    // La convertimos a un rango de 0.92 a 1.08 para que pulse sutilmente
     const escalaPulso = 1.0 + Math.sin(tiempoHalo) * 0.2;
-
-    // Aplicamos el pulso solo al halo, no al corazón
     halo.scale.set(escalaPulso, escalaPulso, 1);
 
-    // ---- HACER QUE EL TEXTO MIRE A LA CÁMARA ----
-    // Solo hacemos esto si el texto ya se ha creado (si textoMesh no es null).
+    // ---- TEXTO Y SOL-CORAZÓN MIRAN A LA CÁMARA ----
     if (textoMesh) {
         textoMesh.lookAt(camera.position);
     }
-
-    // ---- HACER QUE EL SOL-CORAZÓN MIRE A LA CÁMARA ----
-    // Así el corazón siempre está de frente, como un sol que te mira.
     solCorazon.lookAt(camera.position);
 
-    // Actualizar los controles del ratón (necesario para que funcionen correctamente).
     controls.update();
-
-    // Redibujamos la escena.
     renderer.render(scene, camera);
 }
 
