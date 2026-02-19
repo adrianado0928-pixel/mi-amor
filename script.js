@@ -654,6 +654,12 @@ const estrellas = new Points(geometriaEstrellas, materialEstrellas);
 scene.add(estrellas);
 
 // =====================
+// VARIABLES PARA CONTROLES ADAPTATIVOS
+// =====================
+// Distancia a partir de la cual los controles cambian de comportamiento
+const distanciaControlPreciso = 12;  // Cuando estás más cerca que esto, controles precisos
+
+// =====================
 // ORBIT CONTROLS (MEJORADOS)
 // =====================
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -662,21 +668,15 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.minDistance = 10.2;   // Acercamiento máximo
 controls.maxDistance = 100;   // Alejamiento máximo
 
-// ---- DAMPING (AMORTIGUACIÓN) ----
-// Esto hace que los movimientos tengan inercia, como si la cámara tuviera peso.
-// Cuando dejas de arrastrar, la cámara no para de golpe, sino que se va frenando suavemente.
+// ---- CONFIGURACIÓN INICIAL DAMPING Y VELOCIDAD ----
+const distanciaInicial = camera.position.length();
+const inicialEsPreciso = distanciaInicial < distanciaControlPreciso;
+let modoPreciso = inicialEsPreciso;
+
+controls.rotateSpeed = inicialEsPreciso ? 0.15 : 0.8;
+controls.zoomSpeed = inicialEsPreciso ? 0.5 : 0.8;
 controls.enableDamping = true;
-controls.dampingFactor = 0.05;  // Entre 0.05 (muy suave) y 0.25 (menos suave)
-// 0.08 es un buen equilibrio
-
-// ---- VELOCIDADES ----
-// Controlan qué tan rápido se mueve la cámara con cada acción
-
-// Velocidad de rotación (arrastrar con el ratón/dedo)
-controls.rotateSpeed = 0.8;  // Valor alto para permitir "impulsos" fuertes desde el inicio
-
-// Velocidad de zoom (rueda del ratón)
-controls.zoomSpeed = 0.8;    // Valor por defecto es 1.0
+controls.dampingFactor = inicialEsPreciso ? 0.08 : 0.015; // 0.015 permite giros largos pero controlables
 // Más bajo = zoom más suave y controlado
 // Más alto = zoom más agresivo
 
@@ -709,13 +709,6 @@ const velocidadMaxima = 0.003;
 // Escritorio: cámara a 25, para a 18.2 (~73% del recorrido)
 // Móvil: cámara a 40, para a 30 (~73% del recorrido) — para antes igual que en escritorio
 const distanciaParada = esMobil ? 25 : 18.2;
-
-// =====================
-// VARIABLES PARA CONTROLES ADAPTATIVOS
-// =====================
-// Distancia a partir de la cual los controles cambian de comportamiento
-const distanciaControlPreciso = 12;  // Cuando estás más cerca que esto, controles precisos
-let modoPreciso = true;               // Empezamos en true para que el loop lo cambie a false y aplique la inercia alta
 
 // =====================
 // VARIABLES PARA ZOOM SUAVE
