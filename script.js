@@ -724,7 +724,7 @@ let modoPreciso = false;              // Estado actual de los controles
 // =====================
 let zoomObjetivo = camera.position.length();  // Distancia objetivo a la que queremos llegar
 let zoomActual = zoomObjetivo;                 // Distancia actual (se interpola hacia el objetivo)
-const suavidadZoom = 0.1;                      // Velocidad de interpolación (0.05 = muy suave, 0.2 = más rápido)
+const suavidadZoom = 0.05;                      // Velocidad de interpolación (0.05 = muy suave, 0.2 = más rápido)
 
 // Vector reutilizable para el zoom (preallocado para evitar GC cada frame)
 const _direccionZoom = new Vector3();
@@ -753,13 +753,16 @@ renderer.domElement.addEventListener('wheel', onMouseWheel, { passive: false });
 function onMouseWheel(event) {
     event.preventDefault();  // Evitar scroll de página
 
-    // Calcular cuánto zoom queremos aplicar
     // event.deltaY es positivo cuando giras hacia abajo (alejar)
     // y negativo cuando giras hacia arriba (acercar)
-    const zoomDelta = event.deltaY * 0.002;  // Factor de escala (ajustable)
+    let zoomDelta = event.deltaY * 0.0003;  // Sensibilidad muy reducida para pasos más pequeños
 
-    // Actualizar el zoom objetivo
-    // Multiplicamos por (1 + zoomDelta) para hacer zoom proporcional a la distancia actual
+    // ---- LIMITAR "CARRERILLA" (CLAMP) ----
+    // Limitamos cuánto puede cambiar el zoom en un solo evento de rueda (máx 5% por tick)
+    // Esto evita que el zoom "se dispare" si mueves la rueda muy rápido.
+    zoomDelta = Math.max(-0.05, Math.min(0.05, zoomDelta));
+
+    // Actualizar el zoom objetivo proporcionalmente
     zoomObjetivo *= (1 + zoomDelta);
 
     // Limitar el zoom objetivo a los límites de los controles
@@ -841,9 +844,13 @@ function onTouchMove(event) {
             // Calcular el cambio de distancia
             const distanceChange = currentDistance - touchStartDistance;
 
-            // Aplicar zoom más sensible (factor de 0.01 = 1% por píxel de cambio)
-            // Aumentado 5x para que sea más responsivo
-            const zoomDelta = -distanceChange * 0.01;
+            // Calcular zoom delta base con pasos muy pequeños
+            let zoomDelta = -distanceChange * 0.002;
+
+            // ---- LIMITAR "CARRERILLA" (CLAMP) ----
+            // Limitamos cuánto puede cambiar el zoom en un solo frame de movimiento (máx 5%)
+            // Así el zoom es siempre discreto y controlado, incluso con gestos rápidos.
+            zoomDelta = Math.max(-0.05, Math.min(0.05, zoomDelta));
 
             // Aplicar zoom suave
             zoomObjetivo *= (1 + zoomDelta);
@@ -1149,13 +1156,15 @@ function animate() {
     }
 
     // ---- ZOOM SUAVE ----
+    // Interpolar zoomActual hacia zoomObjetivo para un efecto suave
     zoomActual += (zoomObjetivo - zoomActual) * suavidadZoom;
+
     // Reutilizar el mismo vector para evitar crear objetos en el heap cada frame
     _direccionZoom.copy(camera.position).normalize();
     camera.position.copy(_direccionZoom.multiplyScalar(zoomActual));
-    // Sincronizar zoomObjetivo con cambios externos (sin DOM query)
-    zoomObjetivo = camera.position.length();
-    zoomActual = zoomObjetivo;
+
+    // NOTA: Ya no reseteamos zoomObjetivo aquí, permitiendo que la cámara se mueva suavemente.
+    // Solo OrbitControls.update() puede cambiar la cámara fuera de nuestra lógica de zoom suave.
 
     // ---- ANIMAR EL PULSO DEL HALO (con delta time) ----
     tiempoHalo += 1.2 * deltaTime; // 1.2 rad/s ≈ 0.02 × 60fps
