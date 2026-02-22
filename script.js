@@ -30,6 +30,15 @@ const scene = new Scene();
 const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 // Detectar si es móvil y ajustar la posición inicial
 const esMobil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+// Variable para el control táctil del visor (declarada aquí para evitar errores de hoisting en iOS)
+let touchStartDistance = 0;
+
+// Añadir clase al body si es iOS para ajustes de CSS
+if (esIOS) {
+    document.body.classList.add('es-ios');
+}
 camera.position.z = esMobil ? 40 : 25;  // Más lejos en móviles para ver todo el planeta y el texto
 
 // =====================
@@ -39,7 +48,8 @@ camera.position.z = esMobil ? 40 : 25;  // Más lejos en móviles para ver todo 
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 // Usar el pixel ratio real de la pantalla (crucial para nitidez en Retina y pantallas AMOLED)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+// Forzar DPR 1 en iOS para ahorrar memoria de GPU (crucial para evitar crashes con muchas texturas)
+renderer.setPixelRatio(esIOS ? 1 : Math.min(window.devicePixelRatio, 2));
 document.getElementById('container').appendChild(renderer.domElement);
 
 // =====================
@@ -254,9 +264,9 @@ function crearTexto3D() {
     const canvas = document.createElement('canvas');
 
     // Definimos el tamaño del canvas: resolución suficiente para nitidez con mipmaps
-    // No necesitamos 16384px porque LinearMipmapLinearFilter ya optimiza por distancia
-    canvas.width = 4096;
-    canvas.height = 1024;
+    // Reducido para evitar crashes de GPU en iOS Safari (límite agresivo en canvas WebGL)
+    canvas.width = 2048;
+    canvas.height = 512;
 
     // El contexto es la herramienta con la que dibujamos en el canvas.
     // '2d' significa que vamos a dibujar en 2D (texto, formas, etc.).
@@ -270,7 +280,7 @@ function crearTexto3D() {
     // Fuente y tamaño ajustado a la nueva resolución del canvas
     // Courgette es una fuente romántica y suave de Google Fonts.
     // El fallback "cursive" se usa si Courgette no se carga (aunque debería cargarse siempre).
-    ctx.font = '240px "Courgette", cursive';
+    ctx.font = '120px "Courgette", cursive';
 
     // Color del texto: rosa suave, igual que antes.
     ctx.fillStyle = '#ffb3e6';
@@ -283,7 +293,7 @@ function crearTexto3D() {
 
     // ---- EFECTO DE BRILLO ----
     // shadowBlur controla cuán difuso es el brillo. Aumentado para la nueva resolución
-    ctx.shadowBlur = 20;
+    ctx.shadowBlur = 10;
 
     // shadowColor es el color del brillo. Un rosa más intenso que el texto.
     ctx.shadowColor = '#ff66cc';
@@ -817,7 +827,8 @@ function onTouchEnd(event) {
 }
 
 // Variables para el gesto de pellizco (pinch-to-zoom)
-let touchStartDistance = 0;
+// touchStartDistance ya fue declarada globalmente al inicio del archivo
+
 
 // Event listener para el gesto de pellizco
 renderer.domElement.addEventListener('touchmove', onTouchMove, { passive: false });
