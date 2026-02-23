@@ -486,7 +486,38 @@ function crearFoto3D(datosFoto) {
         datosFoto.ruta,
         // Callback que se ejecuta cuando la textura se ha cargado
         (texturaCargada) => {
-            // Obtener el ancho y alto real de la imagen
+            // ---- OPTIMIZACIÓN AGRESIVA PARA iOS ----
+            // Si es iOS, limitamos el tamaño de la textura en la GPU
+            // 51 fotos de varios MBs colapsan cualquier iPhone/iPad
+            if (esIOS) {
+                const MAX_TEXTURA = 512; // 512px es suficiente para las miniaturas del planeta
+                const img = texturaCargada.image;
+
+                if (img && (img.width > MAX_TEXTURA || img.height > MAX_TEXTURA)) {
+                    const canvas = document.createElement('canvas');
+                    let w = img.width;
+                    let h = img.height;
+
+                    if (w > h) {
+                        h = Math.round(h * (MAX_TEXTURA / w));
+                        w = MAX_TEXTURA;
+                    } else {
+                        w = Math.round(w * (MAX_TEXTURA / h));
+                        h = MAX_TEXTURA;
+                    }
+
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+
+                    // Reemplazar la imagen de la textura por el canvas reducido
+                    texturaCargada.image = canvas;
+                    texturaCargada.needsUpdate = true;
+                }
+            }
+
+            // Obtener el ancho y alto real (después de posible redimensionado)
             const anchoReal = texturaCargada.image.width;
             const altoReal = texturaCargada.image.height;
 
@@ -513,7 +544,9 @@ function crearFoto3D(datosFoto) {
             const geometriaCorrecta = new PlaneGeometry(ancho, alto);
 
             // Actualizar la geometría del mesh
-            mesh.geometry.dispose(); // Liberar memoria de la geometría anterior
+            if (mesh.geometry) {
+                mesh.geometry.dispose(); // Liberar memoria de la geometría anterior
+            }
             mesh.geometry = geometriaCorrecta;
         }
     );
@@ -933,7 +966,10 @@ function abrirVisor(index, posicionClic = null) {
 
     // ---- PRECARGAR LA IMAGEN ANTES DE MOSTRAR EL VISOR ----
     // Creamos una imagen temporal para precargarla
-    const imagenPrecarga = new Image();
+    let imagenPrecarga = new Image();
+
+    // Limpiar onload anterior por si acaso
+    imagenPrecarga.onload = null;
 
     imagenPrecarga.onload = function () {
         // La imagen ya está cargada, ahora podemos mostrarla
@@ -1012,6 +1048,10 @@ function abrirVisor(index, posicionClic = null) {
 
         // Pausar los controles de la cámara mientras el visor está abierto
         controls.enabled = false;
+
+        // Liberar la referencia de precarga
+        imagenPrecarga.onload = null;
+        imagenPrecarga = null;
     };
 
     // Iniciar la precarga de la imagen
@@ -1073,6 +1113,14 @@ function cerrarVisor() {
         // Ocultar el visor después de la animación
         setTimeout(() => {
             visor.classList.add('visor-oculto');
+
+            // LIMPIEZA DE MEMORIA: Liberar la imagen del visor
+            // Esto es crucial en iOS Safari para evitar que se acumulen imágenes de megabytes en RAM
+            const imagenVisor = document.getElementById('visor-imagen');
+            if (imagenVisor) {
+                imagenVisor.src = "";
+                imagenVisor.removeAttribute('src');
+            }
 
             // Reactivar los controles de la cámara
             controls.enabled = true;
