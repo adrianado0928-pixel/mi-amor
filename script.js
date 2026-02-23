@@ -964,95 +964,88 @@ function abrirVisor(index, posicionClic = null) {
     const flipContainer = document.getElementById('foto-flip-container');
     const reverso = document.getElementById('foto-reverso');
 
-    // ---- PRECARGAR LA IMAGEN ANTES DE MOSTRAR EL VISOR ----
-    // Creamos una imagen temporal para precargarla
+    // Asegurarse de que empieza en la cara frontal (no volteada)
+    flipContainer.classList.remove('volteado');
+
+    // Rellenar el contenido de texto INMEDIATAMENTE (antes de cargar la imagen)
+    // Esto evita la sensación de retraso en el título y asegura que el contador aparezca
+    titulo.textContent = datos.titulo;
+    contador.textContent = `Foto ${index + 1} de ${fotosMeshes.length}`;
+
+    // Mostrar/ocultar fecha
+    if (datos.fecha && datos.fecha.trim() !== '') {
+        fecha.textContent = datos.fecha;
+        fecha.style.display = 'block';
+    } else {
+        fecha.style.display = 'none';
+    }
+
+    // Mostrar/ocultar descripción
+    if (datos.descripcion && datos.descripcion.trim() !== '') {
+        descripcion.textContent = datos.descripcion;
+        reverso.style.display = 'flex';
+    } else {
+        descripcion.textContent = 'Sin descripción';
+        reverso.style.display = 'flex';
+    }
+
+    // No ocultar textos inicialmente para que la respuesta sea instantánea
+    visor.classList.remove('visor-textos-ocultos');
+
+    // ---- PRECARGAR LA IMAGEN ----
     let imagenPrecarga = new Image();
-
-    // Limpiar onload anterior por si acaso
-    imagenPrecarga.onload = null;
-
     imagenPrecarga.onload = function () {
         // La imagen ya está cargada, ahora podemos mostrarla
-
-        // Rellenar el contenido
         imagen.src = datos.ruta;
-        titulo.textContent = datos.titulo;
 
-        // Mostrar/ocultar fecha
-        if (datos.fecha && datos.fecha.trim() !== '') {
-            fecha.textContent = datos.fecha;
-            fecha.style.display = 'block';
-        } else {
-            fecha.style.display = 'none';
-        }
-
-        // Mostrar/ocultar descripción
-        if (datos.descripcion && datos.descripcion.trim() !== '') {
-            descripcion.textContent = datos.descripcion;
-            reverso.style.display = 'flex';
-        } else {
-            descripcion.textContent = 'Sin descripción';
-            reverso.style.display = 'flex';
-        }
-
-        // Contador
-        contador.textContent = `Foto ${index + 1} de ${fotosMeshes.length}`;
-
-        // Ajustar el tamaño del reverso al de la imagen
-        const anchoImagen = imagen.offsetWidth;
-        const altoImagen = imagen.offsetHeight;
-        reverso.style.width = anchoImagen + 'px';
-        reverso.style.height = altoImagen + 'px';
-
-        // Asegurarse de que empieza en la cara frontal (no volteada)
-        flipContainer.classList.remove('volteado');
-
-        // OCULTAR TEXTOS INICIALMENTE para que aparezcan después de la animación
-        visor.classList.add('visor-textos-ocultos');
-
-        // ---- ANIMACIÓN DESDE LA POSICIÓN DE LA FOTO EN EL PLANETA ----
-        if (posicionClic) {
-            // Calcular el desplazamiento desde el centro de la pantalla a la posición de la foto
-            const centroX = window.innerWidth / 2;
-            const centroY = window.innerHeight / 2;
-            const deltaX = posicionClic.x - centroX;
-            const deltaY = posicionClic.y - centroY;
-
-            // Establecer posición inicial (muy pequeño en la posición de la foto)
-            const visorContenido = document.getElementById('visor-contenido');
-            visorContenido.style.transition = 'none';
-            visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.05)`;
-            visorContenido.style.opacity = '0.3';
-
-            // Forzar reflow
-            visorContenido.offsetHeight;
-
-            // Reactivar transición
-            visorContenido.style.transition = 'transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.7s ease';
-        }
-
-        // Mostrar el visor
-        visor.classList.remove('visor-oculto');
-
-        // Animar hacia el centro
+        // Ajustar el tamaño del reverso al de la imagen una vez cargada
+        // Forzamos un pequeño delay para que el navegador tenga las dimensiones reales
         setTimeout(() => {
-            const visorContenido = document.getElementById('visor-contenido');
-            visorContenido.style.transform = 'translate(0, 0) scale(1)';
-            visorContenido.style.opacity = '1';
-
-            // MOSTRAR TEXTOS después de que la foto llegue al centro (700ms)
-            setTimeout(() => {
-                visor.classList.remove('visor-textos-ocultos');
-            }, 700); // Esperar a que termine la animación de entrada
+            const anchoImagen = imagen.offsetWidth;
+            const altoImagen = imagen.offsetHeight;
+            if (anchoImagen > 0) {
+                reverso.style.width = anchoImagen + 'px';
+                reverso.style.height = altoImagen + 'px';
+            }
         }, 50);
-
-        // Pausar los controles de la cámara mientras el visor está abierto
-        controls.enabled = false;
 
         // Liberar la referencia de precarga
         imagenPrecarga.onload = null;
         imagenPrecarga = null;
     };
+
+    // ---- ANIMACIÓN DESDE LA POSICIÓN DE LA FOTO EN EL PLANETA ----
+    if (posicionClic) {
+        // Calcular el desplazamiento desde el centro de la pantalla a la posición de la foto
+        const centroX = window.innerWidth / 2;
+        const centroY = window.innerHeight / 2;
+        const deltaX = posicionClic.x - centroX;
+        const deltaY = posicionClic.y - centroY;
+
+        // Establecer posición inicial (muy pequeño en la posición de la foto)
+        const visorContenido = document.getElementById('visor-contenido');
+        visorContenido.style.transition = 'none';
+        visorContenido.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.05)`;
+        visorContenido.style.opacity = '0.3';
+
+        // Forzar reflow
+        visorContenido.offsetHeight;
+
+        // Reactivar transición
+        visorContenido.style.transition = 'transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.7s ease';
+    }
+
+    // Mostrar el visor
+    visor.classList.remove('visor-oculto');
+
+    // Animar hacia el centro
+    setTimeout(() => {
+        const visorContenido = document.getElementById('visor-contenido');
+        if (visorContenido) {
+            visorContenido.style.transform = 'translate(0, 0) scale(1)';
+            visorContenido.style.opacity = '1';
+        }
+    }, 50);
 
     // Iniciar la precarga de la imagen
     imagenPrecarga.src = datos.ruta;
