@@ -187,6 +187,8 @@ This license governs the use, modification, distribution, and exploitation of th
 
 7.5 SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF IMPLIED WARRANTIES. IN SUCH JURISDICTIONS, THE FOREGOING EXCLUSIONS MAY NOT APPLY TO THE LICENSEE, AND THE LICENSEE MAY HAVE ADDITIONAL RIGHTS UNDER APPLICABLE LAW.
 
+7.6 NO SUPPORT OBLIGATION. THE AUTHOR IS UNDER NO OBLIGATION TO PROVIDE ANY SUPPORT, MAINTENANCE, UPDATES, BUG FIXES, OR MODIFICATIONS FOR THE SOFTWARE. THE AUTHOR PROVIDES NO GUARANTEE OF CONTINUED AVAILABILITY OR TECHNICAL ASSISTANCE.
+
 ================================================================================
 
 8. LIMITATION OF LIABILITY
@@ -302,6 +304,12 @@ This license governs the use, modification, distribution, and exploitation of th
 
 11.13 ACKNOWLEDGMENT. BY USING, COPYING, MODIFYING, OR DISTRIBUTING THE SOFTWARE, THE LICENSEE ACKNOWLEDGES THAT THEY HAVE READ THIS LICENSE, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS AND CONDITIONS.
 
+11.14 NO ENDORSEMENT. THE NAME OF THE AUTHOR SHALL NOT BE USED TO ENDORSE OR PROMOTE PRODUCTS OR SERVICES DERIVED FROM THIS SOFTWARE WITHOUT PRIOR EXPLICIT WRITTEN PERMISSION.
+
+11.15 PATENT PEACE. THIS LICENSE SHALL TERMINATE AUTOMATICALLY IF THE LICENSEE INSTITUTES PATENT LITIGATION AGAINST THE AUTHOR (INCLUDING A CROSS-CLAIM OR COUNTERCLAIM IN A LAWSUIT) ALLEGING THAT THE SOFTWARE CONSTITUTES DIRECT OR CONTRIBUTORY PATENT INFRINGEMENT.
+
+11.16 THIRD-PARTY LIBRARIES. THE SOFTWARE MAY RELY ON THIRD-PARTY LIBRARIES OR COMPONENTS (E.G., THREE.JS). THIS LICENSE DOES NOT GRANT RIGHTS TO SUCH THIRD-PARTY COMPONENTS, WHICH REMAIN SUBJECT TO THEIR RESPECTIVE LICENSES.
+
 ================================================================================
 
 END OF LICENSE
@@ -396,6 +404,8 @@ Esta licencia rige el uso, modificación, distribución y explotación del softw
 
 7.1 EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO. EL LICENCIATARIO ASUME TODO EL RIESGO RELACIONADO CON LA CALIDAD Y EL RENDIMIENTO DEL SOFTWARE.
 
+7.2 SIN OBLIGACIÓN DE SOPORTE. EL AUTOR NO TIENE OBLIGACIÓN DE PROPORCIONAR SOPORTE, MANTENIMIENTO, ACTUALIZACIONES O CORRECCIONES DE ERRORES.
+
 ================================================================================
 
 8. LIMITACIÓN DE RESPONSABILIDAD
@@ -423,6 +433,12 @@ Esta licencia rige el uso, modificación, distribución y explotación del softw
 11. DISPOSICIONES VARIAS
 
 11.1 En caso de conflicto entre la versión en inglés y la versión en español de esta Licencia, ambas se considerarán vinculantes, pero la versión que ofrezca la mayor protección a los derechos de propiedad intelectual del Autor prevalecerá.
+
+11.2 PROHIBICIÓN DE ENDOSO. El nombre del Autor no podrá utilizarse para promocionar productos derivados de este Software sin permiso previo.
+
+11.3 PAZ DE PATENTES. La licencia terminará automáticamente si el Licenciatario inicia litigios de patentes contra el Autor.
+
+11.4 LIBRERÍAS DE TERCEROS. El Software puede depender de librerías de terceros (ej. Three.js). Esta licencia no otorga derechos sobre dichos componentes, que se rigen por sus propias licencias.
 
 ================================================================================
 
