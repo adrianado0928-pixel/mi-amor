@@ -13,7 +13,7 @@ This license governs the use, modification, distribution, and exploitation of th
 
 1. DEFINITIONS
 
-1.1 "Software" means the original computer program code, scripts, algorithms, documentation, design specifications, configuration files, data structures, user interfaces, and all associated materials created by the Author and made available under this License, whether in source code form, object code form, executable form, or any other form.
+1.1 "Software" means the original computer program code, scripts, algorithms, documentation, design specifications, configuration files, data structures, user interfaces, and all associated materials created by the Author and made available under this License, whether in source code form, object code form, executable form, or any other form. THE DEFINITION OF SOFTWARE EXPRESSLY EXCLUDES ALL IMAGE FILES LOCATED IN THE "fotos/" DIRECTORY OR ANY OTHER PERSONAL IMAGES DEPLOYED WITH THE SOFTWARE.
 
 1.2 "Author" means Adrián Lavado Munuera, the original creator, copyright holder, and intellectual property owner of the Software.
 
@@ -146,7 +146,12 @@ This license governs the use, modification, distribution, and exploitation of th
     (c) Cause harm, damage, or injury to persons, property, or the environment;
     (d) Circumvent security measures, access controls, or technological protection measures.
 
-5.7 The Licensee acknowledges that certain uses of the Software may require compliance with additional legal requirements, including but not limited to data protection regulations, accessibility standards, or industry-specific regulations. The Licensee is solely responsible for ensuring such compliance.
+5.7 PERSONAL IMAGE AND PRIVACY RESTRICTION. All images and photographs contained within the "fotos/" directory or otherwise depicting the Author or other identifiable individuals are strictly excluded from the licenses granted herein.
+    (a) The Licensee is expressly prohibited from copying, distributing, displaying, modifying, or using these personal images for any purpose whatsoever.
+    (b) These images are provided solely as examples of the Software's functionality in the context of the Author's personal deployment and remain the exclusive property of the respective rightsholders.
+    (c) Any unauthorized use of these images constitutes a violation of privacy rights, image rights, and copyright, and will be prosecuted to the maximum extent permitted by law.
+
+5.8 The Licensee acknowledges that certain uses of the Software may require compliance with additional legal requirements, including but not limited to data protection regulations, accessibility standards, or industry-specific regulations. The Licensee is solely responsible for ensuring such compliance.
 
 ================================================================================
 
@@ -323,7 +328,7 @@ Esta licencia rige el uso, modificación, distribución y explotación del softw
 
 1. DEFINICIONES
 
-1.1 "Software" significa el código original del programa de computadora, scripts, algoritmos, documentación, especificaciones de diseño, archivos de configuración, estructuras de datos, interfaces de usuario y todos los materiales asociados creados por el Autor y puestos a disposición bajo esta Licencia.
+1.1 "Software" significa el código original del programa de computadora, scripts, algoritmos, documentación, especificaciones de diseño, archivos de configuración, estructuras de datos, interfaces de usuario y todos los materiales asociados creados por el Autor y puestos a disposición bajo esta Licencia. LA DEFINICIÓN DE SOFTWARE EXCLUYE EXPRESAMENTE TODOS LOS ARCHIVOS DE IMAGEN UBICADOS EN EL DIRECTORIO "fotos/" O CUALQUIER OTRA IMAGEN PERSONAL DESPLEGADA CON EL SOFTWARE.
 
 1.2 "Autor" significa Adrián Lavado Munuera, el creador original, titular de los derechos de autor y propietario de la propiedad intelectual del Software.
 
@@ -374,6 +379,10 @@ Esta licencia rige el uso, modificación, distribución y explotación del softw
 5.1 El Licenciatario no debe eliminar ni alterar ningún aviso de derechos de autor o Atribución.
 
 5.2 Se prohíbe expresamente el uso del Software, en su totalidad o en parte, para entrenar, desarrollar o mejorar modelos de inteligencia artificial o sistemas de aprendizaje automático sin el permiso explícito por escrito del Autor.
+
+5.3 RESTRICCIÓN DE IMAGEN PERSONAL Y PRIVACIDAD. Todas las imágenes y fotografías contenidas en el directorio "fotos/" o que representen al Autor u otras personas identificables están estrictamente excluidas de las licencias otorgadas en este documento.
+    (a) Queda expresamente prohibido al Licenciatario copiar, distribuir, mostrar, modificar o utilizar estas imágenes personales para cualquier propósito.
+    (b) Cualquier uso no autorizado de estas imágenes constituye una violación de los derechos de privacidad, derechos de imagen y derechos de autor, y será procesado con todo el rigor de la ley.
 
 ================================================================================
 
