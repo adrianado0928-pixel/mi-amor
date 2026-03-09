@@ -29,12 +29,6 @@ body {
     overflow: hidden;
 }
 
-/* Desactivar backdrop-filter en iOS para evitar bugs de Safari con WebGL */
-body.es-ios #visor-fondo {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-}
-
 /* =====================
    TEXTO PRINCIPAL
    ===================== */
@@ -70,11 +64,11 @@ body.es-ios #visor-fondo {
 
     /* font-family: la fuente que usa el texto. Le ponemos varias opciones separadas por comas,
        así si el usuario no tiene la primera, usa la segunda, y así sucesivo.
-       "Courgette" es la fuente principal romántica de Google Fonts */
-    font-family: 'Courgette', cursive;
+       "Georgia" es una fuente elegante que viene instalada en casi todos los ordenadores */
+    font-family: 'Georgia', serif;
 
-    /* font-style: italic → la fuente Courgette ya es cursiva, así que esto es opcional */
-    font-style: pointer;
+    /* font-style: italic → pone el texto en cursiva, queda más romántico */
+    font-style: italic;
 
     /* ========= EFECTO DE BRILLO ========= */
     /* text-shadow: esto es lo que hace que el texto parezca que brilla.
@@ -130,8 +124,7 @@ body.es-ios #visor-fondo {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 1000;
-    /* Por encima de todo */
+    z-index: 1000;  /* Por encima de todo */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -145,8 +138,7 @@ body.es-ios #visor-fondo {
 #visor-fotos.visor-oculto {
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;
-    /* No captura clics cuando está oculto */
+    pointer-events: none;  /* No captura clics cuando está oculto */
 }
 
 /* Cuando el visor está oculto, el contenido vuelve a su posición inicial */
@@ -162,10 +154,8 @@ body.es-ios #visor-fondo {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    /* Negro con 85% opacidad */
-    backdrop-filter: blur(5px);
-    /* Efecto de desenfoque del fondo */
+    background-color: rgba(0, 0, 0, 0.85);  /* Negro con 85% opacidad */
+    backdrop-filter: blur(5px);  /* Efecto de desenfoque del fondo */
 }
 
 /* Contenedor del contenido (foto, título, etc.) */
@@ -183,21 +173,30 @@ body.es-ios #visor-fondo {
     transform: scale(1) translate(0, 0);
     opacity: 1;
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
-        opacity 0.6s ease;
+                opacity 0.6s ease;
 }
 
-
-/* Animación de aparición/desaparición de textos del visor */
-#visor-titulo,
-#visor-contador {
-    transition: opacity 0.4s ease, transform 0.4s ease;
+/* Botón de cerrar (X) */
+#visor-cerrar {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #ffb3e6;  /* Rosa como el texto principal */
+    font-size: 3rem;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    font-weight: 300;
+    line-height: 1;
+    padding: 0;
+    width: 50px;
+    height: 50px;
 }
 
-/* Clase para ocultar textos durante animaciones */
-.visor-textos-ocultos #visor-titulo,
-.visor-textos-ocultos #visor-contador {
-    opacity: 0;
-    pointer-events: none;
+#visor-cerrar:hover {
+    color: #ff66cc;  /* Rosa más intenso al pasar el ratón */
+    transform: scale(1.1);  /* Crece ligeramente */
 }
 
 /* Título de la foto */
@@ -210,7 +209,6 @@ body.es-ios #visor-fondo {
     text-shadow:
         0px 0px 10px #ff66cc,
         0px 0px 20px #ff66cc;
-    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 /* =====================
@@ -221,17 +219,14 @@ body.es-ios #visor-fondo {
 #foto-flip-container {
     position: relative;
     /* NO fijamos width ni height aquí, se ajustará al contenido */
-    perspective: 1500px;
-    /* Perspectiva 3D aumentada para mejor efecto */
+    perspective: 1500px;  /* Perspectiva 3D aumentada para mejor efecto */
     cursor: pointer;
-    transition: transform 0.3s ease;
-    /* Transición suave para el hover */
+    transition: transform 0.3s ease;  /* Transición suave para el hover */
 }
 
 /* Efecto hover: agrandar ligeramente cuando pasas el cursor */
 #foto-flip-container:hover {
-    transform: scale(1.05);
-    /* Crece un 5% */
+    transform: scale(1.05);  /* Crece un 5% */
 }
 
 /* Contenedor interno que realmente rota */
@@ -239,8 +234,7 @@ body.es-ios #visor-fondo {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
-    /* Animación suave y profesional */
+    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);  /* Animación suave y profesional */
     transform-style: preserve-3d;
 }
 
@@ -255,8 +249,7 @@ body.es-ios #visor-fondo {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    /* Safari */
+    -webkit-backface-visibility: hidden;  /* Safari */
     transform-style: preserve-3d;
     display: flex;
     justify-content: center;
@@ -272,8 +265,7 @@ body.es-ios #visor-fondo {
     height: 100%;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    transform: rotateY(180deg);
-    /* Empieza volteada */
+    transform: rotateY(180deg);  /* Empieza volteada */
     transform-style: preserve-3d;
 
     /* Estilos del reverso como una tarjeta */
@@ -286,10 +278,8 @@ body.es-ios #visor-fondo {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 40px;
     box-sizing: border-box;
-    /* Evitar que el contenido se desborde */
-    overflow: hidden;
 }
 
 /* Imagen principal */
@@ -311,18 +301,12 @@ body.es-ios #visor-fondo {
     gap: 20px;
     align-items: center;
     width: 100%;
-    /* Limitar altura para no salirse del reverso */
-    max-height: 100%;
-    overflow-y: auto;
-    /* Scroll suave si hay demasiado contenido */
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 102, 204, 0.5) transparent;
 }
 
 /* Fecha en el reverso */
 #visor-fecha {
     color: #ff66cc;
-    font-family: 'Courgette', cursive;
+    font-family: 'Georgia', serif;
     font-size: 1.2rem;
     text-align: center;
     margin: 0;
@@ -344,202 +328,14 @@ body.es-ios #visor-fondo {
         0px 0px 5px #ff66cc,
         0px 0px 10px #ff66cc;
     word-wrap: break-word;
-    overflow-wrap: break-word;
     max-width: 100%;
-    /* Fuente adaptable: más pequeña en fotos estrechas (verticales) */
-    font-size: clamp(0.85rem, 2.5vw, 1.5rem);
-    line-height: 1.5;
 }
 
 /* Contador de fotos */
 #visor-contador {
     color: #ff66cc;
-    font-family: 'Courgette', cursive;
+    font-family: 'Georgia', serif;
     font-size: 1rem;
     margin: 0;
     opacity: 0.7;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-/* =====================
-   ESTILOS PARA DISPOSITIVOS MÓVILES
-   ===================== */
-
-/* Evitar zoom no deseado en iOS */
-html {
-    -webkit-text-size-adjust: 100%;
-    touch-action: manipulation;
-}
-
-/* Hacer el canvas táctil más responsivo */
-#container canvas {
-    touch-action: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* Media query para pantallas pequeñas (móviles) */
-@media screen and (max-width: 768px) {
-
-    /* Texto principal más pequeño en móviles */
-    #texto-principal {
-        font-size: 1.5rem;
-        top: 20px;
-        padding: 0 10px;
-    }
-
-
-    /* Título del visor más pequeño */
-    #visor-titulo {
-        font-size: 1.5rem;
-        padding: 0 10px;
-    }
-
-    /* Imagen del visor optimizada para móviles */
-    #visor-imagen {
-        max-width: 90vw;
-        max-height: 60vh;
-    }
-
-    /* Contenido del visor con más espacio */
-    #visor-contenido {
-        max-width: 95vw;
-        max-height: 95vh;
-        gap: 15px;
-    }
-
-    /* Descripción y fecha más pequeñas */
-    #visor-descripcion {
-        font-size: 1.3rem;
-    }
-
-    #visor-fecha {
-        font-size: 1rem;
-    }
-
-    /* Reverso con menos padding en móvil */
-    #foto-reverso {
-        padding: 15px;
-    }
-
-    /* Contador más pequeño */
-    #visor-contador {
-        font-size: 0.9rem;
-    }
-}
-
-/* Media query para pantallas muy pequeñas (móviles en vertical) */
-@media screen and (max-width: 480px) {
-    #texto-principal {
-        font-size: 1.2rem;
-        top: 15px;
-    }
-
-    #visor-titulo {
-        font-size: 1.2rem;
-    }
-
-    #visor-descripcion {
-        font-size: 1.1rem;
-    }
-
-    #visor-imagen {
-        max-width: 95vw;
-        max-height: 55vh;
-    }
-}
-
-/* Optimizaciones para dispositivos táctiles */
-@media (hover: none) and (pointer: coarse) {
-
-    /* En dispositivos táctiles, hacer los elementos interactivos más grandes */
-
-
-    #foto-flip-container:hover {
-        transform: none;
-    }
-
-    /* Añadir un indicador visual cuando se toca */
-    #foto-flip-container:active {
-        transform: scale(0.98);
-    }
-}
-
-/* =====================
-   PANTALLA DE CARGA (LOADER)
-   ===================== */
-#loader-pantalla {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #000000;
-    z-index: 9999;
-    /* Por encima de TODO */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 1s ease, visibility 1s ease;
-}
-
-#loader-pantalla.oculto {
-    opacity: 0;
-    visibility: hidden;
-}
-
-#loader-contenido {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-#corazon-loader {
-    animation: pulsoCorazon 2.5s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8));
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#corazon-loader svg {
-    display: block;
-}
-
-#barra-carga-container {
-    width: 250px;
-    height: 6px;
-    background-color: rgba(255, 179, 230, 0.2);
-    border-radius: 3px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(255, 102, 204, 0.2);
-}
-
-#barra-carga-progreso {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #ff66cc, #ffb3e6);
-    box-shadow: 0 0 15px #ff66cc;
-    transition: width 0.3s ease;
-}
-
-#texto-carga {
-    color: #ffb3e6;
-    font-family: 'Courgette', cursive;
-    font-size: 1.5rem;
-    text-shadow: 0 0 10px #ff66cc;
-}
-
-@keyframes pulsoCorazon {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-
-    100% {
-        transform: scale(1);
-    }
 }
