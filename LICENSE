@@ -13,7 +13,7 @@ This license governs the use, modification, distribution, and exploitation of th
 
 1. DEFINITIONS
 
-1.1 "Software" means the original computer program code, scripts, algorithms, documentation, design specifications, configuration files, data structures, user interfaces, and all associated materials created by the Author and made available under this License, whether in source code form, object code form, executable form, or any other form.
+1.1 "Software" means the original computer program code, scripts, algorithms, documentation, design specifications, configuration files, data structures, user interfaces, and all associated materials created by the Author and made available under this License, whether in source code form, object code form, executable form, or any other form. THE DEFINITION OF SOFTWARE EXPRESSLY EXCLUDES ALL IMAGE FILES LOCATED IN THE "fotos/" DIRECTORY OR ANY OTHER PERSONAL IMAGES DEPLOYED WITH THE SOFTWARE.
 
 1.2 "Author" means Adrián Lavado Munuera, the original creator, copyright holder, and intellectual property owner of the Software.
 
@@ -34,6 +34,8 @@ This license governs the use, modification, distribution, and exploitation of th
     (j) Any use that creates indirect financial benefit, including cost savings, efficiency gains valued in monetary terms, or competitive market positioning.
 
 1.6 "Non-Commercial Use" means use of the Software solely for personal, educational, academic research, or charitable purposes where no Commercial Use as defined in Section 1.5 occurs, and where the Licensee does not receive and does not expect to receive any form of financial compensation or commercial advantage related to such use.
+
+1.6.1 For the avoidance of doubt, Non-Commercial Use expressly includes the display of the Software or Derivative Works within a Licensee's personal professional portfolio, curriculum vitae, or personal non-commercial website for the purpose of demonstrating technical proficiency to potential employers or clients, provided that the Software itself is not being sold or used to provide a paid service.
 
 1.7 "Attribution" means the conspicuous and unambiguous acknowledgment of the Author's authorship and intellectual contribution as specified in Section 3 of this License.
 
@@ -80,12 +82,10 @@ This license governs the use, modification, distribution, and exploitation of th
     (d) A notice in substantially the following form:
         "This work is based on software originally created by Adrián Lavado Munuera (Ad). Original software available at https://github.com/ag4pornis/mi-amor. Used under the AD Non-Commercial Attribution License."
 
-3.3 Attribution must be placed in locations where it will be readily accessible and visible to users and subsequent developers, including but not limited to:
-    (a) Source code file headers or prominent locations within the codebase;
-    (b) README files, documentation files, or other introductory materials;
-    (c) User-facing interfaces, including "About" sections, credits screens, or similar locations where authorship information is customarily displayed;
-    (d) Distribution packages, installers, or container metadata;
-    (e) Any publicly accessible repositories, websites, or platforms where the Software or Derivative Works are made available.
+3.3 Attribution must be placed in at least one prominent location where it will be readily accessible and visible to users and subsequent developers, such as:
+    (a) A README file or other primary documentation; OR
+    (b) A user-facing "About" section, credits screen, or similar interface.
+    While the Author encourages attribution in source code headers and distribution packages, it is not strictly required if attribution is clearly provided in one of the primary locations specified above.
 
 3.4 Attribution must remain intact and unmodified across all versions, Modifications, and Derivative Works. The Licensee may add their own attribution for their contributions to Derivative Works, but such additional attribution must not obscure, diminish, or supplant the Author's Attribution.
 
@@ -146,7 +146,12 @@ This license governs the use, modification, distribution, and exploitation of th
     (c) Cause harm, damage, or injury to persons, property, or the environment;
     (d) Circumvent security measures, access controls, or technological protection measures.
 
-5.7 The Licensee acknowledges that certain uses of the Software may require compliance with additional legal requirements, including but not limited to data protection regulations, accessibility standards, or industry-specific regulations. The Licensee is solely responsible for ensuring such compliance.
+5.7 PERSONAL IMAGE AND PRIVACY RESTRICTION. All images and photographs contained within the "fotos/" directory or otherwise depicting the Author or other identifiable individuals are strictly excluded from the licenses granted herein.
+    (a) The Licensee is expressly prohibited from copying, distributing, displaying, modifying, or using these personal images for any purpose whatsoever.
+    (b) These images are provided solely as examples of the Software's functionality in the context of the Author's personal deployment and remain the exclusive property of the respective rightsholders.
+    (c) Any unauthorized use of these images constitutes a violation of privacy rights, image rights, and copyright, and will be prosecuted to the maximum extent permitted by law.
+
+5.8 The Licensee acknowledges that certain uses of the Software may require compliance with additional legal requirements, including but not limited to data protection regulations, accessibility standards, or industry-specific regulations. The Licensee is solely responsible for ensuring such compliance.
 
 ================================================================================
 
@@ -212,31 +217,33 @@ This license governs the use, modification, distribution, and exploitation of th
 
 9. TERMINATION
 
-9.1 This License and all rights granted hereunder shall terminate automatically and immediately, without notice, upon the occurrence of any of the following events:
-    (a) The Licensee's failure to comply with the Attribution Requirements set forth in Section 3;
-    (b) The Licensee's engagement in Commercial Use without obtaining a Commercial License as required by Section 4;
-    (c) The Licensee's violation of any Restriction specified in Section 5;
-    (d) The Licensee's breach of any other material term or condition of this License.
+9.1 Termination for Material Breach. This License and all rights granted hereunder shall terminate automatically and immediately, without notice, upon:
+    (a) The Licensee's engagement in Commercial Use without obtaining a Commercial License as required by Section 4;
+    (b) The Licensee's violation of any Restriction specified in Section 5 (excluding Attribution).
 
-9.2 Upon termination:
+9.2 Termination with Cure Period. For breaches of Attribution Requirements (Section 3) or other non-commercial material terms:
+    (a) If the breach is curable, the Licensee shall have thirty (30) days from becoming aware of the breach or receiving notice from the Author to cure it.
+    (b) Failure to cure within this period results in automatic and immediate termination of all rights granted under this License.
+
+9.3 Upon termination:
     (a) All rights granted to the Licensee under this License shall immediately cease;
     (b) The Licensee must immediately cease all use, Distribution, and exploitation of the Software and all Derivative Works;
     (c) The Licensee must, at the Author's option, either destroy or return all copies of the Software and Derivative Works in the Licensee's possession or control;
     (d) The Licensee must provide written certification to the Author confirming compliance with the foregoing obligations.
 
-9.3 Termination shall not relieve the Licensee of any obligations or liabilities accrued prior to termination, including but not limited to:
+9.4 Termination shall not relieve the Licensee of any obligations or liabilities accrued prior to termination, including but not limited to:
     (a) Liability for damages caused by breach of this License;
     (b) Obligations to cease use of the Software and remove Derivative Works from circulation;
     (c) Liability for unauthorized Commercial Use or other violations.
 
-9.4 The following provisions shall survive termination of this License: Sections 1 (Definitions), 6 (Intellectual Property and Copyright), 7 (Warranty Disclaimer), 8 (Limitation of Liability), 9.3 (survival of obligations), 10 (Governing Law and Jurisdiction), and 11 (Miscellaneous Provisions).
+9.5 The following provisions shall survive termination of this License: Sections 1 (Definitions), 6 (Intellectual Property and Copyright), 7 (Warranty Disclaimer), 8 (Limitation of Liability), 9.4 (survival of obligations), 10 (Governing Law and Jurisdiction), and 11 (Miscellaneous Provisions).
 
-9.5 Reinstatement of rights following termination may be granted solely at the Author's discretion upon written application by the Licensee demonstrating:
+9.6 Reinstatement of rights following termination may be granted solely at the Author's discretion upon written application by the Licensee demonstrating:
     (a) Full remediation of all violations;
     (b) Compensation for any damages incurred by the Author;
     (c) Provision of adequate assurances against future violations.
 
-9.6 Termination of this License does not affect the rights of third parties who received the Software or Derivative Works from the Licensee prior to termination, provided such third parties remain in compliance with the terms of this License.
+9.7 Termination of this License does not affect the rights of third parties who received the Software or Derivative Works from the Licensee prior to termination, provided such third parties remain in compliance with the terms of this License.
 
 ================================================================================
 
@@ -302,3 +309,121 @@ END OF LICENSE
 For inquiries regarding Commercial Licensing, please contact:
 Adrián Lavado Munuera
 adrin_bing2@outlook.es
+
+================================================================================
+================================================================================
+
+LICENCIA DE ATRIBUCIÓN NO COMERCIAL AD
+Versión 1.0
+
+Copyright © 2026 Adrián Lavado Munuera
+
+================================================================================
+
+PREÁMBULO
+
+Esta licencia rige el uso, modificación, distribución y explotación del software y los archivos de documentación asociados cubiertos por la misma. Al ejercer cualquier derecho otorgado bajo esta licencia, usted acepta y acuerda estar sujeto a todos los términos y condiciones establecidos en este documento. Si no está de acuerdo con estos términos, no está autorizado a utilizar, copiar, modificar o distribuir el Software.
+
+================================================================================
+
+1. DEFINICIONES
+
+1.1 "Software" significa el código original del programa de computadora, scripts, algoritmos, documentación, especificaciones de diseño, archivos de configuración, estructuras de datos, interfaces de usuario y todos los materiales asociados creados por el Autor y puestos a disposición bajo esta Licencia. LA DEFINICIÓN DE SOFTWARE EXCLUYE EXPRESAMENTE TODOS LOS ARCHIVOS DE IMAGEN UBICADOS EN EL DIRECTORIO "fotos/" O CUALQUIER OTRA IMAGEN PERSONAL DESPLEGADA CON EL SOFTWARE.
+
+1.2 "Autor" significa Adrián Lavado Munuera, el creador original, titular de los derechos de autor y propietario de la propiedad intelectual del Software.
+
+1.3 "Licenciatario" o "Usted" significa cualquier individuo, entidad u organización que ejerza los derechos otorgados bajo esta Licencia.
+
+1.4 "Obra Derivada" significa cualquier trabajo, programa o aplicación que se base, incorpore, extienda, modifique o adapte el Software o cualquier parte del mismo.
+
+1.5 "Uso Comercial" significa cualquier uso o explotación del Software o de Obras Derivadas por el cual el Licenciatario o un tercero reciba, o tenga el potencial de recibir, compensación financiera o ventaja comercial, ya sea directa o indirectamente.
+
+1.6 "Uso No Comercial" significa el uso del Software únicamente para fines personales, educativos, de investigación académica o caritativos donde no se produzca ningún Uso Comercial.
+
+1.6.1 Para evitar dudas, el Uso No Comercial incluye expresamente la exhibición del Software o de Obras Derivadas dentro del portafolio profesional personal, currículum vitae o sitio web personal no comercial de un Licenciatario con el fin de demostrar competencia técnica a posibles empleadores o clientes, siempre que el Software en sí no se venda ni se utilice para proporcionar un servicio pago.
+
+1.7 "Atribución" significa el reconocimiento conspicuo e inequívoco de la autoría y contribución intelectual del Autor según lo especificado en la Sección 3 de esta Licencia.
+
+================================================================================
+
+2. CONCESIÓN DE DERECHOS PARA USO NO COMERCIAL
+
+2.1 Sujeto al cumplimiento estricto de todos los términos de esta Licencia, el Autor otorga al Licenciatario una licencia mundial, libre de regalías, no exclusiva, no transferible y revocable para usar, reproducir, modificar y distribuir el Software únicamente para Uso No Comercial.
+
+================================================================================
+
+3. REQUISITOS DE ATRIBUCIÓN
+
+3.1 El Licenciatario debe proporcionar una Atribución clara al Autor en cualquier distribución o uso parcial del Software.
+
+3.2 La Atribución debe incluir:
+    (a) El nombre "Adrián Lavado Munuera" o la designación "Ad";
+    (b) Una declaración identificando a Adrián Lavado Munuera como el creador original;
+    (c) Un enlace funcional al repositorio original: https://github.com/ag4pornis/mi-amor;
+    (d) Un aviso indicando que el trabajo se basa en el software original de Adrián Lavado Munuera utilizado bajo esta Licencia.
+
+3.3 La Atribución debe colocarse en al menos una ubicación prominente donde sea fácilmente accesible, como:
+    (a) Un archivo README u otra documentación principal; O
+    (b) Una sección "Acerca de", pantalla de créditos o interfaz similar orientada al usuario.
+
+================================================================================
+
+4. CLÁUSULA DE LICENCIA COMERCIAL
+
+4.1 El Uso Comercial del Software o de cualquier Obra Derivada está estrictamente prohibido bajo esta Licencia y requiere una Licencia Comercial separada obtenida directamente del Autor (adrin_bing2@outlook.es).
+
+================================================================================
+
+5. RESTRICCIONES
+
+5.1 El Licenciatario no debe eliminar ni alterar ningún aviso de derechos de autor o Atribución.
+
+5.2 Se prohíbe expresamente el uso del Software, en su totalidad o en parte, para entrenar, desarrollar o mejorar modelos de inteligencia artificial o sistemas de aprendizaje automático sin el permiso explícito por escrito del Autor.
+
+5.3 RESTRICCIÓN DE IMAGEN PERSONAL Y PRIVACIDAD. Todas las imágenes y fotografías contenidas en el directorio "fotos/" o que representen al Autor u otras personas identificables están estrictamente excluidas de las licencias otorgadas en este documento.
+    (a) Queda expresamente prohibido al Licenciatario copiar, distribuir, mostrar, modificar o utilizar estas imágenes personales para cualquier propósito.
+    (b) Cualquier uso no autorizado de estas imágenes constituye una violación de los derechos de privacidad, derechos de imagen y derechos de autor, y será procesado con todo el rigor de la ley.
+
+================================================================================
+
+6. PROPIEDAD INTELECTUAL
+
+6.1 El Autor conserva todos los derechos, títulos e intereses sobre el Software. Esta Licencia no transfiere ningún derecho de propiedad al Licenciatario.
+
+================================================================================
+
+7. RENUNCIA DE GARANTÍA
+
+7.1 EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO. EL LICENCIATARIO ASUME TODO EL RIESGO RELACIONADO CON LA CALIDAD Y EL RENDIMIENTO DEL SOFTWARE.
+
+================================================================================
+
+8. LIMITACIÓN DE RESPONSABILIDAD
+
+8.1 EN NINGÚN CASO EL AUTOR SERÁ RESPONSABLE POR CUALQUIER DAÑO DERIVADO DEL USO O LA INCAPACIDAD DE USO DEL SOFTWARE.
+
+================================================================================
+
+9. TERMINACIÓN
+
+9.1 Terminación por Incumplimiento Grave. Esta Licencia terminará automática e inmediatamente por Uso Comercial no autorizado o violación de las Restricciones de la Sección 5 (excluyendo la Atribución).
+
+9.2 Terminación con Periodo de Subsanación. Para incumplimientos de los Requisitos de Atribución:
+    (a) El Licenciatario tendrá treinta (30) días desde que tenga conocimiento del incumplimiento para corregirlo.
+    (b) La falta de corrección en este periodo resultará en la terminación automática de la Licencia.
+
+================================================================================
+
+10. LEY APLICABLE Y JURISDICCIÓN
+
+10.1 Esta Licencia se regirá por las leyes del Reino de España. Cualquier disputa se resolverá exclusivamente en los tribunales de España o mediante arbitraje en Madrid, a elección del Autor.
+
+================================================================================
+
+11. DISPOSICIONES VARIAS
+
+11.1 En caso de conflicto entre la versión en inglés y la versión en español de esta Licencia, ambas se considerarán vinculantes, pero la versión que ofrezca la mayor protección a los derechos de propiedad intelectual del Autor prevalecerá.
+
+================================================================================
+
+FIN DE LA LICENCIA
