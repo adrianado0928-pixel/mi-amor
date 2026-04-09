@@ -21,8 +21,8 @@
     function calcularDias() {
         const ahora = new Date();
         const diferencia = ahora.getTime() - FECHA_INICIO.getTime();
-        // Math.floor para que solo cuente días completos
-        return Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        // Conteo inclusivo: el primer día cuenta como día 1
+        return Math.floor(diferencia / (1000 * 60 * 60 * 24)) + 1;
     }
 
     // =====================
