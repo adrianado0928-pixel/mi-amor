@@ -6,11 +6,15 @@ on:
       - main
     paths:
       - 'fotos/**'
+      - 'texturas/**'
       - 'data.json'
       - 'index.html'
       - 'script.js'
       - 'style.css'
-      - 'texturas/**'
+      - 'contador.js'
+      - 'contador.css'
+      - 'generar-data.js'
+      - 'package.json'
       - '.github/workflows/**'
   # Permite ejecutar el workflow manualmente
   workflow_dispatch:
@@ -30,6 +34,10 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       # 1. Descargar el código
       - name: Checkout código
@@ -55,6 +63,7 @@ jobs:
           git add data.json
           if ! git diff --cached --quiet; then
             git commit -m "🤖 Actualizar data.json automáticamente"
+            git pull --rebase origin main
             git push
           else
             echo "No hay cambios en data.json"
