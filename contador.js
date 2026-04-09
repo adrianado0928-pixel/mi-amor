@@ -43,12 +43,12 @@
                 var ahora = new Date();
                 var meses = (ahora.getFullYear() - FECHA_INICIO.getFullYear()) * 12;
                 meses += ahora.getMonth() - FECHA_INICIO.getMonth();
-                
+
                 // Comprobación exacta de día, hora y minuto
                 var haLlegadoElDia = ahora.getDate() > FECHA_INICIO.getDate();
                 var esElMismoDia = ahora.getDate() === FECHA_INICIO.getDate();
-                var haLlegadoLaHora = ahora.getHours() > FECHA_INICIO.getHours() || 
-                                     (ahora.getHours() === FECHA_INICIO.getHours() && ahora.getMinutes() >= FECHA_INICIO.getMinutes());
+                var haLlegadoLaHora = ahora.getHours() > FECHA_INICIO.getHours() ||
+                    (ahora.getHours() === FECHA_INICIO.getHours() && ahora.getMinutes() >= FECHA_INICIO.getMinutes());
 
                 // Si no hemos llegado al día/hora exactos, aún no se cumple el mes
                 if (!haLlegadoElDia && !(esElMismoDia && haLlegadoLaHora)) {
@@ -63,17 +63,17 @@
             calcular: function () {
                 var ahora = new Date();
                 var anios = ahora.getFullYear() - FECHA_INICIO.getFullYear();
-                
+
                 var mesActual = ahora.getMonth();
                 var mesInicio = FECHA_INICIO.getMonth();
-                
+
                 // Comprobación exacta de mes, día, hora y minuto
                 var haLlegadoElMes = mesActual > mesInicio;
                 var esElMismoMes = mesActual === mesInicio;
                 var haLlegadoElDia = ahora.getDate() > FECHA_INICIO.getDate();
                 var esElMismoDia = ahora.getDate() === FECHA_INICIO.getDate();
-                var haLlegadoLaHora = ahora.getHours() > FECHA_INICIO.getHours() || 
-                                     (ahora.getHours() === FECHA_INICIO.getHours() && ahora.getMinutes() >= FECHA_INICIO.getMinutes());
+                var haLlegadoLaHora = ahora.getHours() > FECHA_INICIO.getHours() ||
+                    (ahora.getHours() === FECHA_INICIO.getHours() && ahora.getMinutes() >= FECHA_INICIO.getMinutes());
 
                 // Si no hemos llegado al momento exacto del año
                 if (!haLlegadoElMes && !(esElMismoMes && (haLlegadoElDia || (esElMismoDia && haLlegadoLaHora)))) {

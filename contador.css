@@ -12,7 +12,8 @@
     position: fixed;
     bottom: 16px;
     left: 16px;
-    z-index: 500; /* Encima del 3D, debajo del visor (1000) y loader (9999) */
+    z-index: 500;
+    /* Encima del 3D, debajo del visor (1000) y loader (9999) */
 
     /* Glassmorphism */
     background: rgba(20, 5, 15, 0.65);
@@ -36,10 +37,10 @@
     /* Transiciones */
     cursor: pointer;
     transition: transform 0.3s ease,
-                box-shadow 0.3s ease,
-                opacity 0.6s ease,
-                visibility 0.6s ease,
-                padding 0.3s ease;
+        box-shadow 0.3s ease,
+        opacity 0.6s ease,
+        visibility 0.6s ease,
+        padding 0.3s ease;
 
     /* Visible por defecto (se oculta con clase) */
     opacity: 1;
@@ -108,7 +109,8 @@
     display: flex;
     flex-direction: column;
     gap: 1px;
-    margin-left: 10px; /* Espacio fijo con el corazón */
+    margin-left: 10px;
+    /* Espacio fijo con el corazón */
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
@@ -139,25 +141,25 @@
    SEPARADOR VERTICAL
    ===================== */
 #contador-separador {
-    width: 0; /* Empieza sin ancho */
-    height: 0;
+    width: 0;
+    height: 0; /* Altura 0 para no estirar la caja */
+    opacity: 0;
+    margin: 0;
+    flex-shrink: 0;
     background: linear-gradient(
         to bottom,
         transparent,
         rgba(255, 102, 204, 0.4),
         transparent
     );
-    transition: height 0.3s ease 0.05s, width 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
-    opacity: 0;
-    margin: 0; /* Sin margen por defecto */
-    flex-shrink: 0;
+    transition: height 0.3s ease, width 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
 }
 
 #contador-dias.contador-expandido #contador-separador {
     width: 1px;
-    height: 30px;
+    height: 30px; /* Solo crece al expandirse */
     opacity: 1;
-    margin: 0 10px; /* Gana espacio solo al expandirse */
+    margin: 0 10px;
 }
 
 /* =====================
@@ -170,19 +172,21 @@
 
     /* Oculto por defecto */
     max-width: 0;
+    height: 0; /* Altura 0 para que no varíe el tamaño de la cápsula al cerrarse */
     opacity: 0;
     margin-left: 0;
     overflow: hidden;
 
     transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.3s ease 0.05s,
+                height 0.4s ease,
+                opacity 0.3s ease,
                 margin-left 0.4s ease;
 }
 
 #contador-dias.contador-expandido #contador-extras {
     max-width: 400px;
+    height: auto; /* Solo toma su altura real al expandirse */
     opacity: 1;
-    /* El margen ya lo da el separador, no hace falta añadir aquí */
 }
 
 /* =====================
@@ -202,8 +206,8 @@
     min-width: fit-content;
 
     transition: transform 0.2s ease,
-                background 0.2s ease,
-                opacity 0.2s ease;
+        background 0.2s ease,
+        opacity 0.2s ease;
 }
 
 /* Hover para extras (solo desktop) */
@@ -264,10 +268,12 @@
         transform: scale(0.7);
         opacity: 0.3;
     }
+
     60% {
         transform: scale(1.08);
         opacity: 1;
     }
+
     100% {
         transform: scale(1);
         opacity: 1;
@@ -278,11 +284,27 @@
    ANIMACIÓN DE PULSO DEL CORAZÓN
    ===================== */
 @keyframes pulsoContador {
-    0%, 100% { transform: scale(1); }
-    15% { transform: scale(1.2); }
-    30% { transform: scale(1); }
-    45% { transform: scale(1.15); }
-    60% { transform: scale(1); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform: scale(1.2);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.15);
+    }
+
+    60% {
+        transform: scale(1);
+    }
 }
 
 /* =====================
@@ -293,6 +315,7 @@
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -327,6 +350,7 @@
         transform: translateX(-10px) scale(0.8);
         opacity: 0;
     }
+
     to {
         transform: translateX(0) scale(1);
         opacity: 1;
@@ -347,15 +371,38 @@
         max-width: calc(100vw - 24px);
     }
 
-    #contador-corazon { font-size: 1.1rem; }
-    #contador-numero { font-size: 1.05rem; }
-    #contador-label { font-size: 0.58rem; }
-    #contador-contenido { gap: 7px; }
+    #contador-corazon {
+        font-size: 1.1rem;
+    }
 
-    .contador-extra { padding: 5px 8px; border-radius: 10px; }
-    .extra-numero { font-size: 0.82rem; }
-    .extra-label { font-size: 0.5rem; }
-    #contador-extras { gap: 5px; }
+    #contador-numero {
+        font-size: 1.05rem;
+    }
+
+    #contador-label {
+        font-size: 0.58rem;
+    }
+
+    #contador-contenido {
+        gap: 7px;
+    }
+
+    .contador-extra {
+        padding: 5px 8px;
+        border-radius: 10px;
+    }
+
+    .extra-numero {
+        font-size: 0.82rem;
+    }
+
+    .extra-label {
+        font-size: 0.5rem;
+    }
+
+    #contador-extras {
+        gap: 5px;
+    }
 }
 
 /* iPhone Pro / Android estándar (~390-430px) — tamaño base, sin cambios extra */
@@ -369,13 +416,29 @@
         border-radius: 18px;
     }
 
-    #contador-corazon { font-size: 1.5rem; }
-    #contador-numero { font-size: 1.4rem; }
-    #contador-label { font-size: 0.8rem; }
+    #contador-corazon {
+        font-size: 1.5rem;
+    }
 
-    .contador-extra { padding: 8px 14px; }
-    .extra-numero { font-size: 1.1rem; }
-    .extra-label { font-size: 0.65rem; }
+    #contador-numero {
+        font-size: 1.4rem;
+    }
+
+    #contador-label {
+        font-size: 0.8rem;
+    }
+
+    .contador-extra {
+        padding: 8px 14px;
+    }
+
+    .extra-numero {
+        font-size: 1.1rem;
+    }
+
+    .extra-label {
+        font-size: 0.65rem;
+    }
 }
 
 /* Desktop grande */
@@ -386,8 +449,13 @@
         padding: 14px 22px;
     }
 
-    #contador-numero { font-size: 1.5rem; }
-    #contador-label { font-size: 0.85rem; }
+    #contador-numero {
+        font-size: 1.5rem;
+    }
+
+    #contador-label {
+        font-size: 0.85rem;
+    }
 }
 
 /* =====================
