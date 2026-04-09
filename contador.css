@@ -1,11 +1,13 @@
 /* =====================
-   CONTADOR DE DÍAS
+   CONTADOR DE DÍAS - ESTILOS
    =====================
-   Elemento fijo en la esquina inferior izquierda que muestra
-   cuántos días llevamos juntos. Totalmente independiente del
-   espacio 3D y del resto de estilos. */
+   Elemento fijo en la esquina inferior izquierda con expansión
+   hacia la derecha para mostrar horas, meses y años.
+   Totalmente independiente del espacio 3D. */
 
-/* Contenedor principal del contador */
+/* =====================
+   CONTENEDOR PRINCIPAL
+   ===================== */
 #contador-dias {
     position: fixed;
     bottom: 16px;
@@ -28,14 +30,18 @@
     /* Padding */
     padding: 10px 16px;
 
-    /* Transiciones para futura interactividad */
+    /* Limitar para que no se salga de la pantalla al expandir */
+    max-width: calc(100vw - 32px);
+
+    /* Transiciones */
     cursor: pointer;
     transition: transform 0.3s ease,
                 box-shadow 0.3s ease,
                 opacity 0.6s ease,
-                visibility 0.6s ease;
+                visibility 0.6s ease,
+                padding 0.3s ease;
 
-    /* Animación de entrada */
+    /* Visible por defecto (se oculta con clase) */
     opacity: 1;
     visibility: visible;
 
@@ -46,19 +52,18 @@
     -webkit-user-select: none;
 }
 
-/* Clase para ocultar el contador (activa al inicio, se quita cuando el loader desaparece) */
+/* Clase para ocultar el contador (al inicio, se quita cuando el loader desaparece) */
 #contador-dias.contador-oculto {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 }
 
-/* Hover sutil (solo en dispositivos con cursor) */
+/* Hover sutil (solo dispositivos con cursor) */
 @media (hover: hover) and (pointer: fine) {
     #contador-dias:hover {
-        transform: scale(1.05);
         box-shadow:
-            0 0 20px rgba(255, 102, 204, 0.3),
+            0 0 20px rgba(255, 102, 204, 0.25),
             0 0 40px rgba(255, 102, 204, 0.1),
             inset 0 0 20px rgba(255, 102, 204, 0.05);
     }
@@ -69,8 +74,13 @@
     transform: scale(0.97);
 }
 
+/* Cuando está expandido, no hacer scale al tocar (evita conflictos) */
+#contador-dias.contador-expandido:active {
+    transform: none;
+}
+
 /* =====================
-   CONTENIDO INTERIOR
+   CONTENIDO INTERIOR (flex horizontal)
    ===================== */
 #contador-contenido {
     display: flex;
@@ -78,23 +88,29 @@
     gap: 10px;
 }
 
-/* Corazón animado */
+/* =====================
+   CORAZÓN ANIMADO
+   ===================== */
 #contador-corazon {
     font-size: 1.3rem;
     line-height: 1;
     animation: pulsoContador 2s ease-in-out infinite;
     filter: drop-shadow(0 0 6px rgba(255, 0, 80, 0.6));
     flex-shrink: 0;
+    cursor: pointer;
 }
 
-/* Bloque de texto */
-#contador-texto {
+/* =====================
+   CONTADOR PRINCIPAL (siempre visible)
+   ===================== */
+#contador-principal {
     display: flex;
     flex-direction: column;
     gap: 1px;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Número de días */
 #contador-numero {
     font-family: 'Courgette', cursive;
     font-size: 1.25rem;
@@ -103,9 +119,9 @@
     text-shadow:
         0 0 8px rgba(255, 102, 204, 0.6),
         0 0 16px rgba(255, 102, 204, 0.3);
+    white-space: nowrap;
 }
 
-/* Etiqueta "días juntos" */
 #contador-label {
     font-family: 'Courgette', cursive;
     font-size: 0.7rem;
@@ -114,31 +130,155 @@
     letter-spacing: 0.5px;
     text-shadow:
         0 0 5px rgba(255, 102, 204, 0.3);
+    white-space: nowrap;
+}
+
+/* =====================
+   SEPARADOR VERTICAL
+   ===================== */
+#contador-separador {
+    width: 1px;
+    height: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255, 102, 204, 0.4),
+        transparent
+    );
+    transition: height 0.3s ease 0.05s, opacity 0.3s ease;
+    opacity: 0;
+    flex-shrink: 0;
+}
+
+#contador-dias.contador-expandido #contador-separador {
+    height: 30px;
+    opacity: 1;
+}
+
+/* =====================
+   EXTRAS CONTAINER (expandible)
+   ===================== */
+#contador-extras {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    /* Oculto por defecto: animamos max-width para el efecto de deslizar */
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+
+    transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease 0.05s;
+}
+
+#contador-dias.contador-expandido #contador-extras {
+    max-width: 400px;
+    opacity: 1;
+}
+
+/* =====================
+   ITEMS EXTRA INDIVIDUALES
+   ===================== */
+.contador-extra {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 12px;
+    background: rgba(255, 102, 204, 0.08);
+    border: 1px solid rgba(255, 102, 204, 0.15);
+    cursor: pointer;
+    white-space: nowrap;
+    min-width: fit-content;
+
+    transition: transform 0.2s ease,
+                background 0.2s ease,
+                opacity 0.2s ease;
+}
+
+/* Hover para extras (solo desktop) */
+@media (hover: hover) and (pointer: fine) {
+    .contador-extra:hover {
+        background: rgba(255, 102, 204, 0.2);
+        transform: scale(1.08);
+        border-color: rgba(255, 102, 204, 0.35);
+    }
+}
+
+.contador-extra:active {
+    transform: scale(0.93);
+}
+
+/* Número dentro de un extra */
+.extra-numero {
+    font-family: 'Courgette', cursive;
+    font-size: 1rem;
+    color: #ffb3e6;
+    line-height: 1.2;
+    text-shadow: 0 0 6px rgba(255, 102, 204, 0.4);
+}
+
+/* Label dentro de un extra */
+.extra-label {
+    font-family: 'Courgette', cursive;
+    font-size: 0.6rem;
+    color: rgba(255, 179, 230, 0.6);
+    line-height: 1.1;
+    text-shadow: 0 0 4px rgba(255, 102, 204, 0.2);
+}
+
+/* =====================
+   ANIMACIÓN DE INTERCAMBIO (SWAP)
+   ===================== */
+
+/* Fase de salida: se encoge y desvanece */
+#contador-principal.swap-out {
+    transform: scale(0.7);
+    opacity: 0.3;
+    transition: transform 0.2s ease-in, opacity 0.2s ease-in;
+}
+
+.contador-extra.swap-out {
+    transform: scale(0.7);
+    opacity: 0.3;
+    transition: transform 0.2s ease-in, opacity 0.2s ease-in;
+}
+
+/* Fase de entrada: crece con rebote sutil */
+#contador-principal.swap-in {
+    animation: swapIn 0.3s ease-out;
+}
+
+@keyframes swapIn {
+    0% {
+        transform: scale(0.7);
+        opacity: 0.3;
+    }
+    60% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* =====================
    ANIMACIÓN DE PULSO DEL CORAZÓN
    ===================== */
 @keyframes pulsoContador {
-    0%, 100% {
-        transform: scale(1);
-    }
-    15% {
-        transform: scale(1.2);
-    }
-    30% {
-        transform: scale(1);
-    }
-    45% {
-        transform: scale(1.15);
-    }
-    60% {
-        transform: scale(1);
-    }
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    60% { transform: scale(1); }
 }
 
 /* =====================
-   ANIMACIÓN DE ENTRADA DEL NÚMERO (count-up)
+   ANIMACIÓN DE ENTRADA (fade-in + slide-up)
    ===================== */
 @keyframes fadeInContador {
     from {
@@ -156,6 +296,36 @@
 }
 
 /* =====================
+   ANIMACIÓN ESCALONADA DE LOS EXTRAS
+   =====================
+   Cada extra aparece con un ligero retraso para un efecto cascada */
+#contador-dias.contador-expandido .contador-extra:nth-child(1) {
+    animation: slideInExtra 0.3s ease-out both;
+    animation-delay: 0.05s;
+}
+
+#contador-dias.contador-expandido .contador-extra:nth-child(2) {
+    animation: slideInExtra 0.3s ease-out both;
+    animation-delay: 0.12s;
+}
+
+#contador-dias.contador-expandido .contador-extra:nth-child(3) {
+    animation: slideInExtra 0.3s ease-out both;
+    animation-delay: 0.19s;
+}
+
+@keyframes slideInExtra {
+    from {
+        transform: translateX(-10px) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* =====================
    RESPONSIVE - iPHONE PRIMERO
    ===================== */
 
@@ -164,28 +334,23 @@
     #contador-dias {
         bottom: 12px;
         left: 12px;
-        padding: 8px 12px;
+        padding: 8px 10px;
         border-radius: 14px;
+        max-width: calc(100vw - 24px);
     }
 
-    #contador-corazon {
-        font-size: 1.1rem;
-    }
+    #contador-corazon { font-size: 1.1rem; }
+    #contador-numero { font-size: 1.05rem; }
+    #contador-label { font-size: 0.58rem; }
+    #contador-contenido { gap: 7px; }
 
-    #contador-numero {
-        font-size: 1.05rem;
-    }
-
-    #contador-label {
-        font-size: 0.6rem;
-    }
-
-    #contador-contenido {
-        gap: 8px;
-    }
+    .contador-extra { padding: 5px 8px; border-radius: 10px; }
+    .extra-numero { font-size: 0.82rem; }
+    .extra-label { font-size: 0.5rem; }
+    #contador-extras { gap: 5px; }
 }
 
-/* iPhone Pro / Android estándar (~390-430px) — tamaño base, sin cambios */
+/* iPhone Pro / Android estándar (~390-430px) — tamaño base, sin cambios extra */
 
 /* Tablets y pantallas medianas */
 @media screen and (min-width: 768px) {
@@ -196,17 +361,13 @@
         border-radius: 18px;
     }
 
-    #contador-corazon {
-        font-size: 1.5rem;
-    }
+    #contador-corazon { font-size: 1.5rem; }
+    #contador-numero { font-size: 1.4rem; }
+    #contador-label { font-size: 0.8rem; }
 
-    #contador-numero {
-        font-size: 1.4rem;
-    }
-
-    #contador-label {
-        font-size: 0.8rem;
-    }
+    .contador-extra { padding: 8px 14px; }
+    .extra-numero { font-size: 1.1rem; }
+    .extra-label { font-size: 0.65rem; }
 }
 
 /* Desktop grande */
@@ -217,20 +378,13 @@
         padding: 14px 22px;
     }
 
-    #contador-numero {
-        font-size: 1.5rem;
-    }
-
-    #contador-label {
-        font-size: 0.85rem;
-    }
+    #contador-numero { font-size: 1.5rem; }
+    #contador-label { font-size: 0.85rem; }
 }
 
 /* =====================
    SAFE AREA (iPhone con notch / Dynamic Island)
-   =====================
-   env(safe-area-inset-bottom) respeta el espacio del Home Indicator
-   de los iPhone sin botón Home. */
+   ===================== */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
     #contador-dias {
         bottom: calc(16px + env(safe-area-inset-bottom));
@@ -239,24 +393,17 @@
 }
 
 /* =====================
-   CLASES PREPARADAS PARA EL FUTURO
-   =====================
-   Estas clases no se usan ahora pero están listas para cuando
-   añadamos hitos y modo expandido. */
-
-/* Modo expandido (futuro) */
-#contador-dias.contador-expandido {
-    /* Reservado: se animará para abrirse como tarjeta */
-}
-
-/* Hito activo (futuro: explosión de corazones) */
-#contador-dias.contador-hito-activo {
-    /* Reservado: borde dorado, brillo extra, etc. */
-}
-
-/* Desactivar backdrop-filter en iOS para evitar bugs con WebGL (igual que el visor) */
+   iOS WebGL FIX
+   ===================== */
 body.es-ios #contador-dias {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: rgba(20, 5, 15, 0.85);
+}
+
+/* =====================
+   CLASES FUTURAS (reservadas)
+   ===================== */
+#contador-dias.contador-hito-activo {
+    /* Reservado para explosión de corazones en hitos */
 }
