@@ -7,11 +7,12 @@ Este proyecto es una galería de fotos 3D interactiva y romántica, diseñada pa
 - **Planeta 3D Interactivo:** Un mundo suave y detallado que puedes rotar y explorar.
 - **Galería de Fotos:** Las fotos se distribuyen automáticamente por la superficie del planeta sin solaparse.
 - **Visor Detallado:** Al hacer clic en una foto, se abre un visor que permite "voltear" la imagen para leer una descripción y ver la fecha.
+- **Contador de Tiempo:** Un contador interactivo que muestra cuánto tiempo lleváis juntos (días, horas, meses o años). Se puede expandir para ver todas las métricas y cambiar la principal.
 - **Ambiente Romántico:**
   - **Sol Corazón:** Un sol en forma de corazón con un halo pulsante que ilumina el mundo.
   - **Cielo Estrellado:** Miles de estrellas en tonos rosados que rodean el planeta.
   - **Texto 3D:** Un mensaje flotante ("Eres mi mundo michica") que siempre mira hacia ti.
-- **Navegación Suave:** Controles de cámara optimizados con zoom suave e inercia.
+- **Navegación Suave:** Controles de cámara optimizados con zoom suave, inercia cinética y un modo de precisión automático al acercarse al planeta.
 
 ## 📸 Cómo añadir nuevas fotos
 
