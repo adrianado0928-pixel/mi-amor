@@ -310,10 +310,7 @@
             e.stopPropagation();
         });
 
-        // Al pulsar el corazón o el principal: expandir/colapsar
-        var principal = document.getElementById('contador-principal');
-        var corazon = document.getElementById('contador-corazon');
-
+        // Al pulsar en cualquier parte del contador: expandir/colapsar
         function onMainClick(e) {
             e.stopPropagation();
             if (expandido) {
@@ -323,8 +320,7 @@
             }
         }
 
-        if (principal) principal.addEventListener('click', onMainClick);
-        if (corazon) corazon.addEventListener('click', onMainClick);
+        contador.addEventListener('click', onMainClick);
     }
 
     // =====================
