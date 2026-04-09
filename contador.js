@@ -343,7 +343,9 @@
             for (var i = 0; i < mutations.length; i++) {
                 if (mutations[i].type === 'attributes' && mutations[i].attributeName === 'class') {
                     if (loader.classList.contains('oculto')) {
-                        setTimeout(mostrarContador, 600);
+                        // El loader se ha ocultado, mostrar el contador con un delay mayor
+                        // para que el efecto visual se vea limpio.
+                        setTimeout(mostrarContador, 1200);
                         observer.disconnect();
                         return;
                     }
