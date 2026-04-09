@@ -28,8 +28,11 @@
         0 0 30px rgba(255, 102, 204, 0.05),
         inset 0 0 20px rgba(255, 102, 204, 0.03);
 
-    /* Padding */
-    padding: 10px 16px;
+    /* Padding y Altura bloqueada para evitar saltos */
+    padding: 0 16px;
+    height: 62px;
+    display: flex;
+    align-items: center;
 
     /* Limitar para que no se salga de la pantalla al expandir */
     max-width: calc(100vw - 32px);
@@ -142,7 +145,7 @@
    ===================== */
 #contador-separador {
     width: 0;
-    height: 0; /* Altura 0 para no estirar la caja */
+    height: 30px;
     opacity: 0;
     margin: 0;
     flex-shrink: 0;
@@ -152,12 +155,11 @@
         rgba(255, 102, 204, 0.4),
         transparent
     );
-    transition: height 0.3s ease, width 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
+    transition: width 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
 }
 
 #contador-dias.contador-expandido #contador-separador {
     width: 1px;
-    height: 30px; /* Solo crece al expandirse */
     opacity: 1;
     margin: 0 10px;
 }
@@ -172,20 +174,18 @@
 
     /* Oculto por defecto */
     max-width: 0;
-    height: 0; /* Altura 0 para que no varíe el tamaño de la cápsula al cerrarse */
     opacity: 0;
     margin-left: 0;
     overflow: hidden;
 
+    /* La altura ya no varía porque el padre es fijo */
     transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                height 0.4s ease,
                 opacity 0.3s ease,
                 margin-left 0.4s ease;
 }
 
 #contador-dias.contador-expandido #contador-extras {
     max-width: 400px;
-    height: auto; /* Solo toma su altura real al expandirse */
     opacity: 1;
 }
 
@@ -197,7 +197,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 6px 12px;
+    padding: 5px 10px; /* Ajuste para que se vea cómodo en 62px */
     border-radius: 12px;
     background: rgba(255, 102, 204, 0.08);
     border: 1px solid rgba(255, 102, 204, 0.15);
