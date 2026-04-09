@@ -85,7 +85,8 @@
 #contador-contenido {
     display: flex;
     align-items: center;
-    gap: 10px;
+    /* Eliminamos el gap global para evitar espacios fantasma */
+    gap: 0;
 }
 
 /* =====================
@@ -107,6 +108,7 @@
     display: flex;
     flex-direction: column;
     gap: 1px;
+    margin-left: 10px; /* Espacio fijo con el corazón */
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
@@ -137,7 +139,7 @@
    SEPARADOR VERTICAL
    ===================== */
 #contador-separador {
-    width: 1px;
+    width: 0; /* Empieza sin ancho */
     height: 0;
     background: linear-gradient(
         to bottom,
@@ -145,14 +147,17 @@
         rgba(255, 102, 204, 0.4),
         transparent
     );
-    transition: height 0.3s ease 0.05s, opacity 0.3s ease;
+    transition: height 0.3s ease 0.05s, width 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
     opacity: 0;
+    margin: 0; /* Sin margen por defecto */
     flex-shrink: 0;
 }
 
 #contador-dias.contador-expandido #contador-separador {
+    width: 1px;
     height: 30px;
     opacity: 1;
+    margin: 0 10px; /* Gana espacio solo al expandirse */
 }
 
 /* =====================
@@ -163,18 +168,21 @@
     align-items: center;
     gap: 8px;
 
-    /* Oculto por defecto: animamos max-width para el efecto de deslizar */
+    /* Oculto por defecto */
     max-width: 0;
     opacity: 0;
+    margin-left: 0;
     overflow: hidden;
 
     transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.3s ease 0.05s;
+                opacity 0.3s ease 0.05s,
+                margin-left 0.4s ease;
 }
 
 #contador-dias.contador-expandido #contador-extras {
     max-width: 400px;
     opacity: 1;
+    /* El margen ya lo da el separador, no hace falta añadir aquí */
 }
 
 /* =====================
