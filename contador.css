@@ -1,0 +1,262 @@
+/* =====================
+   CONTADOR DE DÍAS
+   =====================
+   Elemento fijo en la esquina inferior izquierda que muestra
+   cuántos días llevamos juntos. Totalmente independiente del
+   espacio 3D y del resto de estilos. */
+
+/* Contenedor principal del contador */
+#contador-dias {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 500; /* Encima del 3D, debajo del visor (1000) y loader (9999) */
+
+    /* Glassmorphism */
+    background: rgba(20, 5, 15, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    /* Borde y brillo rosa */
+    border: 1px solid rgba(255, 102, 204, 0.25);
+    border-radius: 16px;
+    box-shadow:
+        0 0 15px rgba(255, 102, 204, 0.15),
+        0 0 30px rgba(255, 102, 204, 0.05),
+        inset 0 0 20px rgba(255, 102, 204, 0.03);
+
+    /* Padding */
+    padding: 10px 16px;
+
+    /* Transiciones para futura interactividad */
+    cursor: pointer;
+    transition: transform 0.3s ease,
+                box-shadow 0.3s ease,
+                opacity 0.6s ease,
+                visibility 0.6s ease;
+
+    /* Animación de entrada */
+    opacity: 1;
+    visibility: visible;
+
+    /* No captura scroll ni gestos del planeta */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Clase para ocultar el contador (activa al inicio, se quita cuando el loader desaparece) */
+#contador-dias.contador-oculto {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Hover sutil (solo en dispositivos con cursor) */
+@media (hover: hover) and (pointer: fine) {
+    #contador-dias:hover {
+        transform: scale(1.05);
+        box-shadow:
+            0 0 20px rgba(255, 102, 204, 0.3),
+            0 0 40px rgba(255, 102, 204, 0.1),
+            inset 0 0 20px rgba(255, 102, 204, 0.05);
+    }
+}
+
+/* Efecto al tocar en móvil */
+#contador-dias:active {
+    transform: scale(0.97);
+}
+
+/* =====================
+   CONTENIDO INTERIOR
+   ===================== */
+#contador-contenido {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Corazón animado */
+#contador-corazon {
+    font-size: 1.3rem;
+    line-height: 1;
+    animation: pulsoContador 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px rgba(255, 0, 80, 0.6));
+    flex-shrink: 0;
+}
+
+/* Bloque de texto */
+#contador-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+/* Número de días */
+#contador-numero {
+    font-family: 'Courgette', cursive;
+    font-size: 1.25rem;
+    color: #ffb3e6;
+    line-height: 1.1;
+    text-shadow:
+        0 0 8px rgba(255, 102, 204, 0.6),
+        0 0 16px rgba(255, 102, 204, 0.3);
+}
+
+/* Etiqueta "días juntos" */
+#contador-label {
+    font-family: 'Courgette', cursive;
+    font-size: 0.7rem;
+    color: rgba(255, 179, 230, 0.7);
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+    text-shadow:
+        0 0 5px rgba(255, 102, 204, 0.3);
+}
+
+/* =====================
+   ANIMACIÓN DE PULSO DEL CORAZÓN
+   ===================== */
+@keyframes pulsoContador {
+    0%, 100% {
+        transform: scale(1);
+    }
+    15% {
+        transform: scale(1.2);
+    }
+    30% {
+        transform: scale(1);
+    }
+    45% {
+        transform: scale(1.15);
+    }
+    60% {
+        transform: scale(1);
+    }
+}
+
+/* =====================
+   ANIMACIÓN DE ENTRADA DEL NÚMERO (count-up)
+   ===================== */
+@keyframes fadeInContador {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#contador-dias.contador-visible {
+    animation: fadeInContador 0.8s ease-out;
+}
+
+/* =====================
+   RESPONSIVE - iPHONE PRIMERO
+   ===================== */
+
+/* iPhone SE, iPhone mini (~375px) */
+@media screen and (max-width: 375px) {
+    #contador-dias {
+        bottom: 12px;
+        left: 12px;
+        padding: 8px 12px;
+        border-radius: 14px;
+    }
+
+    #contador-corazon {
+        font-size: 1.1rem;
+    }
+
+    #contador-numero {
+        font-size: 1.05rem;
+    }
+
+    #contador-label {
+        font-size: 0.6rem;
+    }
+
+    #contador-contenido {
+        gap: 8px;
+    }
+}
+
+/* iPhone Pro / Android estándar (~390-430px) — tamaño base, sin cambios */
+
+/* Tablets y pantallas medianas */
+@media screen and (min-width: 768px) {
+    #contador-dias {
+        bottom: 20px;
+        left: 20px;
+        padding: 12px 20px;
+        border-radius: 18px;
+    }
+
+    #contador-corazon {
+        font-size: 1.5rem;
+    }
+
+    #contador-numero {
+        font-size: 1.4rem;
+    }
+
+    #contador-label {
+        font-size: 0.8rem;
+    }
+}
+
+/* Desktop grande */
+@media screen and (min-width: 1200px) {
+    #contador-dias {
+        bottom: 24px;
+        left: 24px;
+        padding: 14px 22px;
+    }
+
+    #contador-numero {
+        font-size: 1.5rem;
+    }
+
+    #contador-label {
+        font-size: 0.85rem;
+    }
+}
+
+/* =====================
+   SAFE AREA (iPhone con notch / Dynamic Island)
+   =====================
+   env(safe-area-inset-bottom) respeta el espacio del Home Indicator
+   de los iPhone sin botón Home. */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    #contador-dias {
+        bottom: calc(16px + env(safe-area-inset-bottom));
+        left: calc(16px + env(safe-area-inset-left));
+    }
+}
+
+/* =====================
+   CLASES PREPARADAS PARA EL FUTURO
+   =====================
+   Estas clases no se usan ahora pero están listas para cuando
+   añadamos hitos y modo expandido. */
+
+/* Modo expandido (futuro) */
+#contador-dias.contador-expandido {
+    /* Reservado: se animará para abrirse como tarjeta */
+}
+
+/* Hito activo (futuro: explosión de corazones) */
+#contador-dias.contador-hito-activo {
+    /* Reservado: borde dorado, brillo extra, etc. */
+}
+
+/* Desactivar backdrop-filter en iOS para evitar bugs con WebGL (igual que el visor) */
+body.es-ios #contador-dias {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(20, 5, 15, 0.85);
+}

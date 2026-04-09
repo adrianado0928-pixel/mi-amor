@@ -30,6 +30,7 @@
 
     <!-- Esto conecta nuestro archivo style.css con esta página. Sin esta línea, el CSS no funcionaría -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="contador.css">
 
     <!-- Elemento invisible para forzar la carga de la fuente "Courgette" inmediatamente -->
     <div style="font-family: 'Courgette', cursive; opacity: 0; position: absolute; pointer-events: none; z-index: -1;">.
@@ -92,10 +93,22 @@
         </div>
     </div>
 
+    <!-- CONTADOR DE DÍAS JUNTOS -->
+    <div id="contador-dias" class="contador-oculto">
+        <div id="contador-contenido">
+            <span id="contador-corazon">❤️</span>
+            <div id="contador-texto">
+                <span id="contador-numero">0</span>
+                <span id="contador-label">días juntos</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Este es donde conectamos nuestro script.js.
          type="module" le dice al navegador que este script usa el sistema de módulos moderno,
          lo cual necesitamos para poder importar Three.js y OrbitControls correctamente -->
     <script type="module" src="script.js"></script>
+    <script src="contador.js"></script>
 </body>
 
 </html>
