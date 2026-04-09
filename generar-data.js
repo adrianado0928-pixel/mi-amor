@@ -24,11 +24,14 @@ function leerFotosDeCarpeta() {
         // Leer todos los archivos de la carpeta
         const archivos = fs.readdirSync(carpetaFotos);
         
-        // Filtrar solo las imágenes (por extensión)
-        const fotos = archivos.filter(archivo => {
-            const extension = path.extname(archivo).toLowerCase();
-            return extensionesPermitidas.includes(extension);
-        });
+        // Filtrar solo las imágenes (por extensión) y ordenar alfabéticamente
+        // para garantizar que el orden de los IDs sea determinista
+        const fotos = archivos
+            .filter(archivo => {
+                const extension = path.extname(archivo).toLowerCase();
+                return extensionesPermitidas.includes(extension);
+            })
+            .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
         
         console.log(`📸 Encontradas ${fotos.length} fotos en la carpeta "${carpetaFotos}"`);
         

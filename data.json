@@ -7,255 +7,255 @@
   "fotos": [
     {
       "id": 1,
-      "ruta": "fotos/IMG-20260221-WA0022.jpg",
-      "titulo": "Competición de plastilinaa",
-      "descripcion": "Hoy celebramos nuestro segundo messs, ganaste por muuy poco...",
-      "fecha": "21 de febrero, 2026"
-    },
-    {
-      "id": 2,
-      "ruta": "fotos/IMG-20260301-WA0035.jpg",
-      "titulo": "La primera vez que me fuiste a ver a un partidoo",
-      "descripcion": "Partido en Valleaguado y luego fuimos a casa de tu papá a ver a Kiraa",
-      "fecha": "1 de marzo, 2026"
-    },
-    {
-      "id": 3,
-      "ruta": "fotos/IMG-20260304-WA0013.jpg",
-      "titulo": "Paseillo",
-      "descripcion": "Un recreo como otro cualquiera de camino al díaa",
-      "fecha": "3 de marzo, 2026"
-    },
-    {
-      "id": 4,
-      "ruta": "fotos/IMG-20260313-WA0050.jpg",
-      "titulo": "Esclavo felizz",
-      "descripcion": "La primera vez que fuiste a mi casa en Loechess (con masaje incluido)",
-      "fecha": "13 de marzo, 2026"
-    },
-    {
-      "id": 5,
-      "ruta": "fotos/IMG-20260313-WA0054.jpg",
-      "titulo": "VAMOOOSS",
-      "descripcion": "Cuando fuiste a mi casa nos hechamos una fotillo en mi habitaciónn",
-      "fecha": "13 de marzo, 2026"
-    },
-    {
-      "id": 6,
-      "ruta": "fotos/IMG-20260409-WA0050.jpg",
-      "titulo": "Interchange",
-      "descripcion": "Filtro de tistoss, tu eres yo y yo tuu PUAJAJAJAJJA",
-      "fecha": "9 de abril, 2026"
-    },
-    {
-      "id": 7,
-      "ruta": "fotos/IMG_20260313_202031834.jpg",
-      "titulo": "Pueblo tour",
-      "descripcion": "Un voltio por Loechess, el primero de muchos...",
-      "fecha": "13 de marzo, 2026"
-    },
-    {
-      "id": 8,
-      "ruta": "fotos/IMG_20260328_125410710.jpg",
-      "titulo": "Papás por un diaa",
-      "descripcion": "Y cayó siestecilla en casa de tu padre, después de ir al Corredorr",
-      "fecha": "28 de marzo, 2026"
-    },
-    {
-      "id": 9,
       "ruta": "fotos/abrazados.jpg",
       "titulo": "Abrazadosss",
       "descripcion": "Nuestro primer abrazo juntos en cámaraaa",
       "fecha": "15 de noviembre, 2025"
     },
     {
-      "id": 10,
+      "id": 2,
       "ruta": "fotos/ascensor.jpg",
       "titulo": "Subiendo o bajando",
       "descripcion": "De nuestras primeras fotos juntoss, pedazo sesión de fotos",
       "fecha": "15 de noviembre, 2025"
     },
     {
-      "id": 11,
+      "id": 3,
       "ruta": "fotos/atardecer_playa.jpg",
       "titulo": "Unos novios muyy lindos",
       "descripcion": "Otra instantánea en Instagram mientras escuchábamos música en el aviónn",
       "fecha": "15 de febrero, 2026"
     },
     {
-      "id": 12,
+      "id": 4,
       "ruta": "fotos/calle_estrecha_antigua.jpg",
       "titulo": "Ojos en 4k",
       "descripcion": "En el avión de vuelta a casita aburridoss",
       "fecha": "15 de febrero, 2026"
     },
     {
-      "id": 13,
+      "id": 5,
       "ruta": "fotos/casual.jpg",
       "titulo": "Ree lindos",
       "descripcion": "Fotico de la primera vez que fui a tu casaaaa",
       "fecha": "15 de noviembre, 2025"
     },
     {
-      "id": 14,
+      "id": 6,
       "ruta": "fotos/cena_romantica_velas.jpeg",
       "titulo": "Sentados en la naturaleza",
       "descripcion": "San Valentínn, nos sentamos después de andar tanto en frente dee un templo",
       "fecha": "14 de enero, 2026"
     },
     {
-      "id": 15,
+      "id": 7,
       "ruta": "fotos/chica_biblioteca.jpg",
       "titulo": "Subiendooo",
       "descripcion": "Shushi y fuimoss a por la mochila de tu hermana donde tu papá",
       "fecha": "17 de enero, 2026"
     },
     {
-      "id": 16,
+      "id": 8,
       "ruta": "fotos/chica_campo.jpg",
       "titulo": "Recién gofreadoss",
       "descripcion": "Nos habíamos zampado el gofre riico en Madridd",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 17,
+      "id": 9,
       "ruta": "fotos/chica_coche.jpg",
       "titulo": "Fundidos en un besso",
       "descripcion": "La subimos a Instagram muuy boniita y te contestó tu padre JAJAJAAJA",
       "fecha": "14 de enero, 2026"
     },
     {
-      "id": 18,
+      "id": 10,
       "ruta": "fotos/chica_comiendo_pizza.jpg",
       "titulo": "Viniciuuss",
       "descripcion": "Dos monos muy monoss con el filtro de tistoss",
       "fecha": "26 de enero, 2026"
     },
     {
-      "id": 19,
+      "id": 11,
       "ruta": "fotos/chica_delante_monumento.jpg",
       "titulo": "Llegando a Atenass",
       "descripcion": "Viendo el mar y las islas griegas muy emocionadoos",
       "fecha": "12 de febrero, 2026"
     },
     {
-      "id": 20,
+      "id": 12,
       "ruta": "fotos/chica_esquiando.jpg",
       "titulo": "En el Partenón",
       "descripcion": "Ya en Greciaaa, después de andar muchíisimo y hacernos fotos con la insta",
       "fecha": "13 de febrero, 2026"
     },
     {
-      "id": 21,
+      "id": 13,
       "ruta": "fotos/chica_gafas_sol.jpg",
       "titulo": "Toque de lengua",
       "descripcion": "Somo uno y nos hemos conocido jejeje",
       "fecha": "3 de febrero, 2026"
     },
     {
-      "id": 22,
+      "id": 14,
       "ruta": "fotos/chica_gorro_lana.jpg",
       "titulo": "Un calvo y una chica linda",
       "descripcion": "Una de nuestras primeras fotos para parecer que estabamos juntoos",
       "fecha": "15 de noviembre, 2025"
     },
     {
-      "id": 23,
+      "id": 15,
       "ruta": "fotos/chica_lengua_tren.png",
       "titulo": "De Coslada al teatro en Metroo",
       "descripcion": "Me quedé en tu casa a comerr lasaña y al teatro de Juanji",
       "fecha": "30 de enero, 2026"
     },
     {
-      "id": 24,
+      "id": 16,
       "ruta": "fotos/chica_luces_navidad.jpg",
       "titulo": "Hora del BeReall",
       "descripcion": "Momentos antes del gofre...",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 25,
+      "id": 17,
       "ruta": "fotos/chica_mirando_camara.jpg",
       "titulo": "Felicess por el gofre en Madrid",
       "descripcion": "Haciendo el tontillo de la energía del chocolatee",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 26,
+      "id": 18,
       "ruta": "fotos/chica_parque.jpg",
       "titulo": "Una más en la familiaa",
       "descripcion": "Primera vez que veo a Kiraaa, muucha energía",
       "fecha": "9 de febrero, 2026"
     },
     {
-      "id": 27,
+      "id": 19,
       "ruta": "fotos/chica_playa.jpg",
       "titulo": "Más cerca imposiblee",
       "descripcion": "Instantánea en Instagram cuando nos aburríamos en el aviónn",
       "fecha": "15 de febrero, 2026"
     },
     {
-      "id": 28,
+      "id": 20,
       "ruta": "fotos/chica_sentada_avion.jpg",
       "titulo": "Dos bellezas comiendo",
       "descripcion": "Estábamos esperando la comida en Atenass",
       "fecha": "15 de febrero, 2026"
     },
     {
-      "id": 29,
+      "id": 21,
       "ruta": "fotos/chica_sentada_nieve.jpg",
       "titulo": "En frente de un teatro antiguo",
       "descripcion": "Hubo un tío que no se quitaba de en medioo para hacernos la foto",
       "fecha": "13 de febrero, 2026"
     },
     {
-      "id": 30,
+      "id": 22,
       "ruta": "fotos/chica_sonriendo_primer_plano.jpg",
       "titulo": "La primera foto que subimos de novioss",
       "descripcion": "Fuimos a ver las luces de Madrid ya siendo novios y lo hicimos públicoo",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 31,
+      "id": 23,
       "ruta": "fotos/chica_sudadera_blanca.jpg",
       "titulo": "Dosh guaposh",
       "descripcion": "Foto para tu mamá de que hoy fuimos al Museo del Pradoo",
       "fecha": "13 de enero, 2026"
     },
     {
-      "id": 32,
+      "id": 24,
       "ruta": "fotos/despaldas.jpg",
       "titulo": "De incógnito...",
       "descripcion": "Unas fotos para que te dejasen en paz la genuza, como excusa jejeje",
       "fecha": "15 de noviembre, 2025"
     },
     {
-      "id": 33,
+      "id": 25,
       "ruta": "fotos/duroduro.jpg",
       "titulo": "Duro duro duro",
       "descripcion": "Un durum calvo y una preciosidad",
       "fecha": "15 de noviembre, 2025"
     },
     {
-      "id": 34,
+      "id": 26,
       "ruta": "fotos/fachada_edificio_historico.jpg",
       "titulo": "¿Cómo?, comiendo pelo",
       "descripcion": "Otra más en el avión de vuelta yo comiendote el pelillo jejeje",
       "fecha": "15 de febrero, 2026"
     },
     {
-      "id": 35,
+      "id": 27,
       "ruta": "fotos/foto_borrosa_chica.jpeg",
       "titulo": "Paz y tranquilidad",
       "descripcion": "Yo durmiendo en tu tripita y tú haciendome mimoss que a gustooo",
       "fecha": "23 de enero, 2026"
     },
     {
-      "id": 36,
+      "id": 28,
       "ruta": "fotos/ilustracion_romantica.png",
       "titulo": "Juntos desde pequees",
       "descripcion": "Nos sentimos como niños pequeños juntoss",
       "fecha": ""
+    },
+    {
+      "id": 29,
+      "ruta": "fotos/IMG_20260313_202031834.jpg",
+      "titulo": "Pueblo tour",
+      "descripcion": "Un voltio por Loechess, el primero de muchos...",
+      "fecha": "13 de marzo, 2026"
+    },
+    {
+      "id": 30,
+      "ruta": "fotos/IMG_20260328_125410710.jpg",
+      "titulo": "Papás por un diaa",
+      "descripcion": "Y cayó siestecilla en casa de tu padre, después de ir al Corredorr",
+      "fecha": "28 de marzo, 2026"
+    },
+    {
+      "id": 31,
+      "ruta": "fotos/IMG-20260221-WA0022.jpg",
+      "titulo": "Competición de plastilinaa",
+      "descripcion": "Hoy celebramos nuestro segundo messs, ganaste por muuy poco...",
+      "fecha": "21 de febrero, 2026"
+    },
+    {
+      "id": 32,
+      "ruta": "fotos/IMG-20260301-WA0035.jpg",
+      "titulo": "La primera vez que me fuiste a ver a un partidoo",
+      "descripcion": "Partido en Valleaguado y luego fuimos a casa de tu papá a ver a Kiraa",
+      "fecha": "1 de marzo, 2026"
+    },
+    {
+      "id": 33,
+      "ruta": "fotos/IMG-20260304-WA0013.jpg",
+      "titulo": "Paseillo",
+      "descripcion": "Un recreo como otro cualquiera de camino al díaa",
+      "fecha": "3 de marzo, 2026"
+    },
+    {
+      "id": 34,
+      "ruta": "fotos/IMG-20260313-WA0050.jpg",
+      "titulo": "Esclavo felizz",
+      "descripcion": "La primera vez que fuiste a mi casa en Loechess (con masaje incluido)",
+      "fecha": "13 de marzo, 2026"
+    },
+    {
+      "id": 35,
+      "ruta": "fotos/IMG-20260313-WA0054.jpg",
+      "titulo": "VAMOOOSS",
+      "descripcion": "Cuando fuiste a mi casa nos hechamos una fotillo en mi habitaciónn",
+      "fecha": "13 de marzo, 2026"
+    },
+    {
+      "id": 36,
+      "ruta": "fotos/IMG-20260409-WA0050.jpg",
+      "titulo": "Interchange",
+      "descripcion": "Filtro de tistoss, tu eres yo y yo tuu PUAJAJAJAJJA",
+      "fecha": "9 de abril, 2026"
     },
     {
       "id": 37,
@@ -364,45 +364,45 @@
     },
     {
       "id": 52,
-      "ruta": "fotos/selfie_pareja.jpg",
-      "titulo": "Selfie en el árbol con las lucess",
-      "descripcion": "Otra foto más dandonos un besillo en las luces de Madridd",
-      "fecha": "23 de diciembre, 2025"
-    },
-    {
-      "id": 53,
       "ruta": "fotos/selfie_pareja_abrigos.png",
       "titulo": "Primer meessss",
       "descripcion": "Aunque no pudimos ir a saltar, hicimos la risa verdadera PUAJAJJAJAJ",
       "fecha": "23 de enero, 2026"
     },
     {
-      "id": 54,
+      "id": 53,
       "ruta": "fotos/selfie_pareja_espejo.jpg",
       "titulo": "Un beso bajo el árbol",
       "descripcion": "Estuvimos como 10 minutos buscando a alguien para hacernos las fotoss AJAJJAJA",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 55,
+      "id": 54,
       "ruta": "fotos/selfie_pareja_muecas.jpg",
       "titulo": "Yo durmiendo encima tuyaaa",
       "descripcion": "Nos sacaron fot mientras yo dormía apoyado en tí JAJASJSA",
       "fecha": "12 de febrero, 2026"
     },
     {
-      "id": 56,
+      "id": 55,
       "ruta": "fotos/selfie_pareja_nieve.jpg",
       "titulo": "De camino a Greciaa",
       "descripcion": "Nos cambiamos los asientos para estar juntos y dormí encima tuyaaa",
       "fecha": "13 de febrero, 2026"
     },
     {
-      "id": 57,
+      "id": 56,
       "ruta": "fotos/selfie_pareja_torre.jpg",
       "titulo": "Esperando el metro",
       "descripcion": "Me senté encima tuya para esperar el metro de Atenass",
       "fecha": "13 de febrero, 2026"
+    },
+    {
+      "id": 57,
+      "ruta": "fotos/selfie_pareja.jpg",
+      "titulo": "Selfie en el árbol con las lucess",
+      "descripcion": "Otra foto más dandonos un besillo en las luces de Madridd",
+      "fecha": "23 de diciembre, 2025"
     },
     {
       "id": 58,
