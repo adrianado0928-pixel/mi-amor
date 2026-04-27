@@ -676,27 +676,27 @@ fetch('data.json')
             iniciarSistemaLunas(scene, data, renderer, controls, camera, esIOS, loadingManager);
             console.log('🌙 Sistema de lunas integrado en la escena');
 
-            // Marcar que las lunas ya registraron sus texturas en el loadingManager
+            // Marcar que las lunas ya registraron sus texturas
             _lunasRegistradas = true;
-            // Si el onLoad ya disparó antes de que llegaráramos aquí, ocultamos ahora
-            if (_onLoadPendiente) {
-                ocultarLoader();
-                _onLoadPendiente = false;
-            }
 
-            // Mostrar botones de navegación según la vista inicial
+            // Mostrar botones de navegación
             setTimeout(() => {
                 const btnMapa = document.getElementById('btn-vista-mapa');
                 if (btnMapa) btnMapa.classList.add('visible');
-
-                // Solo mostrar bóveda si estamos en el mapa (opcional, por ahora lo dejamos según el estado)
+                
                 if (getVistaActual() === 'mapa') {
                     const btnBoveda = document.getElementById('btn-boveda');
                     if (btnBoveda) btnBoveda.classList.add('visible');
                 }
             }, 2000);
 
-            // Exponer API global para hitos.js y consola
+            // Si el onLoad ya disparó, ocultamos ahora
+            if (_onLoadPendiente) {
+                ocultarLoader();
+                _onLoadPendiente = false;
+            }
+
+            // Exponer API global
             window.sistemaSolar = {
                 listo: true,
                 animarNacimientoLuna: animarNacimientoLuna,
@@ -827,12 +827,12 @@ function distribuirEstrellas(maxOrbita) {
 // =====================
 // VARIABLES PARA CONTROLES ADAPTATIVOS
 // =====================
-// Distancia a partir de la cual los controles cambian de comportamiento
-const distanciaControlPreciso = 12;  // Cuando estás más cerca que esto, controles precisos
+const distanciaControlPreciso = 12;
 
 // =====================
-// ORBIT CONTROLS (MEJORADOS)
+// ORBIT CONTROLS (INICIALIZACIÓN TEMPRANA)
 // =====================
+// Movido aquí arriba para que esté disponible para el sistema de lunas
 const controls = new OrbitControls(camera, renderer.domElement);
 
 // ---- LÍMITES DE DISTANCIA ----
