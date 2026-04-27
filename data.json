@@ -418,5 +418,60 @@
       "descripcion": "Contentos de estar juntos, pero tristes porque volvemos a Madridd",
       "fecha": "15 de febrero, 2026"
     }
+  ],
+
+  "lunas": [
+    {
+      "id": 1,
+      "nombre": "Mes 1",
+      "subtitulo": "Dic 2025 – Ene 2026",
+      "color": "#f1c40f",
+      "colorTinte": 16765952,
+      "fechaCreacion": "2026-01-23",
+      "radioLuna": 3.43,
+      "radioOrbita": 55,
+      "velocidadOrbital": 0.00035,
+      "fase": 0.0,
+      "fotosIds": [8, 16, 17, 22, 39, 40, 43, 46, 49, 53, 57, 6, 7, 9, 23, 51]
+    },
+    {
+      "id": 2,
+      "nombre": "Mes 2",
+      "subtitulo": "Ene 2026 – Feb 2026",
+      "color": "#e91e63",
+      "colorTinte": 15278691,
+      "fechaCreacion": "2026-02-23",
+      "radioLuna": 4.5,
+      "radioOrbita": 85,
+      "velocidadOrbital": 0.00022,
+      "fase": 1.047,
+      "fotosIds": [10, 15, 27, 41, 52, 3, 4, 11, 12, 13, 18, 19, 20, 21, 26, 31, 38, 42, 44, 45, 47, 48, 50, 54, 55, 56, 58, 59]
+    },
+    {
+      "id": 3,
+      "nombre": "Mes 3",
+      "subtitulo": "Feb 2026 – Mar 2026",
+      "color": "#2ecc71",
+      "colorTinte": 3066993,
+      "fechaCreacion": "2026-03-23",
+      "radioLuna": 2.45,
+      "radioOrbita": 115,
+      "velocidadOrbital": 0.00014,
+      "fase": 2.094,
+      "fotosIds": [29, 32, 33, 34, 35]
+    },
+    {
+      "id": 4,
+      "nombre": "Mes 4",
+      "subtitulo": "Mar 2026 – Abr 2026",
+      "color": "#e67e22",
+      "colorTinte": 15104034,
+      "fechaCreacion": "2026-04-23",
+      "radioLuna": 2.18,
+      "radioOrbita": 145,
+      "velocidadOrbital": 0.00009,
+      "fase": 3.14159,
+      "fotosIds": [30, 36]
+    }
   ]
 }
