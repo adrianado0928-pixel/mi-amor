@@ -1,0 +1,376 @@
+/* =====================================================================
+   SISTEMA SOLAR DE RECUERDOS — Estilos de Lunas
+   lunas.css — Complementa style.css y contador.css sin modificarlos
+   ===================================================================== */
+
+/* =====================
+   BOTÓN VISTA SISTEMA SOLAR
+   ===================== */
+#btn-vista-mapa {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 500;
+
+    /* Glassmorphism — mismo estilo que #contador-dias */
+    background: rgba(20, 5, 15, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 102, 204, 0.25);
+    border-radius: 20px;
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(255, 102, 204, 0.05),
+        inset 0 0 20px rgba(255, 102, 204, 0.03);
+
+    /* Layout */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 14px;
+    height: 44px;
+
+    /* Texto */
+    font-family: 'Courgette', cursive;
+    font-size: 0.85rem;
+    color: #ffb3e6;
+    cursor: pointer;
+    user-select: none;
+
+    /* Transición */
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+
+    /* Entrada con animación — empieza oculto, se muestra como el contador */
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+}
+
+#btn-vista-mapa.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    animation: entradaBoton 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes entradaBoton {
+    from { opacity: 0; transform: translateY(10px) scale(0.9); }
+    to   { opacity: 1; transform: translateY(0)   scale(1);   }
+}
+
+@media (hover: hover) {
+    #btn-vista-mapa:hover {
+        transform: scale(1.05);
+        border-color: rgba(255, 102, 204, 0.5);
+        box-shadow:
+            0 4px 25px rgba(0, 0, 0, 0.5),
+            0 0 20px rgba(255, 102, 204, 0.2);
+    }
+}
+
+#btn-vista-mapa:active {
+    transform: scale(0.97);
+}
+
+/* Ícono del botón */
+#btn-vista-mapa .btn-icono {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* Cuando estamos en modo mapa */
+#btn-vista-mapa.modo-mapa {
+    border-color: rgba(255, 102, 204, 0.6);
+    background: rgba(40, 5, 25, 0.75);
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 102, 204, 0.2);
+}
+
+/* =====================
+   BOTÓN BÓVEDA DE LOS ANILLOS 💍
+   ===================== */
+#btn-boveda {
+    position: fixed;
+    bottom: 70px; /* Encima del de Sistema Solar */
+    right: 16px;
+    z-index: 500;
+
+    /* Estilo Premium Dorado */
+    background: rgba(45, 35, 10, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    border-radius: 20px;
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 25px rgba(255, 215, 0, 0.15),
+        inset 0 0 15px rgba(255, 215, 0, 0.05);
+
+    /* Layout */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 14px;
+    height: 44px;
+
+    /* Texto */
+    font-family: 'Courgette', cursive;
+    font-size: 0.85rem;
+    color: #ffd700; /* Dorado */
+    cursor: pointer;
+    user-select: none;
+
+    /* Transición */
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease,
+                opacity 0.5s ease;
+
+    /* Animación sutil de brillo */
+    animation: brilloBotonGlow 3s infinite alternate;
+
+    /* Entrada con animación — empieza oculto */
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+}
+
+#btn-boveda.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+@keyframes brilloBotonGlow {
+    from { box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 15px rgba(255, 215, 0, 0.1); }
+    to   { box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 35px rgba(255, 215, 0, 0.3); }
+}
+
+@media (hover: hover) {
+    #btn-boveda:hover {
+        transform: scale(1.05);
+        border-color: rgba(255, 215, 0, 0.8);
+        box-shadow:
+            0 4px 25px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(255, 215, 0, 0.4);
+    }
+}
+
+#btn-boveda:active {
+    transform: scale(0.97);
+}
+
+#btn-boveda .btn-icono {
+    font-size: 1.1rem;
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+}
+
+/* Ocultar botones en modo boveda */
+body.modo-boveda #btn-boveda,
+body.modo-boveda #btn-vista-mapa,
+body.modo-boveda #contador-dias,
+body.modo-boveda #texto-principal {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Estilo especial para el botón volver en boveda */
+body.modo-boveda #btn-volver-mapa {
+    border-color: rgba(255, 215, 0, 0.5);
+    color: #ffd700;
+}
+#panel-luna-info {
+    position: fixed;
+    background: rgba(20, 5, 15, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 102, 204, 0.3);
+    border-radius: 14px;
+    padding: 10px 16px;
+    pointer-events: none;
+    z-index: 600;
+    color: #ffb3e6;
+    font-family: 'Courgette', cursive;
+
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#panel-luna-info.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#panel-luna-info .luna-info-titulo {
+    font-size: 1rem;
+    color: #fff;
+    margin: 0 0 2px 0;
+}
+
+#panel-luna-info .luna-info-subtitulo {
+    font-size: 0.75rem;
+    color: rgba(255, 179, 230, 0.7);
+    margin: 0 0 4px 0;
+}
+
+#panel-luna-info .luna-info-fotos {
+    font-size: 0.7rem;
+    color: rgba(255, 179, 230, 0.5);
+    margin: 0;
+}
+
+/* =====================
+   BOTÓN VOLVER (desde luna al mapa)
+   ===================== */
+#btn-volver-mapa {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-70px);
+    z-index: 500;
+
+    background: rgba(20, 5, 15, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 102, 204, 0.25);
+    border-radius: 20px;
+    padding: 0 16px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    font-family: 'Courgette', cursive;
+    font-size: 0.8rem;
+    color: #ffb3e6;
+    cursor: pointer;
+    user-select: none;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.3s ease;
+}
+
+#btn-volver-mapa.visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* =====================
+   iOS WebGL FIX
+   ===================== */
+body.es-ios #btn-vista-mapa,
+body.es-ios #btn-volver-mapa,
+body.es-ios #btn-boveda {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(20, 5, 15, 0.9);
+}
+
+/* =====================
+   RESPONSIVE — iPhone SE / pantallas pequeñas
+   ===================== */
+@media (max-width: 375px) {
+    #btn-vista-mapa {
+        height: 38px;
+        padding: 0 10px;
+        font-size: 0.75rem;
+        border-radius: 16px;
+    }
+}
+
+/* =====================
+   NOTIFICACIÓN DE NACIMIENTO
+   ===================== */
+.notificacion-nacimiento {
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    pointer-events: none;
+    
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 179, 230, 0.35);
+    border-radius: 20px;
+    padding: 14px 28px;
+    
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    
+    color: #fff;
+    font-family: 'Courgette', cursive;
+    font-size: 1.2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
+                inset 0 0 15px rgba(255, 102, 204, 0.15);
+    
+    animation: slideInDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.notificacion-nacimiento.fade-out {
+    animation: slideOutUp 0.8s ease forwards;
+}
+
+.notif-contenido {
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 0 10px rgba(255, 102, 204, 0.5);
+}
+
+.notif-estrella {
+    font-size: 1.4rem;
+    animation: pulseGlow 1.5s infinite alternate;
+}
+
+.notif-texto strong {
+    color: #ffb3e6;
+    font-weight: bold;
+}
+
+.notif-brillo {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 20px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: sweepBrillo 3s infinite linear;
+    z-index: 1;
+}
+
+@keyframes slideInDown {
+    0% { transform: translate(-50%, -100px); opacity: 0; }
+    100% { transform: translate(-50%, 0); opacity: 1; }
+}
+
+@keyframes slideOutUp {
+    0% { transform: translate(-50%, 0); opacity: 1; }
+    100% { transform: translate(-50%, -100px); opacity: 0; }
+}
+
+@keyframes sweepBrillo {
+    0% { transform: translateX(-150%); }
+    100% { transform: translateX(150%); }
+}
+
+@keyframes pulseGlow {
+    from { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
+    to { transform: scale(1.2); filter: drop-shadow(0 0 15px rgba(255, 102, 204, 0.8)); }
+}
+
+@media (max-width: 480px) {
+    .notificacion-nacimiento {
+        width: 85%;
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+

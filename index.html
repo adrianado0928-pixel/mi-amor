@@ -2,6 +2,16 @@
 <html lang="es">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J7RS33WWCD"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-J7RS33WWCD');
+    </script>
+
     <!-- importmap: es un diccionario que le dice al navegador desde dónde descargar cada librería.
          Cuando el código JavaScript pida 'three' o 'three/addons/...', el navegador sabe
          exactamente a qué URL ir a buscarlo. Sin esto, tendríamos que poner URLs largas en cada archivo. -->
@@ -38,6 +48,7 @@
     <!-- Esto conecta nuestro archivo style.css con esta página. Sin esta línea, el CSS no funcionaría -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="contador.css">
+    <link rel="stylesheet" href="lunas.css">
 
     <!-- Elemento invisible para forzar la carga de la fuente "Courgette" inmediatamente -->
     <div style="font-family: 'Courgette', cursive; opacity: 0; position: absolute; pointer-events: none; z-index: -1;">.
@@ -113,11 +124,42 @@
         </div>
     </div>
 
+    <!-- BOTÓN BÓVEDA DE LOS ANILLOS -->
+    <button id="btn-boveda">
+        <span class="btn-icono">💍</span>
+        <span class="btn-label">Certificado</span>
+    </button>
+
+    <!-- BOTÓN SISTEMA SOLAR -->
+    <button id="btn-vista-mapa">
+        <span class="btn-icono">🌌</span>
+        <span class="btn-label">Sistema Solar</span>
+    </button>
+
+    <!-- BOTÓN VOLVER (unificado para lunas y bóveda) -->
+    <button id="btn-volver-mapa">
+        <span>← Volver</span>
+    </button>
+
+    <!-- PANEL INFO DE LUNA (hover/clic en modo mapa) -->
+    <div id="panel-luna-info">
+        <p class="luna-info-titulo"></p>
+        <p class="luna-info-subtitulo"></p>
+        <p class="luna-info-fotos"></p>
+    </div>
+
+    <!-- FLECHAS DE NAVEGACIÓN DEL MAPA (solo en modo mapa) -->
+    <div class="mapa-flecha" id="flecha-arriba"></div>
+    <div class="mapa-flecha" id="flecha-abajo"></div>
+    <div class="mapa-flecha" id="flecha-izq"></div>
+    <div class="mapa-flecha" id="flecha-der"></div>
+
     <!-- Este es donde conectamos nuestro script.js.
          type="module" le dice al navegador que este script usa el sistema de módulos moderno,
          lo cual necesitamos para poder importar Three.js y OrbitControls correctamente -->
     <script type="module" src="script.js"></script>
     <script src="contador.js"></script>
+    <script src="hitos.js"></script>
 </body>
 
 </html>

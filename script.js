@@ -9,12 +9,33 @@ import {
     Scene, PerspectiveCamera, WebGLRenderer, SphereGeometry,
     MeshPhongMaterial, Mesh, PointLight, Points, BufferGeometry,
     BufferAttribute, ShaderMaterial, CanvasTexture, PlaneGeometry,
-    MeshBasicMaterial, DoubleSide, Shape, ExtrudeGeometry, Group,
+    MeshBasicMaterial, DoubleSide, Shape, ExtrudeGeometry, Group, TorusGeometry,
     Color, AdditiveBlending, TextureLoader, Vector3, Raycaster, Vector2,
     AmbientLight, LinearFilter, LinearMipmapLinearFilter, LoadingManager
 } from 'three';
 
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// =====================
+// SISTEMA DE LUNAS (módulo independiente)
+// =====================
+import {
+    iniciarSistemaLunas,
+    actualizarOrbitas,
+    actualizarTextosMiranCamara,
+    actualizarMapaLimites,
+    getLunaMeshes,
+    getFotosMeshesLuna,
+    getVistaActual,
+    getLunaEnfocada,
+    isLunaFocused,
+    isTransicionando,
+    activarVistaMapa,
+    volverAlPlaneta,
+    enfocarLuna,
+    animarNacimientoLuna,
+    activarModoPruebasNacimiento
+} from './lunas.js';
 
 // =====================
 // ESCENA
@@ -27,7 +48,9 @@ const scene = new Scene();
 // CÁMARA
 // =====================
 // La cámara se posiciona más lejos en móviles para ver el planeta completo y el texto
-const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+// La cámara se posiciona más lejos en móviles para ver el planeta completo y el texto
+// Aumentamos el far plane (1000 -> 20000) para permitir viajes a distancias extremas
+const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 20000);
 // Detectar si es móvil y ajustar la posición inicial
 const esMobil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -60,22 +83,33 @@ const loadingManager = new LoadingManager();
 const barraProgreso = document.getElementById('barra-carga-progreso');
 const loaderPantalla = document.getElementById('loader-pantalla');
 
+// Bandera: las lunas fueron iniciadas y sus texturas registradas antes de que onLoad disparara
+let _lunasRegistradas = false;
+let _onLoadPendiente = false;
+
 loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
     const porcentaje = (itemsLoaded / itemsTotal) * 100;
     if (barraProgreso) {
         barraProgreso.style.width = porcentaje + '%';
     }
-    console.log(`⏳ Cargando: ${Math.round(porcentaje)}% (${url})`);
 };
+
+function ocultarLoader() {
+    setTimeout(() => {
+        if (loaderPantalla) loaderPantalla.classList.add('oculto');
+    }, 500);
+}
 
 loadingManager.onLoad = function () {
     console.log('✅ ¡Todos los recursos cargados!');
-    // Pequeño retraso para que la barra se vea llena un momento
-    setTimeout(() => {
-        if (loaderPantalla) {
-            loaderPantalla.classList.add('oculto');
-        }
-    }, 500);
+    if (_lunasRegistradas) {
+        // Las lunas ya registraron sus texturas → podemos ocultar
+        ocultarLoader();
+    } else {
+        // onLoad disparó antes de que las lunas añadieran sus texturas
+        // guardamos el intento para ejecutarlo después
+        _onLoadPendiente = true;
+    }
 };
 
 loadingManager.onError = function (url) {
@@ -227,13 +261,35 @@ const solCorazon = new Group();
 solCorazon.add(halo);           // Primero el halo (atrás)
 solCorazon.add(crearCorazon()); // Luego el corazón (delante)
 
+// Posición inicial (se ajustará tras cargar los datos)
 solCorazon.position.set(35, 35, 35);
 scene.add(solCorazon);
 
 // ---- LUZ DESDE EL SOL-CORAZÓN ----
+// Mantenemos la intensidad en 1.2 como estaba originalmente
 const luz = new PointLight(0xffffff, 1.2);
 luz.position.set(35, 35, 35);
 scene.add(luz);
+
+/**
+ * Ajusta el Sol-Corazón para que sea más grande y esté un poco más lejos 
+ * de forma proporcional al sistema solar, sin perder su brillo original.
+ */
+function actualizarSol(maxOrbita) {
+    // Lo situamos justo en el borde exterior del sistema (un 10% más allá)
+    // para que no se sienta "demasiado lejos" como antes.
+    const dist = maxOrbita * 1.1;
+    const pos = new Vector3(dist, dist, dist);
+
+    solCorazon.position.copy(pos);
+    luz.position.copy(pos);
+
+    // Lo hacemos más grande proporcionalmente
+    const factorEscala = (maxOrbita / 60) * 2.2;
+    solCorazon.scale.set(factorEscala, factorEscala, factorEscala);
+
+    console.log(`☀️ Sol-Corazón ajustado: Distancia ${Math.round(pos.length())} | Escala ${factorEscala.toFixed(2)}`);
+}
 
 // ---- LUZ AMBIENTAL ----
 // Esta luz ilumina todos los objetos de forma uniforme desde todas direcciones.
@@ -604,42 +660,77 @@ fetch('data.json')
         });
 
         console.log(`✅ ${fotosMeshes.length} fotos cargadas correctamente`);
+
+        // Calcular maxOrbita para distribuir las estrellas proporcionalmente
+        let maxOrbita = 60; // valor base por defecto
+        if (data.lunas && data.lunas.length > 0) {
+            maxOrbita = Math.max(...data.lunas.map(l => l.radioOrbita || 0));
+        }
+        distribuirEstrellas(maxOrbita);
+        actualizarSol(maxOrbita);
+
+        // =====================
+        // INICIAR SISTEMA DE LUNAS (después de las fotos del planeta)
+        // =====================
+        if (data.lunas && data.lunas.length > 0) {
+            iniciarSistemaLunas(scene, data, renderer, controls, camera, esIOS, loadingManager);
+            console.log('🌙 Sistema de lunas integrado en la escena');
+
+            // Marcar que las lunas ya registraron sus texturas en el loadingManager
+            _lunasRegistradas = true;
+            // Si el onLoad ya disparó antes de que llegaráramos aquí, ocultamos ahora
+            if (_onLoadPendiente) {
+                ocultarLoader();
+                _onLoadPendiente = false;
+            }
+
+            // Mostrar botones de navegación según la vista inicial
+            setTimeout(() => {
+                const btnMapa = document.getElementById('btn-vista-mapa');
+                if (btnMapa) btnMapa.classList.add('visible');
+
+                // Solo mostrar bóveda si estamos en el mapa (opcional, por ahora lo dejamos según el estado)
+                if (getVistaActual() === 'mapa') {
+                    const btnBoveda = document.getElementById('btn-boveda');
+                    if (btnBoveda) btnBoveda.classList.add('visible');
+                }
+            }, 2000);
+
+            // Exponer API global para hitos.js y consola
+            window.sistemaSolar = {
+                listo: true,
+                animarNacimientoLuna: animarNacimientoLuna,
+                activarModoPruebas: activarModoPruebasNacimiento
+            };
+        } else {
+            // No hay lunas → marcar igual para no bloquear el loader
+            _lunasRegistradas = true;
+            if (_onLoadPendiente) {
+                ocultarLoader();
+                _onLoadPendiente = false;
+            }
+        }
     })
     .catch(error => {
         console.error('❌ Error al cargar data.json:', error);
     });
 
 // =====================
-// ESTRELLAS ROSAS
+// ESTRELLAS ROSAS — Sistema Proporcional
 // =====================
-const cantidadEstrellas = 2000;
+// La distribución se calcula DESPUÉS de cargar data.json
+// para conocer el tamaño real del sistema solar (maxOrbita).
+// Así las estrellas auto-escalan cuando se añaden nuevas lunas.
+// =====================
 
-// Arrays para guardar las posiciones, tamaños y colores de cada estrella.
-// Te los expliqué en la Fase 4, funcionan exactamente igual.
+const cantidadEstrellas = 2200;
+
+// Arrays pre-alocados (empiezan a cero; se rellenan tras el fetch)
 const posiciones = new Float32Array(cantidadEstrellas * 3);
 const tamanos = new Float32Array(cantidadEstrellas);
 const colores = new Float32Array(cantidadEstrellas * 3);
 
-// Bucle que rellena los arrays con valores aleatorios para cada estrella.
-// Distribución esférica, tamaños variables, y tonos de rosa diferentes.
-for (let i = 0; i < cantidadEstrellas; i++) {
-    // radio: cada estrella tiene un radio aleatorio entre 100 y 250 unidades (20*5 y 50*5)
-    const radio = 100 + Math.random() * 150;
-    const theta = Math.acos(2 * Math.random() - 1);
-    const phi = 2 * Math.PI * Math.random();
-
-    posiciones[i * 3] = radio * Math.sin(theta) * Math.cos(phi);
-    posiciones[i * 3 + 1] = radio * Math.sin(theta) * Math.sin(phi);
-    posiciones[i * 3 + 2] = radio * Math.cos(theta);
-
-    tamanos[i] = 5 + Math.random() * 15;
-
-    colores[i * 3] = 0.8 + Math.random() * 0.2;
-    colores[i * 3 + 1] = 0.2 + Math.random() * 0.3;
-    colores[i * 3 + 2] = 0.5 + Math.random() * 0.4;
-}
-
-// Crear la geometría con los arrays de posiciones, colores y tamaños.
+// Geometría y material (persistentes, no se recrean)
 const geometriaEstrellas = new BufferGeometry();
 geometriaEstrellas.setAttribute('position', new BufferAttribute(posiciones, 3));
 geometriaEstrellas.setAttribute('color', new BufferAttribute(colores, 3));
@@ -648,16 +739,10 @@ geometriaEstrellas.setAttribute('size', new BufferAttribute(tamanos, 1));
 // =====================
 // SHADER DE LAS ESTRELLAS
 // =====================
-// Estos son los programas que se ejecutan en la tarjeta gráfica.
-// Te los expliqué en la Fase 4. Funcionan exactamente igual,
-// solo que ahora el error de "vColor" ya está corregido.
 const vertexShader = `
     attribute float size;
     varying float vSize;
     varying vec3 vColor;
-
-    // NOTA: No declaramos "attribute vec3 color" aquí porque cuando usamos
-    // vertexColors: true en el material, Three.js lo añade automáticamente.
 
     void main() {
         vColor = color;
@@ -683,7 +768,6 @@ const fragmentShader = `
     }
 `;
 
-// Material de las estrellas con los shaders personalizados.
 const materialEstrellas = new ShaderMaterial({
     uniforms: {},
     vertexShader: vertexShader,
@@ -692,9 +776,53 @@ const materialEstrellas = new ShaderMaterial({
     transparent: true
 });
 
-// Crear los puntos y añadir a la escena.
 const estrellas = new Points(geometriaEstrellas, materialEstrellas);
+estrellas.frustumCulled = false; // Evita que las estrellas desaparezcan al mirar a los lados
 scene.add(estrellas);
+
+/**
+ * Distribuye las estrellas en dos zonas proporcionales al sistema solar.
+ * Se llama una vez, tras cargar data.json con el maxOrbita real.
+ *
+ * Zona interior (20%): entre el planeta y el borde del sistema.
+ *   → Escasa, da profundidad dentro del espacio entre órbitas.
+ * Zona exterior (80%): más allá del sistema, campo estelar principal.
+ *   → Densa, fondo inmersivo.
+ *
+ * @param {number} maxOrbita - Radio de la órbita más alejada (auto de data.json)
+ */
+function distribuirEstrellas(maxOrbita) {
+    const BORDE_SISTEMA = maxOrbita * 1.5;
+    const RADIO_MAX = 8000; // Suficiente para cubrir el viaje a la bóveda (5000)
+
+    for (let i = 0; i < cantidadEstrellas; i++) {
+        // Distribución esférica uniforme
+        const radio = BORDE_SISTEMA + Math.random() * (RADIO_MAX - BORDE_SISTEMA);
+        const theta = Math.acos(2 * Math.random() - 1);
+        const phi = 2 * Math.PI * Math.random();
+
+        posiciones[i * 3] = radio * Math.sin(theta) * Math.cos(phi);
+        posiciones[i * 3 + 1] = radio * Math.sin(theta) * Math.sin(phi);
+        posiciones[i * 3 + 2] = radio * Math.cos(theta);
+
+        // TAMAÑO DINÁMICO: a más distancia, más grandes (para compensar perspectiva)
+        // Escalamos el tamaño base (5-15) por un factor de profundidad
+        const factorDistancia = radio / BORDE_SISTEMA;
+        tamanos[i] = (6 + Math.random() * 12) * factorDistancia * 1.5;
+
+        // Tonos de rosa intensos para que se vean bien de lejos
+        colores[i * 3] = 0.9 + Math.random() * 0.1;
+        colores[i * 3 + 1] = 0.2 + Math.random() * 0.4;
+        colores[i * 3 + 2] = 0.6 + Math.random() * 0.4;
+    }
+
+    // Marcar buffers para upload a GPU
+    geometriaEstrellas.attributes.position.needsUpdate = true;
+    geometriaEstrellas.attributes.color.needsUpdate = true;
+    geometriaEstrellas.attributes.size.needsUpdate = true;
+
+    console.log(`⭐ Campo estelar generado fuera del sistema (Borde: ${Math.round(BORDE_SISTEMA)} | Profundidad: ${Math.round(RADIO_MAX)})`);
+}
 
 // =====================
 // VARIABLES PARA CONTROLES ADAPTATIVOS
@@ -763,6 +891,9 @@ const suavidadZoom = 0.05;                      // Velocidad de interpolación (
 // Vector reutilizable para el zoom (preallocado para evitar GC cada frame)
 const _direccionZoom = new Vector3();
 
+// Estado de transición de la bóveda (para bloquear controles)
+let _transicionBoveda = false;
+
 // =====================
 // SISTEMA DE DETECCIÓN DE CLICS Y TOQUES MÓVILES
 // =====================
@@ -783,6 +914,12 @@ renderer.domElement.addEventListener('touchend', onTouchEnd, { passive: false })
 
 // Event listener para zoom suave con la rueda del ratón
 renderer.domElement.addEventListener('wheel', onMouseWheel, { passive: false });
+
+// Actualizar posición del ratón para efectos de parallax (Bóveda)
+window.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+});
 
 function onMouseWheel(event) {
     event.preventDefault();  // Evitar scroll de página
@@ -922,7 +1059,67 @@ function onCanvasClick(event) {
     // Configurar el raycaster
     raycaster.setFromCamera(mouse, camera);
 
-    // Intersecciones con las fotos
+    // =====================
+    // MODO MAPA: Detección de clics en lunas y planeta
+    // =====================
+    if (getVistaActual() === 'mapa') {
+        // Detectar clic en esferas de luna
+        const lunaMeshes = getLunaMeshes();
+        if (lunaMeshes.length > 0) {
+            const interseccionesLunas = raycaster.intersectObjects(lunaMeshes);
+            if (interseccionesLunas.length > 0) {
+                const lunaIndex = interseccionesLunas[0].object.userData.lunaIndex;
+                enfocarLuna(lunaIndex, () => {
+                    document.getElementById('btn-volver-mapa').classList.add('visible');
+                    document.getElementById('btn-vista-mapa').classList.remove('visible');
+                    document.getElementById('btn-boveda').classList.remove('visible'); // Ocultar en luna
+                });
+                return;
+            }
+        }
+        // Detectar clic en planeta principal desde el mapa
+        const interseccionesPlaneta = raycaster.intersectObjects([planeta]);
+        if (interseccionesPlaneta.length > 0) {
+            // Ocultar botón de bóveda inmediatamente al volver al planeta
+            document.getElementById('btn-boveda').classList.remove('visible');
+
+            volverAlPlaneta(() => {
+                document.getElementById('btn-vista-mapa').classList.add('visible');
+                document.getElementById('btn-vista-mapa').classList.remove('modo-mapa');
+                document.getElementById('btn-vista-mapa').querySelector('.btn-label').textContent = 'Sistema Solar';
+                document.getElementById('btn-vista-mapa').querySelector('.btn-icono').textContent = '🌌';
+            }, () => {
+                // Sincronizar zoom ANTES de reactivar controles
+                zoomActual = zoomObjetivo = camera.position.length();
+            });
+            return;
+        }
+        return; // En modo mapa, no abrimos visor de fotos
+    }
+
+    // =====================
+    // MODO EXPLORAR LUNA: Detección de fotos de la luna enfocada
+    // =====================
+    const lunaEnfocada = getLunaEnfocada();
+    if (lunaEnfocada !== null) {
+        const fotosLuna = getFotosMeshesLuna(lunaEnfocada);
+        if (fotosLuna.length > 0) {
+            const interseccionesLunaFotos = raycaster.intersectObjects(fotosLuna);
+            if (interseccionesLunaFotos.length > 0) {
+                const fotoCliqueada = interseccionesLunaFotos[0].object;
+                const posicion3D = new Vector3();
+                fotoCliqueada.getWorldPosition(posicion3D);
+                const posicion2D = proyectar3DA2D(posicion3D);
+                // Usamos el visor existente pero con las fotos de la luna
+                abrirVisorLuna(fotoCliqueada, fotosLuna, posicion2D);
+                return;
+            }
+        }
+    }
+
+    // =====================
+    // MODO EXPLORAR PLANETA (comportamiento original, sin cambios)
+    // =====================
     const intersecciones = raycaster.intersectObjects(fotosMeshes);
 
     // Si hiciste clic en alguna foto
@@ -1085,11 +1282,17 @@ function cerrarVisor() {
 
     // Función auxiliar que ejecuta la animación de cierre
     function ejecutarAnimacionCierre() {
-        // Obtener la posición 2D actual de la foto en el planeta
-        if (fotoActualIndex >= 0 && fotoActualIndex < fotosMeshes.length) {
-            const foto = fotosMeshes[fotoActualIndex];
+        // Obtener la referencia correcta: foto de luna o foto de planeta
+        let fotoRef = null;
+        if (_modoVisorLuna && _fotoLunaMesh) {
+            fotoRef = _fotoLunaMesh;
+        } else if (fotoActualIndex >= 0 && fotoActualIndex < fotosMeshes.length) {
+            fotoRef = fotosMeshes[fotoActualIndex];
+        }
+
+        if (fotoRef) {
             const posicion3D = new Vector3();
-            foto.getWorldPosition(posicion3D);
+            fotoRef.getWorldPosition(posicion3D);
             const posicion2D = proyectar3DA2D(posicion3D);
 
             // Calcular desplazamiento desde el centro
@@ -1107,20 +1310,23 @@ function cerrarVisor() {
         setTimeout(() => {
             visor.classList.add('visor-oculto');
 
-            // LIMPIEZA DE MEMORIA: Liberar la imagen del visor
-            // Esto es crucial en iOS Safari para evitar que se acumulen imágenes de megabytes en RAM
+            // LIMPIEZA DE MEMORIA
             const imagenVisor = document.getElementById('visor-imagen');
             if (imagenVisor) {
                 imagenVisor.src = "";
                 imagenVisor.removeAttribute('src');
             }
 
-            // Reactivar los controles de la cámara
+            // Reactivar controles
             controls.enabled = true;
 
             // Resetear transform
             visorContenido.style.transform = 'translate(0, 0) scale(1)';
-        }, 700); // 700ms para que termine la animación de cierre
+
+            // Limpiar estado de luna
+            _modoVisorLuna = false;
+            _fotoLunaMesh = null;
+        }, 700);
 
         fotoActualIndex = -1;
     }
@@ -1168,45 +1374,43 @@ function animate() {
     const deltaTime = Math.min((ahora - ultimoTiempo) / 1000, 0.1);
     ultimoTiempo = ahora;
 
-    // ---- LÓGICA DE ROTACIÓN (con delta time) ----
-    const distanciaActual = camera.position.length();
-
-    // Convertir velocidadMaxima (rad/frame a 60fps) a rad/s
-    const velocidadMaximaPS = velocidadMaxima * 60;
-    const velocidadObjetivo = distanciaActual > distanciaParada ? velocidadMaximaPS : 0;
-
-    // Interpolar suavemente la velocidad
-    velocidadRotacion += (velocidadObjetivo - velocidadRotacion) * Math.min(1.2 * deltaTime, 1);
-
-    // Rotar escalando por el tiempo real: misma velocidad a cualquier FPS
-    grupoPlaneta.rotation.y += velocidadRotacion * deltaTime;
-
-    // ---- AJUSTAR CONTROLES SEGÚN DISTANCIA ----
-    if (distanciaActual < distanciaControlPreciso && !modoPreciso) {
-        modoPreciso = true;
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.08;   // Rozamiento normal para control total de cerca
-        controls.rotateSpeed = 0.15;    // Movimiento lento y preciso
-        controls.zoomSpeed = 0.5;
-    } else if (distanciaActual >= distanciaControlPreciso && modoPreciso) {
-        modoPreciso = false;
-        controls.enableDamping = true;
-        // ---- INERCIA CINÉTICA ----
-        controls.dampingFactor = 0.012;  // Muy bajo = mucha inercia (deslizamiento largo)
-        controls.rotateSpeed = 0.8;     // Más velocidad inicial para el impulso
-        controls.zoomSpeed = 0.8;
+    // ---- ROTACIÓN DEL PLANETA PRINCIPAL (siempre activa) ----
+    // El planeta gira sobre sí mismo en todas las vistas (mapa, luna, explorar).
+    // Solo se detiene cuando la distancia es muy pequeña (estás muy cerca).
+    {
+        const distRef = camera.position.distanceTo(new Vector3(0, 0, 0));
+        const velocidadMaximaPS = velocidadMaxima * 60;
+        const velocidadObjetivo = distRef > distanciaParada ? velocidadMaximaPS : 0;
+        velocidadRotacion += (velocidadObjetivo - velocidadRotacion) * Math.min(1.2 * deltaTime, 1);
+        grupoPlaneta.rotation.y += velocidadRotacion * deltaTime;
     }
 
-    // ---- ZOOM SUAVE ----
-    // Interpolar zoomActual hacia zoomObjetivo para un efecto suave
-    zoomActual += (zoomObjetivo - zoomActual) * suavidadZoom;
+    // ---- CONTROLES ADAPTATIVOS Y ZOOM (solo en vista planeta) ----
+    const enPlaneta = getVistaActual() === 'explorar' && !isLunaFocused() && !isTransicionando();
 
-    // Reutilizar el mismo vector para evitar crear objetos en el heap cada frame
-    _direccionZoom.copy(camera.position).normalize();
-    camera.position.copy(_direccionZoom.multiplyScalar(zoomActual));
+    if (enPlaneta) {
+        const distanciaActual = camera.position.length();
 
-    // NOTA: Ya no reseteamos zoomObjetivo aquí, permitiendo que la cámara se mueva suavemente.
-    // Solo OrbitControls.update() puede cambiar la cámara fuera de nuestra lógica de zoom suave.
+        // ---- AJUSTAR CONTROLES SEGÚN DISTANCIA ----
+        if (distanciaActual < distanciaControlPreciso && !modoPreciso) {
+            modoPreciso = true;
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.08;
+            controls.rotateSpeed = 0.15;
+            controls.zoomSpeed = 0.5;
+        } else if (distanciaActual >= distanciaControlPreciso && modoPreciso) {
+            modoPreciso = false;
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.012;
+            controls.rotateSpeed = 0.8;
+            controls.zoomSpeed = 0.8;
+        }
+
+        // ---- ZOOM SUAVE (manual, relativo al origen del mundo) ----
+        zoomActual += (zoomObjetivo - zoomActual) * suavidadZoom;
+        _direccionZoom.copy(camera.position).normalize();
+        camera.position.copy(_direccionZoom.multiplyScalar(zoomActual));
+    }
 
     // ---- ANIMAR EL PULSO DEL HALO (con delta time) ----
     tiempoHalo += 1.2 * deltaTime; // 1.2 rad/s ≈ 0.02 × 60fps
@@ -1220,9 +1424,309 @@ function animate() {
     }
     solCorazon.lookAt(camera.position);
 
-    controls.update();
+    // ---- SISTEMA DE LUNAS: actualizar órbitas, textos y límites del mapa ----
+    actualizarOrbitas(deltaTime);
+    actualizarTextosMiranCamara(camera.position);
+    actualizarMapaLimites();
+
+    // ---- ANIMACIÓN DE LA BÓVEDA ----
+    if (document.body.classList.contains('modo-boveda')) {
+        // Suave movimiento de flotación del certificado
+        if (meshCertificado) {
+            meshCertificado.position.y = POS_BOVEDA.y + Math.sin(ahora * 0.001) * 0.5;
+
+            // Forzar que mire a la cámara pero con un toque de parallax
+            meshCertificado.lookAt(camera.position);
+            // Aplicar el parallax como una rotación relativa adicional
+            meshCertificado.rotateY(mouse.x * 0.2);
+            meshCertificado.rotateX(mouse.y * 0.2);
+        }
+    }
+
+    // controls.update() solo cuando NO hay transición en curso
+    // (la animación de cámara maneja posición y target directamente)
+    if (!isTransicionando() && !_transicionBoveda) {
+        controls.update();
+    }
     renderer.render(scene, camera);
 }
 
 // Arranca el bucle de animación.
 animate();
+
+// =====================
+// VISOR PARA FOTOS DE LUNA
+// Reutiliza el mismo visor del planeta usando exactamente la misma función abrirVisor.
+// La clave: se asigna _fotoLunaMesh para que cerrarVisor anime de vuelta a la foto de luna.
+// =====================
+let _fotosLunaActual = [];
+let _fotoLunaIndex = -1;
+let _modoVisorLuna = false;
+let _fotoLunaMesh = null; // mesh real de la foto de luna (para la animación de cierre)
+
+function abrirVisorLuna(fotoMesh, fotosArray, posicionClic) {
+    _fotosLunaActual = fotosArray;
+    _fotoLunaIndex = fotosArray.indexOf(fotoMesh);
+    if (_fotoLunaIndex < 0) return;
+
+    _modoVisorLuna = true;
+    _fotoLunaMesh = fotoMesh;
+    // Usamos -999 como centinela para que cerrarVisor sepa que es una foto de luna
+    fotoActualIndex = -999;
+
+    const datos = fotoMesh.userData;
+
+    const visor = document.getElementById('visor-fotos');
+    const imagen = document.getElementById('visor-imagen');
+    const titulo = document.getElementById('visor-titulo');
+    const descripcion = document.getElementById('visor-descripcion');
+    const fecha = document.getElementById('visor-fecha');
+    const contador = document.getElementById('visor-contador');
+    const flipContainer = document.getElementById('foto-flip-container');
+    const reverso = document.getElementById('foto-reverso');
+
+    flipContainer.classList.remove('volteado');
+    titulo.textContent = datos.titulo;
+    contador.textContent = `Foto ${_fotoLunaIndex + 1} de ${fotosArray.length}`;
+
+    if (datos.fecha && datos.fecha.trim() !== '') {
+        fecha.textContent = datos.fecha;
+        fecha.style.display = 'block';
+    } else {
+        fecha.style.display = 'none';
+    }
+
+    descripcion.textContent = (datos.descripcion && datos.descripcion.trim() !== '')
+        ? datos.descripcion : 'Sin descripción';
+    reverso.style.display = 'flex';
+    visor.classList.remove('visor-textos-ocultos');
+
+    let imagenPrecarga = new Image();
+    imagenPrecarga.onload = function () {
+        imagen.src = datos.ruta;
+        setTimeout(() => {
+            const w = imagen.offsetWidth;
+            const h = imagen.offsetHeight;
+            if (w > 0) { reverso.style.width = w + 'px'; reverso.style.height = h + 'px'; }
+        }, 50);
+        imagenPrecarga.onload = null;
+        imagenPrecarga = null;
+    };
+
+    // Animación de entrada desde la posición de la foto en la luna
+    if (posicionClic) {
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight / 2;
+        const vc = document.getElementById('visor-contenido');
+        vc.style.transition = 'none';
+        vc.style.transform = `translate(${posicionClic.x - cx}px, ${posicionClic.y - cy}px) scale(0.05)`;
+        vc.style.opacity = '0.3';
+        vc.offsetHeight; // reflow
+        vc.style.transition = 'transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.7s ease';
+    }
+
+    visor.classList.remove('visor-oculto');
+    setTimeout(() => {
+        const vc = document.getElementById('visor-contenido');
+        if (vc) { vc.style.transform = 'translate(0, 0) scale(1)'; vc.style.opacity = '1'; }
+    }, 50);
+
+    imagenPrecarga.src = datos.ruta;
+}
+
+// =====================
+// API GLOBAL PARA HITOS.JS
+// =====================
+window.sistemaSolar = {
+    listo: true,
+    animarNacimientoLuna: (index) => {
+        animarNacimientoLuna(index);
+    }
+};
+
+// =====================
+// BOTONES DE NAVEGACIÓN (Sistema Solar)
+// =====================
+
+// Botón: Sistema Solar / Volver al planeta
+document.getElementById('btn-vista-mapa').addEventListener('click', () => {
+    const btn = document.getElementById('btn-vista-mapa');
+    const vistaActual = getVistaActual();
+
+    if (vistaActual === 'explorar') {
+        // Ir al mapa
+        activarVistaMapa(() => {
+            btn.classList.add('modo-mapa');
+            btn.querySelector('.btn-label').textContent = 'Vuelta';
+            btn.querySelector('.btn-icono').textContent = '🌍';
+            document.getElementById('btn-boveda').classList.add('visible'); // Mostrar en mapa
+        });
+    } else {
+        // Volver al planeta
+        volverAlPlaneta(() => {
+            btn.classList.remove('modo-mapa');
+            btn.querySelector('.btn-label').textContent = 'Sistema Solar';
+            btn.querySelector('.btn-icono').textContent = '🌌';
+            document.getElementById('btn-boveda').classList.remove('visible'); // Ocultar en planeta
+        }, () => {
+            // Sincronizar zoom ANTES de reactivar controles
+            zoomActual = zoomObjetivo = camera.position.length();
+        });
+    }
+});
+
+// Botón: Volver al mapa (desde una luna) o volver desde la Bóveda
+document.getElementById('btn-volver-mapa').addEventListener('click', () => {
+    if (document.body.classList.contains('modo-boveda')) {
+        volverDeBoveda();
+    } else {
+        activarVistaMapa(() => {
+            document.getElementById('btn-volver-mapa').classList.remove('visible');
+            const btn = document.getElementById('btn-vista-mapa');
+            btn.classList.add('visible');
+            btn.classList.add('modo-mapa');
+            btn.querySelector('.btn-label').textContent = 'Explorar';
+            btn.querySelector('.btn-icono').textContent = '🔭';
+            document.getElementById('btn-boveda').classList.add('visible'); // Mostrar al volver al mapa
+        });
+    }
+});
+
+// Botón: Bóveda de los Anillos
+document.getElementById('btn-boveda').addEventListener('click', () => {
+    viajarABoveda();
+});
+
+// =====================
+// LÓGICA DE LA BÓVEDA DE LOS ANILLOS 💍
+// =====================
+const POS_BOVEDA = new Vector3(0, 5000, 0); // Muuuucho más lejos
+let meshCertificado = null;
+let grupoAnillosBoveda = null;
+let bovedaIniciada = false;
+
+function iniciarBoveda() {
+    if (bovedaIniciada) return;
+
+    // 1. Crear el Certificado con un tamaño base grande
+    const matCert = new MeshBasicMaterial({
+        color: 0xffffff,
+        side: DoubleSide,
+        transparent: true,
+        opacity: 0
+    });
+    meshCertificado = new Mesh(new PlaneGeometry(60, 40), matCert); // Más grande
+    meshCertificado.position.copy(POS_BOVEDA);
+    scene.add(meshCertificado);
+
+    // Cargar la textura
+    textureLoader.load('assets/certificado.png', (t) => {
+        const ar = t.image.width / t.image.height;
+        if (ar > 0) {
+            meshCertificado.scale.set(1, 1, 1);
+            meshCertificado.geometry.dispose();
+            meshCertificado.geometry = new PlaneGeometry(50 * ar, 50); // Tamaño final aumentado
+        }
+        matCert.map = t;
+        matCert.opacity = 1;
+        matCert.needsUpdate = true;
+        if (renderer) renderer.initTexture(t);
+    }, undefined, () => {
+        // Fallback: si falla, al menos mostrar un cuadro blanco con brillo
+        matCert.opacity = 0.5;
+        console.warn("⚠️ No se pudo cargar assets/certificado.png");
+    });
+
+    // 2. Nebulosa de fondo (un plano grande detrás con gradiente radial)
+    const canNeb = document.createElement('canvas');
+    canNeb.width = 512; canNeb.height = 512;
+    const ctxNeb = canNeb.getContext('2d');
+    const grad = ctxNeb.createRadialGradient(256, 256, 0, 256, 256, 256);
+    grad.addColorStop(0, 'rgba(255, 215, 0, 0.4)');
+    grad.addColorStop(1, 'rgba(255, 215, 0, 0)');
+    ctxNeb.fillStyle = grad;
+    ctxNeb.fillRect(0, 0, 512, 512);
+    const texNeb = new CanvasTexture(canNeb);
+
+    const matNeb = new MeshBasicMaterial({
+        map: texNeb,
+        transparent: true,
+        opacity: 0.25,
+        blending: AdditiveBlending,
+        depthWrite: false
+    });
+    const neb = new Mesh(new PlaneGeometry(500, 500), matNeb);
+    neb.position.set(0, 5000, -200); // Reposicionar nebulosa con la bóveda
+    scene.add(neb);
+
+    bovedaIniciada = true;
+}
+
+// (La variable _transicionBoveda ha sido movida arriba para ser accesible en animate)
+
+function viajarABoveda() {
+    if (isTransicionando() || _transicionBoveda) return;
+    _transicionBoveda = true;
+    iniciarBoveda();
+
+    document.body.classList.add('modo-boveda');
+    controls.enabled = false;
+
+    // Transición suave hacia la gran distancia
+    const destinoCam = POS_BOVEDA.clone().add(new Vector3(0, 0, 50));
+    animarCamaraBoveda(destinoCam, POS_BOVEDA, 4.0, () => {
+        document.getElementById('btn-volver-mapa').classList.add('visible');
+        controls.target.copy(POS_BOVEDA);
+        controls.minDistance = 20;
+        controls.maxDistance = 200; // Permitir alejarse un poco más
+        controls.enabled = true;
+        _transicionBoveda = false;
+    });
+}
+
+function volverDeBoveda() {
+    if (_transicionBoveda) return;
+    _transicionBoveda = true;
+
+    document.body.classList.remove('modo-boveda');
+    document.getElementById('btn-volver-mapa').classList.remove('visible');
+
+    // Volver a la vista del SISTEMA SOLAR (Mapa)
+    // Esto asegura que volvemos exactamente a donde estábamos antes de entrar.
+    activarVistaMapa(() => {
+        const btn = document.getElementById('btn-vista-mapa');
+        if (btn) {
+            btn.classList.add('visible');
+            btn.classList.add('modo-mapa');
+            btn.querySelector('.btn-label').textContent = 'Vuelta';
+            btn.querySelector('.btn-icono').textContent = '🌍';
+        }
+
+        // Mantener el botón de bóveda visible ya que estamos de vuelta en el mapa
+        document.getElementById('btn-boveda').classList.add('visible');
+
+        _transicionBoveda = false;
+    });
+}
+
+function animarCamaraBoveda(destino, objetivo, duracionSeg, onComplete) {
+    const inicioPos = camera.position.clone();
+    const inicioTarget = controls.target.clone();
+    const inicio = performance.now();
+    const durMs = duracionSeg * 1000;
+
+    function tick() {
+        const t = Math.min((performance.now() - inicio) / durMs, 1);
+        const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; // easeInOutCubic
+        camera.position.lerpVectors(inicioPos, destino, eased);
+        controls.target.lerpVectors(inicioTarget, objetivo, eased);
+        camera.lookAt(controls.target);
+        if (t < 1) requestAnimationFrame(tick);
+        else {
+            camera.position.copy(destino);
+            controls.target.copy(objetivo);
+            if (onComplete) onComplete();
+        }
+    }
+    requestAnimationFrame(tick);
+}
