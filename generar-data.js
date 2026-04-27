@@ -145,13 +145,15 @@ function generarDataJSON() {
     });
     
     // Crear el objeto de datos final
+    // IMPORTANTE: Preservamos la sección de "lunas" si ya existe en el archivo original
     const data = {
         planeta: {
             nombre: "Nuestros Recuerdos",
             descripcion: "Cada foto es un momento que compartimos juntos",
             totalFotos: fotosActualizadas.length
         },
-        fotos: fotosActualizadas
+        fotos: fotosActualizadas,
+        lunas: dataExistente && dataExistente.lunas ? dataExistente.lunas : []
     };
     
     // Escribir el archivo data.json
