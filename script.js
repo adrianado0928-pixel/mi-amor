@@ -670,46 +670,48 @@ fetch('data.json')
         actualizarSol(maxOrbita);
 
         // =====================
-        // INICIAR SISTEMA DE LUNAS (después de las fotos del planeta)
+        // INICIAR SISTEMA DE LUNAS
         // =====================
-        if (data.lunas && data.lunas.length > 0) {
-            iniciarSistemaLunas(scene, data, renderer, controls, camera, esIOS, loadingManager);
-            console.log('🌙 Sistema de lunas integrado en la escena');
-
-            // Marcar que las lunas ya registraron sus texturas
-            _lunasRegistradas = true;
-
-            // Mostrar botones de navegación
-            setTimeout(() => {
-                const btnMapa = document.getElementById('btn-vista-mapa');
-                if (btnMapa) btnMapa.classList.add('visible');
-                
-                if (getVistaActual() === 'mapa') {
-                    const btnBoveda = document.getElementById('btn-boveda');
-                    if (btnBoveda) btnBoveda.classList.add('visible');
-                }
-            }, 2000);
-
-            // Si el onLoad ya disparó, ocultamos ahora
-            if (_onLoadPendiente) {
-                ocultarLoader();
-                _onLoadPendiente = false;
+        try {
+            if (data.lunas && data.lunas.length > 0) {
+                iniciarSistemaLunas(scene, data, renderer, controls, camera, esIOS, loadingManager);
+                console.log('🌙 Sistema de lunas integrado');
+                _lunasRegistradas = true;
+            } else {
+                _lunasRegistradas = true;
+                console.warn('⚠️ No se encontraron lunas en data.json');
             }
-
-            // Exponer API global
-            window.sistemaSolar = {
-                listo: true,
-                animarNacimientoLuna: animarNacimientoLuna,
-                activarModoPruebas: activarModoPruebasNacimiento
-            };
-        } else {
-            // No hay lunas → marcar igual para no bloquear el loader
-            _lunasRegistradas = true;
-            if (_onLoadPendiente) {
-                ocultarLoader();
-                _onLoadPendiente = false;
-            }
+        } catch (e) {
+            console.error('❌ Error al iniciar lunas:', e);
+            _lunasRegistradas = true; // No bloquear el loader si falla
         }
+
+        // =====================
+        // MOSTRAR INTERFAZ (Botones)
+        // =====================
+        // Lo hacemos fuera del bloque de lunas para que siempre aparezcan
+        setTimeout(() => {
+            const btnMapa = document.getElementById('btn-vista-mapa');
+            if (btnMapa) btnMapa.classList.add('visible');
+            
+            // Si por algún motivo ya estuviéramos en mapa, mostrar bóveda
+            if (getVistaActual() === 'mapa') {
+                const btnBoveda = document.getElementById('btn-boveda');
+                if (btnBoveda) btnBoveda.classList.add('visible');
+            }
+        }, 1000); // Un segundo es suficiente
+
+        // Ocultar loader si todo lo demás está listo
+        if (_onLoadPendiente) {
+            ocultarLoader();
+            _onLoadPendiente = false;
+        }
+
+        // Exponer API
+        window.sistemaSolar = {
+            listo: true,
+            animarNacimientoLuna: animarNacimientoLuna
+        };
     })
     .catch(error => {
         console.error('❌ Error al cargar data.json:', error);
