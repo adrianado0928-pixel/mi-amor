@@ -2,7 +2,7 @@
   "planeta": {
     "nombre": "Nuestros Recuerdos",
     "descripcion": "Cada foto es un momento que compartimos juntos",
-    "totalFotos": 59
+    "totalFotos": 60
   },
   "fotos": [
     {
@@ -357,62 +357,69 @@
     },
     {
       "id": 51,
+      "ruta": "fotos/retratos.jpg",
+      "titulo": "Retratos",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 52,
       "ruta": "fotos/selfie_chica_casa.jpg",
       "titulo": "Comida chinaaaa",
       "descripcion": "Tú padre me invitó a ir con vosotros y después me quedé en tu casa un ratilloo",
       "fecha": "19 de enero, 2026"
     },
     {
-      "id": 52,
+      "id": 53,
       "ruta": "fotos/selfie_pareja_abrigos.png",
       "titulo": "Primer meessss",
       "descripcion": "Aunque no pudimos ir a saltar, hicimos la risa verdadera PUAJAJJAJAJ",
       "fecha": "23 de enero, 2026"
     },
     {
-      "id": 53,
+      "id": 54,
       "ruta": "fotos/selfie_pareja_espejo.jpg",
       "titulo": "Un beso bajo el árbol",
       "descripcion": "Estuvimos como 10 minutos buscando a alguien para hacernos las fotoss AJAJJAJA",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 54,
+      "id": 55,
       "ruta": "fotos/selfie_pareja_muecas.jpg",
       "titulo": "Yo durmiendo encima tuyaaa",
       "descripcion": "Nos sacaron fot mientras yo dormía apoyado en tí JAJASJSA",
       "fecha": "12 de febrero, 2026"
     },
     {
-      "id": 55,
+      "id": 56,
       "ruta": "fotos/selfie_pareja_nieve.jpg",
       "titulo": "De camino a Greciaa",
       "descripcion": "Nos cambiamos los asientos para estar juntos y dormí encima tuyaaa",
       "fecha": "13 de febrero, 2026"
     },
     {
-      "id": 56,
+      "id": 57,
       "ruta": "fotos/selfie_pareja_torre.jpg",
       "titulo": "Esperando el metro",
       "descripcion": "Me senté encima tuya para esperar el metro de Atenass",
       "fecha": "13 de febrero, 2026"
     },
     {
-      "id": 57,
+      "id": 58,
       "ruta": "fotos/selfie_pareja.jpg",
       "titulo": "Selfie en el árbol con las lucess",
       "descripcion": "Otra foto más dandonos un besillo en las luces de Madridd",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 58,
+      "id": 59,
       "ruta": "fotos/selfie_primer_plano_ojos.jpg",
       "titulo": "Haciéndonos los serios",
       "descripcion": "Por fuera serietes pero por dentro contentoss, en el avión de vuelta",
       "fecha": "15 de febrero, 2026"
     },
     {
-      "id": 59,
+      "id": 60,
       "ruta": "fotos/vista_desde_avion.jpg",
       "titulo": "Chilling en el avión",
       "descripcion": "Contentos de estar juntos, pero tristes porque volvemos a Madridd",
