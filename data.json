@@ -2,7 +2,7 @@
   "planeta": {
     "nombre": "Nuestros Recuerdos",
     "descripcion": "Cada foto es un momento que compartimos juntos",
-    "totalFotos": 72
+    "totalFotos": 80
   },
   "fotos": [
     {
@@ -343,167 +343,223 @@
     },
     {
       "id": 49,
+      "ruta": "fotos/IMG-20260519-WA0008.jpg",
+      "titulo": "IMG 20260519 WA0008",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 50,
+      "ruta": "fotos/IMG-20260528-WA0004.jpg",
+      "titulo": "IMG 20260528 WA0004",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 51,
+      "ruta": "fotos/IMG-20260602-WA0012.jpg",
+      "titulo": "IMG 20260602 WA0012",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 52,
+      "ruta": "fotos/IMG-20260602-WA0019.jpg",
+      "titulo": "IMG 20260602 WA0019",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 53,
+      "ruta": "fotos/IMG-20260621-WA0000.jpg",
+      "titulo": "IMG 20260621 WA0000",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 54,
+      "ruta": "fotos/IMG-20260621-WA0013.jpg",
+      "titulo": "IMG 20260621 WA0013",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 55,
+      "ruta": "fotos/IMG-20260621-WA0014.jpg",
+      "titulo": "IMG 20260621 WA0014",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 56,
+      "ruta": "fotos/IMG-20260621-WA0015.jpg",
+      "titulo": "IMG 20260621 WA0015",
+      "descripcion": "",
+      "fecha": ""
+    },
+    {
+      "id": 57,
       "ruta": "fotos/infraganti.jpg",
       "titulo": "Infraganti",
       "descripcion": "Cachados saliendo del insti juntoss cuando no se sabíaa",
       "fecha": "18 de noviembre, 2025"
     },
     {
-      "id": 50,
+      "id": 58,
       "ruta": "fotos/paisaje_nevado_montana.jpg",
       "titulo": "Un poco tieso...",
       "descripcion": "Mi chica guapísima y yo un poco tieso con el brazo JAAJAJAJA",
       "fecha": "13 de febrero, 2026"
     },
     {
-      "id": 51,
+      "id": 59,
       "ruta": "fotos/paisaje_rural_casa.jpg",
       "titulo": "Gorras exóticass",
       "descripcion": "Cuando fuimos al Corte Inglés en Madridd y nos pusimos gorras guapas",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 52,
+      "id": 60,
       "ruta": "fotos/pareja_abrazada_arbol.jpg",
       "titulo": "En primer plano",
       "descripcion": "Sonrientes por haber ido a ver las luces porfinn",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 53,
+      "id": 61,
       "ruta": "fotos/pareja_abrazada_calle.png",
       "titulo": "Durmiendo encima tuyaa",
       "descripcion": "Mientras supuestamente veíamos la telee",
       "fecha": "23 de enero, 2026"
     },
     {
-      "id": 54,
+      "id": 62,
       "ruta": "fotos/pareja_aeropuerto.jpg",
       "titulo": "Última cenaa",
       "descripcion": "Nos cenamos una cosas muyy ricas con toda la clase",
       "fecha": "15 de febrero, 2026"
     },
     {
-      "id": 55,
+      "id": 63,
       "ruta": "fotos/pareja_besandose.jpg",
       "titulo": "Fotón romantico",
       "descripcion": "Que más se puede decirr, mi recién novia guapa y yoo",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 56,
+      "id": 64,
       "ruta": "fotos/pareja_brindando_vino.jpg",
       "titulo": "Primera noche en Atenass",
       "descripcion": "Se me ve el pantalón roto...",
       "fecha": "12 de febrero, 2026"
     },
     {
-      "id": 57,
+      "id": 65,
       "ruta": "fotos/pareja_caminando_ciudad.jpg",
       "titulo": "Durmiendo juntos PORFINN",
       "descripcion": "Primera vez durmiendo juntosss, QUE FELICIDADDD",
       "fecha": "12 de febrero, 2026"
     },
     {
-      "id": 58,
+      "id": 66,
       "ruta": "fotos/pareja_caminando_mano.jpg",
       "titulo": "Tu ramo de floress",
       "descripcion": "Perdí un bús pero conseguí tus flores",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 59,
+      "id": 67,
       "ruta": "fotos/pareja_comiendo_helado.jpg",
       "titulo": "Desde el miradorr",
       "descripcion": "Después de subir muuucho, llegamos a un mirador para ver el atardeceer",
       "fecha": "14 de febrero, 2026"
     },
     {
-      "id": 60,
+      "id": 68,
       "ruta": "fotos/pareja_equipo_esqui.jpg",
       "titulo": "Un besso en Atenas",
       "descripcion": "Nuestra primera luna de miell, viaje 10/10",
       "fecha": "13 de febrero, 2026"
     },
     {
-      "id": 61,
+      "id": 69,
       "ruta": "fotos/pareja_sentada_suelo.jpg",
       "titulo": "De compras por Madridd",
       "descripcion": "Compramos como 4 colonias del victoria secret y fuimos al primorr",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 62,
+      "id": 70,
       "ruta": "fotos/primer_plano_comida.jpg",
       "titulo": "Dos loquillos en Atenass",
       "descripcion": "El principio de la primera noche en Grecia que ni dormimos",
       "fecha": "12 de febrero, 2026"
     },
     {
-      "id": 63,
+      "id": 71,
       "ruta": "fotos/Screenshot_20260416-161904_Instagram.png",
       "titulo": "Screenshot 20260416 161904 Instagram",
       "descripcion": "",
       "fecha": ""
     },
     {
-      "id": 64,
+      "id": 72,
       "ruta": "fotos/selfie_chica_casa.jpg",
       "titulo": "Comida chinaaaa",
       "descripcion": "Tú padre me invitó a ir con vosotros y después me quedé en tu casa un ratilloo",
       "fecha": "19 de enero, 2026"
     },
     {
-      "id": 65,
+      "id": 73,
       "ruta": "fotos/selfie_pareja_abrigos.png",
       "titulo": "Primer meessss",
       "descripcion": "Aunque no pudimos ir a saltar, hicimos la risa verdadera PUAJAJJAJAJ",
       "fecha": "23 de enero, 2026"
     },
     {
-      "id": 66,
+      "id": 74,
       "ruta": "fotos/selfie_pareja_espejo.jpg",
       "titulo": "Un beso bajo el árbol",
       "descripcion": "Estuvimos como 10 minutos buscando a alguien para hacernos las fotoss AJAJJAJA",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 67,
+      "id": 75,
       "ruta": "fotos/selfie_pareja_muecas.jpg",
       "titulo": "Yo durmiendo encima tuyaaa",
       "descripcion": "Nos sacaron fot mientras yo dormía apoyado en tí JAJASJSA",
       "fecha": "12 de febrero, 2026"
     },
     {
-      "id": 68,
+      "id": 76,
       "ruta": "fotos/selfie_pareja_nieve.jpg",
       "titulo": "De camino a Greciaa",
       "descripcion": "Nos cambiamos los asientos para estar juntos y dormí encima tuyaaa",
       "fecha": "13 de febrero, 2026"
     },
     {
-      "id": 69,
+      "id": 77,
       "ruta": "fotos/selfie_pareja_torre.jpg",
       "titulo": "Esperando el metro",
       "descripcion": "Me senté encima tuya para esperar el metro de Atenass",
       "fecha": "13 de febrero, 2026"
     },
     {
-      "id": 70,
+      "id": 78,
       "ruta": "fotos/selfie_pareja.jpg",
       "titulo": "Selfie en el árbol con las lucess",
       "descripcion": "Otra foto más dandonos un besillo en las luces de Madridd",
       "fecha": "23 de diciembre, 2025"
     },
     {
-      "id": 71,
+      "id": 79,
       "ruta": "fotos/selfie_primer_plano_ojos.jpg",
       "titulo": "Haciéndonos los serios",
       "descripcion": "Por fuera serietes pero por dentro contentoss, en el avión de vuelta",
       "fecha": "15 de febrero, 2026"
     },
     {
-      "id": 72,
+      "id": 80,
       "ruta": "fotos/vista_desde_avion.jpg",
       "titulo": "Chilling en el avión",
       "descripcion": "Contentos de estar juntos, pero tristes porque volvemos a Madridd",
